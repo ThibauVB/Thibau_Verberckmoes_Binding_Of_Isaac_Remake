@@ -46,14 +46,20 @@ void RoomClass::InitRoom(bool top, bool left, bool right, bool bottom)
 
 void RoomClass::DrawRoom() const
 {
+	//for door texture
+	Rectf DoorRectf;
+	Rectf DoorScale;
+	float ScaleDoor {1.30f};
+	DoorScale.bottom = 0;
+	DoorScale.left = 0;
+	DoorScale.height = m_DoorTexture->GetHeight();
+	DoorScale.width = m_DoorTexture->GetWidth();
 	//For Small Addons
 	Vector2f offset; Vector2f ExtraOffset;
 	offset.x = 150.f;
 	offset.y = 125.f;
 	ExtraOffset.y = 85.f;
 	ExtraOffset.x = 0;
-
-
 	
 	if (!m_IsStartRoom)
 	{
@@ -89,6 +95,11 @@ void RoomClass::DrawRoom() const
 		tmpDoor.left = (m_RoomRect.left - doorWidth / 2)+offset.x;
 		tmpDoor.bottom = m_RoomRect.bottom + m_RoomRect.height / 2 - doorHeight / 2;
 		utils::FillRect(tmpDoor);
+		DoorRectf.left = tmpDoor.left;
+		DoorRectf.bottom = tmpDoor.bottom;
+		DoorRectf.height = m_DoorTexture->GetHeight() * ScaleDoor;
+		DoorRectf.width = m_DoorTexture->GetWidth() * ScaleDoor;
+		m_DoorTexture->Draw(DoorRectf, DoorScale);
 	}
 	if (m_Right)
 	{
@@ -96,6 +107,13 @@ void RoomClass::DrawRoom() const
 		tmpDoor.bottom = m_RoomRect.bottom + m_RoomRect.height / 2 - doorHeight / 2;
 
 		utils::FillRect(tmpDoor);
+		DoorRectf.left = tmpDoor.left;
+		DoorRectf.bottom = tmpDoor.bottom;
+		DoorRectf.height = m_DoorTexture->GetHeight() * ScaleDoor;
+		DoorRectf.width = m_DoorTexture->GetWidth() * ScaleDoor;
+		glRotatef(90, 0, 0, 0);
+		m_DoorTexture->Draw(DoorRectf, DoorScale);
+		glRotatef(0, 0, 0, 0);
 	}
 	if (m_Top)
 	{
@@ -104,6 +122,12 @@ void RoomClass::DrawRoom() const
 		tmpDoor.width = doorHeight;
 		tmpDoor.height = doorWidth;
 		utils::FillRect(tmpDoor);
+		
+		DoorRectf.left = tmpDoor.left-m_DoorTexture->GetWidth()/2;
+		DoorRectf.bottom = tmpDoor.bottom-12.f;
+		DoorRectf.height = m_DoorTexture->GetHeight() * ScaleDoor;
+		DoorRectf.width = m_DoorTexture->GetWidth() * ScaleDoor;
+		m_DoorTexture->Draw(DoorRectf, DoorScale);
 	}
 	if (m_Bottom)
 	{
@@ -112,6 +136,11 @@ void RoomClass::DrawRoom() const
 		tmpDoor.width = doorHeight;
 		tmpDoor.height = doorWidth;
 		utils::FillRect(tmpDoor);
+		DoorRectf.left = tmpDoor.left;
+		DoorRectf.bottom = tmpDoor.bottom;
+		DoorRectf.height = m_DoorTexture->GetHeight() * ScaleDoor;
+		DoorRectf.width = m_DoorTexture->GetWidth() * ScaleDoor;
+		m_DoorTexture->Draw(DoorRectf, DoorScale);
 	}
 }
 
