@@ -111,9 +111,8 @@ void RoomClass::DrawRoom() const
 		DoorRectf.bottom = tmpDoor.bottom;
 		DoorRectf.height = m_DoorTexture->GetHeight() * ScaleDoor;
 		DoorRectf.width = m_DoorTexture->GetWidth() * ScaleDoor;
-		glRotatef(90, 0, 0, 0);
 		m_DoorTexture->Draw(DoorRectf, DoorScale);
-		glRotatef(0, 0, 0, 0);
+		
 	}
 	if (m_Top)
 	{
