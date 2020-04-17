@@ -8,8 +8,10 @@ m_WindowSize(windowSize)
 }
 
 void Isaac::DrawIsaac()const
-{	
-	m_IsaacTexture.Draw(m_dstRect, m_SrcRect);
+{
+	m_IsaacTexture.Draw(m_dstRectBody, m_srcRectBody);
+	m_IsaacTexture.Draw(m_dstRectHead, m_SrcRectHead);
+
 	utils::DrawPoint(m_CenterPos, 10);
 }
 
@@ -19,89 +21,101 @@ void Isaac::UpdateIsaac(float elapsedSec)
 	float OffsetX{ 35.f };
 	float OffsetY{ 15.f };
 	
-	m_dstRect.width = 120.f;
-	m_dstRect.height = 120.f;
-	m_dstRect.left = m_CenterPos.x - m_SrcRect.width;
-	m_dstRect.bottom = m_CenterPos.y - m_SrcRect.height;
+	m_dstRectHead.width = 120.f;
+	m_dstRectHead.height = 120.f;
+	m_dstRectHead.left = m_CenterPos.x - m_SrcRectHead.width;
+	m_dstRectHead.bottom = m_CenterPos.y - m_SrcRectHead.height;
+
+	m_dstRectBody.width = 90.f;
+	m_dstRectBody.height = 90.f;
+	m_dstRectBody.left = m_CenterPos.x - m_srcRectBody.width;
+	m_dstRectBody.bottom = m_CenterPos.y - m_srcRectBody.height-OffsetY*4;
+	
 	switch (m_IsaacDirection)
 	{
 	case MovingRightUP:
 		m_CenterPos.x += elapsedSec * (m_MoventSpeed - m_SideMoventDecrement);
 		m_CenterPos.y += elapsedSec * (m_MoventSpeed- m_SideMoventDecrement);
-		m_SrcRect.width = 40.f;
-		m_SrcRect.height = 40.f;
-		m_SrcRect.left = 200.f;
-		m_SrcRect.bottom = 60.f;
-		m_dstRect.left = m_CenterPos.x - m_SrcRect.width - OffsetX;
+		m_SrcRectHead.width = 40.f;
+		m_SrcRectHead.height = 40.f;
+		m_SrcRectHead.left = 200.f;
+		m_SrcRectHead.bottom = 60.f;
+		m_dstRectHead.left = m_CenterPos.x - m_SrcRectHead.width - OffsetX;
+
+		m_srcRectBody.width = 30.f;
+		m_srcRectBody.height = 25.f;
+		m_srcRectBody.left = 15.f;
+		m_srcRectBody.bottom = 100.f;
+		
 		break;
 	case MovingRightDown:
 		m_CenterPos.x += elapsedSec * (m_MoventSpeed - m_SideMoventDecrement);
 		m_CenterPos.y -= elapsedSec * (m_MoventSpeed - m_SideMoventDecrement);
-		m_SrcRect.width = 40.f;
-		m_SrcRect.height = 40.f;
-		m_SrcRect.left = 10.f;
-		m_SrcRect.bottom = 60.f;
+		m_SrcRectHead.width = 40.f;
+		m_SrcRectHead.height = 40.f;
+		m_SrcRectHead.left = 10.f;
+		m_SrcRectHead.bottom = 60.f;
 		break;
 	case MovingLeftUp:
 		m_CenterPos.x -= elapsedSec * (m_MoventSpeed - m_SideMoventDecrement);
 		m_CenterPos.y += elapsedSec * (m_MoventSpeed - m_SideMoventDecrement);
-		m_SrcRect.width = 40.f;
-		m_SrcRect.height = 40.f;
-		m_SrcRect.left = 200.f;
-		m_SrcRect.bottom = 60.f;
-		m_dstRect.left = m_CenterPos.x - m_SrcRect.width - OffsetX;
+		m_SrcRectHead.width = 40.f;
+		m_SrcRectHead.height = 40.f;
+		m_SrcRectHead.left = 200.f;
+		m_SrcRectHead.bottom = 60.f;
+		m_dstRectHead.left = m_CenterPos.x - m_SrcRectHead.width - OffsetX;
 		break;
 	case MovingLeftDown:
 		m_CenterPos.x -= elapsedSec * (m_MoventSpeed - m_SideMoventDecrement);
 		m_CenterPos.y -= elapsedSec * (m_MoventSpeed - m_SideMoventDecrement);
-		m_SrcRect.width = 40.f;
-		m_SrcRect.height = 40.f;
-		m_SrcRect.left = 10.f;
-		m_SrcRect.bottom = 60.f;
+		m_SrcRectHead.width = 40.f;
+		m_SrcRectHead.height = 40.f;
+		m_SrcRectHead.left = 10.f;
+		m_SrcRectHead.bottom = 60.f;
 		break;
 	case movingUp:
 		m_CenterPos.y += elapsedSec * m_MoventSpeed;
-		m_SrcRect.width = 40.f;
-		m_SrcRect.height = 40.f;
-		m_SrcRect.left = 200.f;
-		m_SrcRect.bottom = 60.f;
-		m_dstRect.left = m_CenterPos.x - m_SrcRect.width - OffsetX;
-		m_dstRect.bottom = m_CenterPos.y - m_SrcRect.height - OffsetY;
+		m_SrcRectHead.width = 40.f;
+		m_SrcRectHead.height = 40.f;
+		m_SrcRectHead.left = 200.f;
+		m_SrcRectHead.bottom = 60.f;
+		m_dstRectHead.left = m_CenterPos.x - m_SrcRectHead.width - OffsetX;
+		m_dstRectHead.bottom = m_CenterPos.y - m_SrcRectHead.height - OffsetY;
 
 		break;
 	case movingDown:
 		m_CenterPos.y -= elapsedSec * m_MoventSpeed;
-		m_SrcRect.width = 40.f;
-		m_SrcRect.height = 40.f;
-		m_SrcRect.left = 10.f;
-		m_SrcRect.bottom = 60.f;
-		m_dstRect.left = m_CenterPos.x - m_SrcRect.width;
-		m_dstRect.bottom = m_CenterPos.y - m_SrcRect.height - OffsetY;
+		m_SrcRectHead.width = 40.f;
+		m_SrcRectHead.height = 40.f;
+		m_SrcRectHead.left = 10.f;
+		m_SrcRectHead.bottom = 60.f;
+		m_dstRectHead.left = m_CenterPos.x - m_SrcRectHead.width-5.f;
+		m_dstRectHead.bottom = m_CenterPos.y - m_SrcRectHead.height - OffsetY;
 		break;
 	case movingLeft:
 		m_CenterPos.x -= elapsedSec * m_MoventSpeed;
-		m_SrcRect.width = 40.f;
-		m_SrcRect.height = 40.f;
-		m_SrcRect.left = 240.f;
-		m_SrcRect.bottom = 60.f;
-		m_dstRect.left = m_CenterPos.x - m_SrcRect.width - OffsetX;
-		m_dstRect.bottom = m_CenterPos.y - m_SrcRect.height - OffsetY;
+		m_SrcRectHead.width = 40.f;
+		m_SrcRectHead.height = 40.f;
+		m_SrcRectHead.left = 240.f;
+		m_SrcRectHead.bottom = 60.f;
+		m_dstRectHead.left = m_CenterPos.x - m_SrcRectHead.width - OffsetX;
+		m_dstRectHead.bottom = m_CenterPos.y - m_SrcRectHead.height - OffsetY;
 
 		break;
 	case movingRight:
 		m_CenterPos.x += elapsedSec * m_MoventSpeed;
-		m_SrcRect.width = 40.f;
-		m_SrcRect.height = 40.f;
-		m_SrcRect.left = 80.f;
-		m_SrcRect.bottom = 60.f;
-		m_dstRect.left = m_CenterPos.x - m_SrcRect.width - OffsetX;
-		m_dstRect.bottom = m_CenterPos.y - m_SrcRect.height-OffsetY;
+		m_SrcRectHead.width = 40.f;
+		m_SrcRectHead.height = 40.f;
+		m_SrcRectHead.left = 80.f;
+		m_SrcRectHead.bottom = 60.f;
+		m_dstRectHead.left = m_CenterPos.x - m_SrcRectHead.width - OffsetX;
+		m_dstRectHead.bottom = m_CenterPos.y - m_SrcRectHead.height-OffsetY;
 		break;
 	case notMoving:
 		m_CenterPos.x += 0.f;
 		m_CenterPos.y += 0.f;
-		m_dstRect.left = m_CenterPos.x - m_SrcRect.width - OffsetX;
-		m_dstRect.bottom = m_CenterPos.y - m_SrcRect.height - OffsetY;
+		m_dstRectHead.left = m_CenterPos.x - m_SrcRectHead.width - OffsetX;
+		m_dstRectHead.bottom = m_CenterPos.y - m_SrcRectHead.height - OffsetY;
 		break;
 	}
 	CheckPosition();

@@ -110,7 +110,7 @@ void Game::Draw() const
 		utils::SetColor(Color4f{ 1.f,1.f,1.f,1.f });
 		utils::DrawPoint(Point2f{ m_Window.width / 2,m_Window.height / 2 }, 10);
 		m_DungeonGenerator.DrawDungeon();
-		m_Camera.Draw(m_Isaac.GetShape());
+		//m_Camera.Draw(m_Isaac.GetShape());
 		m_Isaac.DrawIsaac();
 	}else
 	{

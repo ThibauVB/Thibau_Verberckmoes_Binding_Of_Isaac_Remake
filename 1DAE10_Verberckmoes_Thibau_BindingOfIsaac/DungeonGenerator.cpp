@@ -12,7 +12,8 @@ DungeonGenerator::DungeonGenerator(Vector2f windowSize) :
 	m_WindowSize(windowSize),
 	m_RoomCounter(0),
 	m_TempDirectionSave(utils::all),
-	m_TotalRoomsInDungeon(10)
+	m_TotalRoomsInDungeon(10),
+	visRoom(0)
 {
 	InitDirections();
 }
@@ -35,6 +36,11 @@ void DungeonGenerator::DrawDungeon() const
 	//{
 	//	items.DrawRoom();
 	//}
+	//
+
+	//m_RoomsList[].DrawRoom();
+
+	
 	for (int x{0};x<m_RoomsList.size();++x)
 	{
 		m_RoomsList[x].DrawRoom();

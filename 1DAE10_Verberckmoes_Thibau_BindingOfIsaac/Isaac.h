@@ -24,8 +24,12 @@ public:
 	bool GetMotionState();
 	
 private:
-	Rectf m_SrcRect;
-    Rectf m_dstRect;
+	Rectf m_SrcRectHead;
+    Rectf m_dstRectHead;
+
+	Rectf m_srcRectBody;
+	Rectf m_dstRectBody;
+	
 	Point2f m_WindowSize;
 	void initRoomSize();
 	Rectf m_StartingWindowGrid;
@@ -39,6 +43,9 @@ private:
 	};
 	Point2f m_CenterPos;
 	Point2f m_CenterPosForHead;
+
+	
+	
 	WalkingDirection m_IsaacDirection;
 	const float m_MoventSpeed{230.f};
 	const float m_SideMoventDecrement{27.f};
