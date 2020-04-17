@@ -7,7 +7,7 @@ DungeonGenerator::DungeonGenerator(Vector2f windowSize) :
 	m_TopChance(25),
 	m_BottomChance(25),
 	m_WidthNormal(1280.0f), //1280.0f
-	m_HeightNormal(800.0f), //800?.0f
+	m_HeightNormal(800.f), //800?.0f
 	m_completion(false),
 	m_WindowSize(windowSize),
 	m_RoomCounter(0),

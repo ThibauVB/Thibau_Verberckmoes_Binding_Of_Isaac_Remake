@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Texture.h"
 #include "utils.h"
+#include <vector>
 class RoomClass
 {
 public:
@@ -12,6 +13,7 @@ public:
 	void SetNewDoors(bool left, bool right, bool top, bool bottom);
 	Point2f GetCenterPos();
 	std::vector<bool> GetDoorValues();
+	void SetDoorTextures(const Texture& texture);
 private:
 	Vector2f m_TextureScale;
 	Point2f m_Center;
@@ -20,6 +22,10 @@ private:
 	Rectf m_RoomRect;
 	bool m_IsStartRoom;
 	bool m_Left, m_Right, m_Top, m_Bottom;
+	
 	Texture* m_RoomTexture;
-	Texture* m_DoorTexture;
+	Texture* m_TopDoorTexture;
+	Texture* m_RightDoorTexture;
+	Texture* m_LeftDoorTexture;
+	Texture* m_BottomDoorTexture;	
 };

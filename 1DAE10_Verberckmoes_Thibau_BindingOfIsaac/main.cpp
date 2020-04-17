@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 	{
 		StartHeapControl();
 
-		Core core{ Window{ "Binding Of Isaac - Name, first name - 1DAEXX", 1280.0f, 800.0f } };
+		Core core{ Window{ "Binding Of Isaac - Thibau - 1DAE10", 1280.0f, 800.0f } };
 		core.Run();
 	}
 	DumpMemoryLeaks();
