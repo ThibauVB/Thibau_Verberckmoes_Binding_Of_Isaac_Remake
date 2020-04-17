@@ -1,17 +1,17 @@
 ﻿#include "pch.h"
 #include "RoomClass.h"
 
-RoomClass::RoomClass(Point2f center, float width, float height, utils::roomDirection direction, Texture*texture) :
+RoomClass::RoomClass(Point2f center, float width, float height, utils::roomDirection direction, Texture* texture, Texture* TopDoor, Texture* RightDoor, Texture* BottomDoor, Texture* LeftDoor) :
 	m_Center(center),
 	m_Width(width),
 	m_Height(height),
 	m_IsStartRoom(false),
-	m_RoomTexture(texture),	
+	m_RoomTexture(texture),
 	m_TextureScale(texture->GetWidth() / texture->GetWidth() * 160.f, texture->GetHeight() / texture->GetHeight() * 135.f),
-	m_TopDoorTexture(new Texture("../Resources/Backgrounds/TopDoor.png")),
-	m_RightDoorTexture(new Texture("../Resources/Backgrounds/RightDoor.png")),
-	m_LeftDoorTexture(new Texture("../Resources/Backgrounds/LeftDoor.png")),
-	m_BottomDoorTexture(new Texture("../Resources/Backgrounds/BottomDoor.png"))
+	m_TopDoorTexture(TopDoor),
+	m_RightDoorTexture(RightDoor),
+	m_BottomDoorTexture(BottomDoor),
+	m_LeftDoorTexture(LeftDoor)
 {
 	switch (direction)
 	{
@@ -80,11 +80,8 @@ void RoomClass::DrawRoom() const
 	destRect.height = m_RoomTexture->GetHeight();
 	destRect.width = m_RoomTexture->GetWidth();
 	Rectf roomRect{};
-	roomRect.bottom = m_Center.y;
-	roomRect.left = m_Center.x;
-	roomRect.height = m_Height;
-	roomRect.width = m_Width;
-	
+	//roomRect.bottom = m_Center.y;
+	//roomRect.left = m_Center.x;
 	m_RoomTexture->Draw(m_RoomRect, destRect);
 	const float doorWidth{ 20.f/2 };
 	const float doorHeight{ 50.f/2 };
@@ -115,7 +112,7 @@ void RoomClass::DrawRoom() const
 		ScaleDoor = 1.30f;
 		DoorRectf.height = m_TopDoorTexture->GetHeight() * ScaleDoor;
 		DoorRectf.width = m_TopDoorTexture->GetWidth() * ScaleDoor;
-		m_RightDoorTexture->Draw(DoorRectf, DoorScale);
+	    m_RightDoorTexture->Draw(DoorRectf, DoorScale);
 		
 	}
 	if (m_Top)

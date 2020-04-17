@@ -66,6 +66,12 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Gamefile</Filter>
     </ClCompile>
+    <ClCompile Include="TearManager.cpp">
+      <Filter>Gamefile</Filter>
+    </ClCompile>
+    <ClCompile Include="Tear.cpp">
+      <Filter>Gamefile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -114,6 +120,12 @@
       <Filter>FrameWork</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
+      <Filter>FrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="TearManager.h">
+      <Filter>FrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="Tear.h">
       <Filter>FrameWork</Filter>
     </ClInclude>
   </ItemGroup>

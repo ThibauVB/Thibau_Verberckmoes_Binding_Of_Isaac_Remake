@@ -7,7 +7,7 @@ DungeonGenerator::DungeonGenerator(Vector2f windowSize) :
 	m_TopChance(25),
 	m_BottomChance(25),
 	m_WidthNormal(1280.0f), //1280.0f
-	m_HeightNormal(800.f), //800?.0f
+	m_HeightNormal(800.0f), //800.0f
 	m_completion(false),
 	m_WindowSize(windowSize),
 	m_RoomCounter(0),
@@ -50,6 +50,7 @@ void DungeonGenerator::DrawDungeon() const
 
 DungeonGenerator::~DungeonGenerator()
 {
+	
 }
 
 void DungeonGenerator::CreateStartRoom()
@@ -58,10 +59,9 @@ void DungeonGenerator::CreateStartRoom()
 	center.x = m_WindowSize.x / 2;
 	center.y = m_WindowSize.y / 2;
 	//std::cout << center.x << " " << center.y << std::endl;
-	m_RoomsList.push_back(RoomClass{ center,m_WidthNormal,m_HeightNormal,utils::all,&m_RoomTexture});
+	m_RoomsList.push_back(RoomClass{ center,m_WidthNormal,m_HeightNormal,utils::all,&m_RoomTexture,&m_TopDoorTexture,&m_RightDoorTexture,&m_BottomDoorTexture,&m_LeftDoorTexture});
 	m_ExistingCenterPoints.push_back(center);
 	std::cout << "Start Room Made" << std::endl;
-	
 }
 
 void DungeonGenerator::CreateNormalRooms()
@@ -72,7 +72,7 @@ void DungeonGenerator::CreateNormalRooms()
 	for (int index{ 0 }; index < m_TotalRoomsInDungeon; ++index)
 	{
 		Point2f pos{ GenerateNewRoomCenter() };
-		m_RoomsList.push_back(RoomClass{ pos,m_WidthNormal,m_HeightNormal, m_TempDirectionSave,&m_RoomTexture });
+		m_RoomsList.push_back(RoomClass{ pos,m_WidthNormal,m_HeightNormal, m_TempDirectionSave,&m_RoomTexture,&m_TopDoorTexture,&m_RightDoorTexture,&m_BottomDoorTexture,&m_LeftDoorTexture });
 		//std::cout << "Room: "  << "direction: " << m_TempDirectionSave <<" Created" << "On Pos:" << m_ExistingCenterPoints[m_RoomCounter-(1)].x << ":" << m_ExistingCenterPoints[m_RoomCounter-(1)].y <<std::endl;
 		switch (m_TempDirectionSave)
 		{
