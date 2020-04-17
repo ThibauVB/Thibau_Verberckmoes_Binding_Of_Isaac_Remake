@@ -22,7 +22,7 @@ public:
 	void SetDirection(WalkingDirection direction);
 	Rectf GetShape()const;
 	bool GetMotionState();
-	
+	Point2f GetPostion();
 private:
 	Rectf m_SrcRectHead;
     Rectf m_dstRectHead;

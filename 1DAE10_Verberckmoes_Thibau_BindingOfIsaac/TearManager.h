@@ -4,11 +4,15 @@
 class TearManager
 {
 public:
-	//TearManager(const Texture& tearTexture);
+	TearManager();
 	void CreateTear();
-	
+	void DrawTears()const;
+	void UpdateTears(float elapsedSec);
+	void SetPlayerPostion(Point2f PlayerPos);
 private:
+	Point2f m_Pos;
 	float m_Velocity;
-	Texture& m_TearTexture;
+	float m_TimeToShootNewTear;
+	Texture m_TearTexture {"../Resources/Isaac/Tear.png"};
 	std::vector<Tear> m_ActiveTears;
 };

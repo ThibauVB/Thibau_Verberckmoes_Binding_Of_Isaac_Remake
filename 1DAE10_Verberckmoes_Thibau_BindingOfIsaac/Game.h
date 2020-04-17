@@ -3,6 +3,7 @@
 #include "DungeonGenerator.h"
 #include "Isaac.h"
 #include "Camera.h"
+#include "TearManager.h"
 class Game
 {
 public:
@@ -29,9 +30,13 @@ private:
 	void Cleanup();
 	void ClearBackground() const;
 	void DrawStartScreen() const;
-	DungeonGenerator m_DungeonGenerator;
+
 	Isaac m_Isaac;
 	Camera m_Camera;
 	bool m_StartScreen;
 	Texture m_TextureStartScreen;
+	
+	//Managers/Generators
+	DungeonGenerator m_DungeonGenerator;
+	TearManager m_TearManager;
 };

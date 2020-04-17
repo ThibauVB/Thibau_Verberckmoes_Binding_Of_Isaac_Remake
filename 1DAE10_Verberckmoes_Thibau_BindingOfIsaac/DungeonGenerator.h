@@ -38,5 +38,6 @@ private:
 	void InitDirections();
 	bool IsAlreadyACenter(const Point2f& newCenter);
 	void CheckForDoorConnections();
+	//Test Function
 	int visRoom;
 };

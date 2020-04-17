@@ -3,11 +3,12 @@
 
 Game::Game(const Window& window)
 	:m_Window{ window },
-	m_DungeonGenerator(Vector2f{m_Window.width,m_Window.height}),
-	m_Isaac(Point2f{ m_Window.width / 2,m_Window.height / 2 }, Point2f{m_Window.width,m_Window.height }),
-	m_Camera(m_Window.width,m_Window.height),
+	m_DungeonGenerator(Vector2f{ m_Window.width,m_Window.height }),
+	m_Isaac(Point2f{ m_Window.width / 2,m_Window.height / 2 }, Point2f{ m_Window.width,m_Window.height }),
+	m_Camera(m_Window.width, m_Window.height),
 	m_StartScreen(false),
-	m_TextureStartScreen("../Resources/Backgrounds/StartingScreen.jpg")
+	m_TextureStartScreen("../Resources/Backgrounds/StartingScreen.jpg"),
+	m_TearManager()
 {
 	Initialize();
 }
@@ -83,6 +84,8 @@ void Game::Update(float elapsedSec)
 		if (pStates[SDL_SCANCODE_RIGHT])
 		{
 			std::cout << "Shooting Right" << std::endl;
+			m_TearManager.SetPlayerPostion(m_Isaac.GetPostion());
+			m_TearManager.CreateTear();
 		}
 		if (pStates[SDL_SCANCODE_DOWN])
 		{
@@ -94,6 +97,7 @@ void Game::Update(float elapsedSec)
 		}
 		m_Isaac.UpdateIsaac(elapsedSec);
 		m_Isaac.SetDirection(Isaac::notMoving);
+		m_TearManager.UpdateTears(elapsedSec);
 	}
 	else
 	{
@@ -112,6 +116,7 @@ void Game::Draw() const
 		m_DungeonGenerator.DrawDungeon();
 		m_Camera.Draw(m_Isaac.GetShape());
 		m_Isaac.DrawIsaac();
+		m_TearManager.DrawTears();
 	}else
 	{
 		DrawStartScreen();

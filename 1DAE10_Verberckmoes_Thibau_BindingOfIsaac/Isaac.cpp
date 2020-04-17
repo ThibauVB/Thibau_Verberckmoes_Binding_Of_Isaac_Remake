@@ -1,6 +1,5 @@
 ﻿#include "pch.h"
 #include "Isaac.h"
-
 Isaac::Isaac(Point2f StartingPoint, Point2f windowSize) : m_CenterPos(StartingPoint),
 m_WindowSize(windowSize)
 {
@@ -143,6 +142,11 @@ bool Isaac::GetMotionState()
 		return true;
 	}
 	return false;
+}
+
+Point2f Isaac::GetPostion()
+{
+	return m_CenterPos;
 }
 
 void Isaac::initRoomSize()
