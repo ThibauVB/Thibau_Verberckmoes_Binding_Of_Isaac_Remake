@@ -14,6 +14,8 @@ public:
 	Point2f GetCenterPos();
 	std::vector<bool> GetDoorValues();
 	void SetDoorTextures(const Texture& texture);
+	std::vector<Rectf> GetDoorPlace();
+	void SetRoomRect(int x);
 private:
 	Vector2f m_TextureScale;
 	Point2f m_Center;

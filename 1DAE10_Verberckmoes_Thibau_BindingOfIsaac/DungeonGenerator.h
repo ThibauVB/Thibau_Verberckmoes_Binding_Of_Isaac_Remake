@@ -10,6 +10,8 @@ public:
 	bool GetDungeonCompletion();
 	void DrawDungeon()const;
 	void PrintAllCords();
+	void UpdateCurrentshownRoom(Point2f PlayerPos);
+	
 	//void CleanDungeon();
 private:
 	int m_LeftChance;
@@ -31,6 +33,7 @@ private:
 	Texture m_BottomDoorTexture { "../Resources/Backgrounds/BottomDoor.png" };
 	std::vector<utils::roomDirection> m_PossibleDirections;
 	std::vector<Point2f> m_ExistingCenterPoints;
+	int m_CurrentRoomDrawn;
 	//Private Helper Functions
 	void CreateStartRoom();
 	void CreateNormalRooms();
@@ -38,6 +41,6 @@ private:
 	void InitDirections();
 	bool IsAlreadyACenter(const Point2f& newCenter);
 	void CheckForDoorConnections();
+	void UpdateRoomsPosition(int direction);
 	//Test Function
-	int visRoom;
 };

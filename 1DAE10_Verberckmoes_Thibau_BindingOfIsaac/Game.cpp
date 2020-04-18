@@ -8,7 +8,8 @@ Game::Game(const Window& window)
 	m_Camera(m_Window.width, m_Window.height),
 	m_StartScreen(false),
 	m_TextureStartScreen("../Resources/Backgrounds/StartingScreen.jpg"),
-	m_TearManager()
+	m_TearManager(),
+	m_TimeCounter(0)
 {
 	Initialize();
 }
@@ -80,24 +81,32 @@ void Game::Update(float elapsedSec)
 		if (pStates[SDL_SCANCODE_UP])
 		{
 			std::cout << "Shooting Up" << std::endl;
+			//m_DungeonGenerator.UpdateRoomsPosition(2);
 		}
 		if (pStates[SDL_SCANCODE_RIGHT])
 		{
 			std::cout << "Shooting Right" << std::endl;
-			m_TearManager.SetPlayerPostion(m_Isaac.GetPostion());
-			m_TearManager.CreateTear();
+			//m_DungeonGenerator.UpdateRoomsPosition(3);
 		}
 		if (pStates[SDL_SCANCODE_DOWN])
 		{
 			std::cout << "Shooting Down" << std::endl;
+			//m_DungeonGenerator.UpdateRoomsPosition(0);
 		}
 		if (pStates[SDL_SCANCODE_LEFT])
 		{
 			std::cout << "Shooting Left" << std::endl;
+			//m_DungeonGenerator.UpdateRoomsPosition(1);
 		}
 		m_Isaac.UpdateIsaac(elapsedSec);
 		m_Isaac.SetDirection(Isaac::notMoving);
 		m_TearManager.UpdateTears(elapsedSec);
+		if (m_TimeCounter >= 1.f)
+		{
+			m_DungeonGenerator.UpdateCurrentshownRoom(m_Isaac.GetPostion());
+			m_TimeCounter = 0;
+		}
+		m_TimeCounter += elapsedSec;
 	}
 	else
 	{

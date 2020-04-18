@@ -35,7 +35,7 @@ private:
 	Camera m_Camera;
 	bool m_StartScreen;
 	Texture m_TextureStartScreen;
-	
+	float m_TimeCounter;
 	//Managers/Generators
 	DungeonGenerator m_DungeonGenerator;
 	TearManager m_TearManager;

@@ -94,26 +94,27 @@ void RoomClass::DrawRoom() const
 		
 		tmpDoor.left = (m_RoomRect.left - doorWidth / 2)+offset.x;
 		tmpDoor.bottom = m_RoomRect.bottom + m_RoomRect.height / 2 - doorHeight / 2;
-		utils::FillRect(tmpDoor);
+		
 		DoorRectf.left = tmpDoor.left-130.f;
 		DoorRectf.bottom = tmpDoor.bottom-50.f;
 		DoorRectf.height = m_TopDoorTexture->GetHeight() * ScaleDoor;
 		DoorRectf.width = m_TopDoorTexture->GetWidth() * ScaleDoor;
 		m_LeftDoorTexture->Draw(DoorRectf, DoorScale);
+		utils::FillRect(tmpDoor);
 	}
 	if (m_Right)
 	{
 		tmpDoor.left =(m_RoomRect.left + m_RoomRect.width - doorWidth / 2)-offset.x-9.f;
 		tmpDoor.bottom = m_RoomRect.bottom + m_RoomRect.height / 2 - doorHeight / 2-49.f;
 
-		utils::FillRect(tmpDoor);
+		
 		DoorRectf.left = tmpDoor.left;
 		DoorRectf.bottom = tmpDoor.bottom;
 		ScaleDoor = 1.30f;
 		DoorRectf.height = m_TopDoorTexture->GetHeight() * ScaleDoor;
 		DoorRectf.width = m_TopDoorTexture->GetWidth() * ScaleDoor;
 	    m_RightDoorTexture->Draw(DoorRectf, DoorScale);
-		
+		utils::FillRect(tmpDoor);
 	}
 	if (m_Top)
 	{
@@ -123,13 +124,14 @@ void RoomClass::DrawRoom() const
 		tmpDoor.bottom = (m_RoomRect.bottom + m_RoomRect.height - doorWidth / 2)-offset.y;
 		tmpDoor.width = doorHeight;
 		tmpDoor.height = doorWidth;
-		utils::FillRect(tmpDoor);
+		
 		
 		DoorRectf.left = tmpDoor.left-m_TopDoorTexture->GetWidth()/2-8.f;
 		DoorRectf.bottom = tmpDoor.bottom-12.f;
 		DoorRectf.height = m_TopDoorTexture->GetHeight() * ScaleDoor;
 		DoorRectf.width = m_TopDoorTexture->GetWidth() * ScaleDoor;
 		m_TopDoorTexture->Draw(DoorRectf, DoorScale);
+		utils::FillRect(tmpDoor);
 	}
 	if (m_Bottom)
 	{
@@ -137,12 +139,13 @@ void RoomClass::DrawRoom() const
 		tmpDoor.bottom = (m_RoomRect.bottom - doorWidth / 2)+30.f;
 		tmpDoor.width = doorHeight;
 		tmpDoor.height = doorWidth;
-		utils::FillRect(tmpDoor);
+		
 		DoorRectf.left = tmpDoor.left;
 		DoorRectf.bottom = tmpDoor.bottom;
 		DoorRectf.height = m_TopDoorTexture->GetHeight() * ScaleDoor;
 		DoorRectf.width = m_TopDoorTexture->GetWidth() * ScaleDoor;
 		m_BottomDoorTexture->Draw(DoorRectf, DoorScale);
+		utils::FillRect(tmpDoor);
 	}
 }
 
@@ -168,6 +171,69 @@ std::vector<bool> RoomClass::GetDoorValues()
 	values.push_back(m_Bottom);
 	values.push_back(m_Top);
 	return values;
+}
+
+std::vector<Rectf> RoomClass::GetDoorPlace()
+{
+	std::vector<Rectf> DoorPlacement;
+	std::vector<bool> DoorValues{};
+	DoorValues = GetDoorValues();
+	//left , right , bottom , top
+	const float doorWidth{ 20.f / 2 };
+	const float doorHeight{ 50.f / 2 };
+	Rectf BaseDoor;
+	BaseDoor.width = doorWidth;
+	BaseDoor.height = doorHeight;
+	Vector2f offset;
+	offset.x = 150.f;
+	offset.y = 125.f;
+	if (DoorValues[0] == true)
+	{
+		BaseDoor.left = (m_RoomRect.left - doorWidth / 2) + offset.x;
+		BaseDoor.bottom = m_RoomRect.bottom + m_RoomRect.height / 2 - doorHeight / 2;
+		DoorPlacement.push_back(BaseDoor);
+	}
+	if (DoorValues[1] == true)
+	{
+		BaseDoor.left = (m_RoomRect.left + m_RoomRect.width - doorWidth / 2) - offset.x - 9.f;
+		BaseDoor.bottom = m_RoomRect.bottom + m_RoomRect.height / 2 - doorHeight / 2;
+		DoorPlacement.push_back(BaseDoor);
+	}
+	if (DoorValues[2] == true)
+	{
+		BaseDoor.left = m_RoomRect.left + m_RoomRect.width / 2 - doorHeight / 2;
+		BaseDoor.bottom = (m_RoomRect.bottom - doorWidth / 2) + 30.f;
+		DoorPlacement.push_back(BaseDoor);
+	}
+	if (DoorValues[3] == true)
+	{
+		BaseDoor.left = m_RoomRect.left + m_RoomRect.width / 2 - doorHeight / 2;
+		BaseDoor.bottom = (m_RoomRect.bottom + m_RoomRect.height - doorWidth / 2) - offset.y;
+		DoorPlacement.push_back(BaseDoor);
+	}
+	
+	return std::vector<Rectf>(DoorPlacement);
+}
+
+void RoomClass::SetRoomRect(int x)
+{
+	//Test 0: Down, 1: Left, 2:Top,3:Right
+
+	switch (x)
+	{
+	case 0:
+		m_RoomRect.bottom += m_Height;
+		break;
+	case 1:
+		m_RoomRect.left += m_Width;
+		break;
+	case 2:
+		m_RoomRect.bottom -= m_Height;
+		break;
+	case 3:
+		m_RoomRect.left -= m_Width;
+		break;
+	}
 }
 
 
