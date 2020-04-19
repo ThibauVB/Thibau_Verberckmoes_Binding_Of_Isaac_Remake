@@ -25,6 +25,7 @@ private:
 	int m_TotalRoomsInDungeon;
 	float m_WidthNormal;
 	float m_HeightNormal;
+	int m_CurrentRoomDrawnCounter;
 	utils::roomDirection m_TempDirectionSave;
 	std::vector<RoomClass> m_RoomsList;
 	bool m_completion;

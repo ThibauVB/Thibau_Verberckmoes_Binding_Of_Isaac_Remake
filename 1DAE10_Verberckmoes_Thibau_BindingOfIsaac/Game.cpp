@@ -103,13 +103,14 @@ void Game::Update(float elapsedSec)
 				m_DungeonGenerator.Changeroom(1);
 				//m_TearManager.CreateTear(m_Isaac.GetPostion(), utils::ShootingLeft);
 			}
+			m_DungeonGenerator.UpdateCurrentshownRoom(m_Isaac.GetPostion(), m_Isaac);
+
 			m_TimeCounter = 0;
 		}
 
 		m_TimeCounter += elapsedSec;
 		m_Isaac.UpdateIsaac(elapsedSec);
 		m_Isaac.SetDirection(Isaac::notMoving);
-		m_DungeonGenerator.UpdateCurrentshownRoom(m_Isaac.GetPostion(), m_Isaac);
 		m_TearManager.UpdateTears(elapsedSec);
 	}
 	else
@@ -128,7 +129,7 @@ void Game::Draw() const
 		m_Camera.Draw(m_Isaac.GetShape());
 		m_Isaac.DrawIsaac();
 		m_TearManager.DrawTears();
-		m_DungeonGenerator.DrawCollisionBoxes(m_DungeonGenerator.GetCollisionBoxes());
+		TestDrawCollisionBoxes();
 	}
 	else
 	{
@@ -223,4 +224,35 @@ void Game::ShowControls()
 	std::cout << "Shoot Right: ArrowRightKey" << std::endl;
 	std::cout << "shoot Down: ArrowDownKey" << std::endl;
 	std::cout << "Shoot Left: ArrowLeftKey" << std::endl;
+}
+
+void Game::TestDrawCollisionBoxes() const
+{
+	Rectf collisionBox;
+	collisionBox.width = 50.f;
+	collisionBox.height = 25.f;
+	//Middle Bottom
+	collisionBox.left = m_Window.width / 2- collisionBox.width/2;
+	collisionBox.bottom = 188.f;
+	utils::DrawRect(collisionBox);
+
+	//Middle Top
+	collisionBox.left = m_Window.width / 2 - collisionBox.width / 2;
+	collisionBox.bottom = m_Window.height - 140.f;
+	utils::DrawRect(collisionBox);
+
+	//LeftMiddle
+	collisionBox.left = 137.5f;
+	collisionBox.bottom = m_Window.height / 2 - collisionBox.height / 2;
+	collisionBox.height = 50.f;
+	collisionBox.width = 25.f;
+	utils::DrawRect(collisionBox);
+
+	//RightMiddle
+	collisionBox.left = m_Window.width - 160.f;
+	collisionBox.bottom = m_Window.height / 2 - collisionBox.height / 2;
+	collisionBox.height = 50.f;
+	collisionBox.width = 25.f;
+	utils::DrawRect(collisionBox);
+	
 }

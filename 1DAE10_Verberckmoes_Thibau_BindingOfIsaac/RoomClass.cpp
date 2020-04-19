@@ -213,8 +213,11 @@ std::vector<Rectf> RoomClass::GetDoorPlace()
 
 void RoomClass::SetRoomRect(int x)
 {
-	//Test 0: Down, 1: Left, 2:Top,3:Right
-
+	//0=>RoomsGoUp
+	//1=>RoomsGotRight
+	//2=>RoomsGoDown
+	//3=>RoomsGotLeft
+	
 	switch (x)
 	{
 	case 0:

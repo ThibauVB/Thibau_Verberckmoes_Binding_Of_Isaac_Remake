@@ -31,6 +31,7 @@ private:
 	void ClearBackground() const;
 	void DrawStartScreen() const;
 	void ShowControls();
+	void TestDrawCollisionBoxes()const;
 	Isaac m_Isaac;
 	Camera m_Camera;
 	bool m_StartScreen;
