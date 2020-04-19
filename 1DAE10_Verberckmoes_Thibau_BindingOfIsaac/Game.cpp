@@ -31,6 +31,7 @@ void Game::Cleanup()
 
 void Game::Update(float elapsedSec)
 {
+	m_DungeonGenerator.UpdateCurrentshownRoom(m_Isaac.GetPostion(), m_Isaac);
 	// Check keyboard state
 	if(m_StartScreen==false)
 	{
@@ -76,37 +77,45 @@ void Game::Update(float elapsedSec)
 			}
 		}
 
+		//left , right , bottom , top
+		if (m_TimeCounter>2)
+		{
+			if (pStates[SDL_SCANCODE_UP])
+			{
+				std::cout << "Shooting Up" << std::endl;
+				m_DungeonGenerator.Changeroom(2);
+			}
+			if (pStates[SDL_SCANCODE_RIGHT])
+			{
+				std::cout << "Shooting Right" << std::endl;
+				m_DungeonGenerator.Changeroom(3);
 
+			}
+			if (pStates[SDL_SCANCODE_DOWN])
+			{
+				std::cout << "Shooting Down" << std::endl;
+				m_DungeonGenerator.Changeroom(0);
 
-		if (pStates[SDL_SCANCODE_UP])
-		{
-			std::cout << "Shooting Up" << std::endl;
-			//m_DungeonGenerator.UpdateRoomsPosition(2);
-		}
-		if (pStates[SDL_SCANCODE_RIGHT])
-		{
-			std::cout << "Shooting Right" << std::endl;
-			//m_DungeonGenerator.UpdateRoomsPosition(3);
-		}
-		if (pStates[SDL_SCANCODE_DOWN])
-		{
-			std::cout << "Shooting Down" << std::endl;
-			//m_DungeonGenerator.UpdateRoomsPosition(0);
-		}
-		if (pStates[SDL_SCANCODE_LEFT])
-		{
-			std::cout << "Shooting Left" << std::endl;
-			//m_DungeonGenerator.UpdateRoomsPosition(1);
-		}
-		m_Isaac.UpdateIsaac(elapsedSec);
-		m_Isaac.SetDirection(Isaac::notMoving);
-		m_TearManager.UpdateTears(elapsedSec);
-		if (m_TimeCounter >= 1.f)
-		{
-			m_DungeonGenerator.UpdateCurrentshownRoom(m_Isaac.GetPostion());
+			}
+			if (pStates[SDL_SCANCODE_LEFT])
+			{
+				std::cout << "Shooting Left" << std::endl;
+				m_DungeonGenerator.Changeroom(1);
+
+			}
 			m_TimeCounter = 0;
 		}
 		m_TimeCounter += elapsedSec;
+		m_Isaac.UpdateIsaac(elapsedSec);
+		m_Isaac.SetDirection(Isaac::notMoving);
+		//m_TearManager.UpdateTears(elapsedSec);
+
+
+		if (pStates[SDL_SCANCODE_I])
+		{
+			ShowControls();
+		}
+		
 	}
 	else
 	{
@@ -136,6 +145,7 @@ void Game::Draw() const
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 {
+	
 }
 
 void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
@@ -206,3 +216,15 @@ void Game::DrawStartScreen() const
 	m_TextureStartScreen.Draw(Point2f{ 0,0 });
 }
 
+void Game::ShowControls()
+{
+	std::cout << "Move Up: W or Z key (depending on settings)" << std::endl;
+	std::cout << "Move Right: D" << std::endl;
+	std::cout << "Move Down: S" << std::endl;
+	std::cout << "Move Left: A or Q" << std::endl;
+
+	std::cout << "Shoot Up: ArrowUpKey" << std::endl;
+	std::cout << "Shoot Right: ArrowRightKey" << std::endl;
+	std::cout << "shoot Down: ArrowDownKey" << std::endl;
+	std::cout << "Shoot Left: ArrowLeftKey" << std::endl;
+}

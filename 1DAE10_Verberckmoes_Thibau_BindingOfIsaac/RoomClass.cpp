@@ -11,7 +11,8 @@ RoomClass::RoomClass(Point2f center, float width, float height, utils::roomDirec
 	m_TopDoorTexture(TopDoor),
 	m_RightDoorTexture(RightDoor),
 	m_BottomDoorTexture(BottomDoor),
-	m_LeftDoorTexture(LeftDoor)
+	m_LeftDoorTexture(LeftDoor),
+	m_Direction(direction)
 {
 	switch (direction)
 	{
@@ -165,7 +166,7 @@ Point2f RoomClass::GetCenterPos()
 std::vector<bool> RoomClass::GetDoorValues()
 {
 	std::vector<bool> values;
-
+	//left,right,bottom,top
 	values.push_back(m_Left);
 	values.push_back(m_Right);
 	values.push_back(m_Bottom);
@@ -195,23 +196,25 @@ std::vector<Rectf> RoomClass::GetDoorPlace()
 	}
 	if (DoorValues[1] == true)
 	{
+
 		BaseDoor.left = (m_RoomRect.left + m_RoomRect.width - doorWidth / 2) - offset.x - 9.f;
 		BaseDoor.bottom = m_RoomRect.bottom + m_RoomRect.height / 2 - doorHeight / 2;
 		DoorPlacement.push_back(BaseDoor);
 	}
 	if (DoorValues[2] == true)
 	{
+
 		BaseDoor.left = m_RoomRect.left + m_RoomRect.width / 2 - doorHeight / 2;
 		BaseDoor.bottom = (m_RoomRect.bottom - doorWidth / 2) + 30.f;
 		DoorPlacement.push_back(BaseDoor);
 	}
 	if (DoorValues[3] == true)
 	{
+
 		BaseDoor.left = m_RoomRect.left + m_RoomRect.width / 2 - doorHeight / 2;
 		BaseDoor.bottom = (m_RoomRect.bottom + m_RoomRect.height - doorWidth / 2) - offset.y;
 		DoorPlacement.push_back(BaseDoor);
 	}
-	
 	return std::vector<Rectf>(DoorPlacement);
 }
 
@@ -234,6 +237,11 @@ void RoomClass::SetRoomRect(int x)
 		m_RoomRect.left -= m_Width;
 		break;
 	}
+}
+
+utils::roomDirection RoomClass::GetDirection()
+{
+	return m_Direction;
 }
 
 

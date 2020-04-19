@@ -149,6 +149,11 @@ Point2f Isaac::GetPostion()
 	return m_CenterPos;
 }
 
+void Isaac::SetPlayerPos(Point2f pos)
+{
+	m_CenterPos = pos;
+}
+
 void Isaac::initRoomSize()
 {
 

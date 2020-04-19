@@ -30,12 +30,13 @@ private:
 	void Cleanup();
 	void ClearBackground() const;
 	void DrawStartScreen() const;
-
+	void ShowControls();
 	Isaac m_Isaac;
 	Camera m_Camera;
 	bool m_StartScreen;
 	Texture m_TextureStartScreen;
 	float m_TimeCounter;
+	bool TestBoolForDoor{false};
 	//Managers/Generators
 	DungeonGenerator m_DungeonGenerator;
 	TearManager m_TearManager;

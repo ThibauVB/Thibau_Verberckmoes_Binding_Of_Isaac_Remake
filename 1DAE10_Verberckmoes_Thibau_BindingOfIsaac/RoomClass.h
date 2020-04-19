@@ -16,7 +16,9 @@ public:
 	void SetDoorTextures(const Texture& texture);
 	std::vector<Rectf> GetDoorPlace();
 	void SetRoomRect(int x);
+	utils::roomDirection GetDirection();
 private:
+	utils::roomDirection m_Direction;
 	Vector2f m_TextureScale;
 	Point2f m_Center;
 	float m_Width;
@@ -24,7 +26,6 @@ private:
 	Rectf m_RoomRect;
 	bool m_IsStartRoom;
 	bool m_Left, m_Right, m_Top, m_Bottom;
-	
 	Texture* m_RoomTexture;
 	Texture* m_TopDoorTexture;
 	Texture* m_RightDoorTexture;

@@ -23,6 +23,7 @@ public:
 	Rectf GetShape()const;
 	bool GetMotionState();
 	Point2f GetPostion();
+	void SetPlayerPos(Point2f pos);
 private:
 	Rectf m_SrcRectHead;
     Rectf m_dstRectHead;
