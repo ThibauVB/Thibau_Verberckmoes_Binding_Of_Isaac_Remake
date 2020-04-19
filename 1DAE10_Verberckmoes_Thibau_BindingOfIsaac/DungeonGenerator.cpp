@@ -213,12 +213,14 @@ void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player)
 	//	Test 0: Down, 1: Left, 2:Top,3:Right
 
 	//left,right,bottom,top
-	std::vector<Rectf> DoorCollisionBox{};
+
 	std::vector<bool> doorValues;
 	doorValues = m_RoomsList[m_CurrentRoomDrawn].GetDoorValues();
 	DoorCollisionBox = m_RoomsList[m_CurrentRoomDrawn].GetDoorPlace();
 	Point2f pos{ m_WidthNormal / 2,m_HeightNormal / 2 };
 
+
+	
 	//if (doorValues[0] == true)
 	//{
 	//	for (Rectf doors : DoorCollisionBox)
@@ -282,6 +284,7 @@ void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player)
 	//	}
 	//}
 
+	
 	for (int x{ 0 }; x < DoorCollisionBox.size(); ++x)
 	{
 		if (doorValues[0] == true)
@@ -294,12 +297,13 @@ void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player)
 				std::cout << m_CurrentRoomDrawn << std::endl;
 				UpdateRoomsPosition(1);
 				Player.SetPlayerPos(pos);
+				
 			}
 		}
 
 		if (doorValues[1] == true)
 		{
-			if (PlayerPos.x > DoorCollisionBox[x].left&& PlayerPos.y > DoorCollisionBox[x].bottom&& PlayerPos.y < DoorCollisionBox[x].bottom + DoorCollisionBox[x].height)
+			if (PlayerPos.x > DoorCollisionBox[x].left&& PlayerPos.y > DoorCollisionBox[x].bottom&& PlayerPos.y < DoorCollisionBox[x].bottom + DoorCollisionBox[x].height&& PlayerPos.x < DoorCollisionBox[x].left+DoorCollisionBox[x].width)
 			{
 				std::cout << "Player is in Right Door" << std::endl;
 				UpdateCurrentRoomCounter(utils::right);
@@ -311,7 +315,7 @@ void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player)
 		}
 		if (doorValues[2] == true)
 		{
-			if (PlayerPos.x > DoorCollisionBox[x].left&& PlayerPos.x < DoorCollisionBox[x].left + DoorCollisionBox[x].width && PlayerPos.y < DoorCollisionBox[x].bottom + DoorCollisionBox[x].height + 215.f)
+			if (PlayerPos.x > DoorCollisionBox[x].left&& PlayerPos.x < DoorCollisionBox[x].left + DoorCollisionBox[x].width && PlayerPos.y < DoorCollisionBox[x].bottom + DoorCollisionBox[x].height + 215.f&&PlayerPos.y>DoorCollisionBox[x].bottom)
 			{
 				std::cout << "Player is in Bottom Door" << std::endl;
 				UpdateCurrentRoomCounter(utils::bottom);
@@ -323,7 +327,7 @@ void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player)
 		}
 		if (doorValues[3] == true)
 		{
-			if (PlayerPos.x > DoorCollisionBox[x].left&& PlayerPos.x < DoorCollisionBox[x].left + DoorCollisionBox[x].width && PlayerPos.y > DoorCollisionBox[x].bottom)
+			if (PlayerPos.x > DoorCollisionBox[x].left&& PlayerPos.x < DoorCollisionBox[x].left + DoorCollisionBox[x].width && PlayerPos.y > DoorCollisionBox[x].bottom&&PlayerPos.y<DoorCollisionBox[x].bottom+DoorCollisionBox[x].height)
 			{
 				std::cout << "Player is in Top Door" << std::endl;
 				UpdateCurrentRoomCounter(utils::top);
@@ -339,6 +343,21 @@ void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player)
 void DungeonGenerator::Changeroom(int x)
 {
 	UpdateRoomsPosition(x);
+}
+
+void DungeonGenerator::DrawCollisionBoxes(std::vector<Rectf> collisionRect)const
+{
+	for (size_t idX{ 0 }; idX < collisionRect.size(); ++idX)
+	{
+		utils::SetColor(Color4f{ 0,1,1,1 });
+		utils::DrawRect(collisionRect[idX]);
+	}
+
+}
+
+std::vector<Rectf> DungeonGenerator::GetCollisionBoxes() const
+{
+	return DoorCollisionBox;
 }
 
 void DungeonGenerator::UpdateRoomsPosition(int direction)
@@ -465,6 +484,10 @@ void DungeonGenerator::UpdateCurrentRoomCounter(utils::roomDirection directionTo
 	if (m_LastDirection == directionToCheck)
 	{
 		--m_CurrentRoomDrawn;
+		if (m_CurrentRoomDrawn<0)
+		{
+			m_CurrentRoomDrawn = 1;
+		}
 	}
 	else
 	{

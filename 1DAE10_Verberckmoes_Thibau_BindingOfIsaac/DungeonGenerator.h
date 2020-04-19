@@ -13,6 +13,8 @@ public:
 	void PrintAllCords();
 	void UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player);
 	void Changeroom(int x);
+	void DrawCollisionBoxes(std::vector<Rectf> collisionRect)const;
+	std::vector<Rectf> GetCollisionBoxes()const;
 	//void CleanDungeon();
 private:
 	int m_LeftChance;
@@ -48,4 +50,6 @@ private:
 	void FixRooms();
 	void UpdateCurrentRoomCounter(utils::roomDirection directionToCheck);
 	//Test Function
+	//TestVars
+	std::vector<Rectf> DoorCollisionBox{};
 };
