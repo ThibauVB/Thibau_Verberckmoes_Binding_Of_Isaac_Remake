@@ -31,9 +31,8 @@ void Game::Cleanup()
 
 void Game::Update(float elapsedSec)
 {
-	m_DungeonGenerator.UpdateCurrentshownRoom(m_Isaac.GetPostion(), m_Isaac);
 	// Check keyboard state
-	if(m_StartScreen==false)
+	if (m_StartScreen == false)
 	{
 		const Uint8* pStates = SDL_GetKeyboardState(nullptr);
 
@@ -78,7 +77,7 @@ void Game::Update(float elapsedSec)
 		}
 
 		//left , right , bottom , top
-		if (m_TimeCounter>2)
+		if (m_TimeCounter > 2)
 		{
 			if (pStates[SDL_SCANCODE_UP])
 			{
@@ -89,45 +88,34 @@ void Game::Update(float elapsedSec)
 			{
 				std::cout << "Shooting Right" << std::endl;
 				m_DungeonGenerator.Changeroom(3);
-
 			}
 			if (pStates[SDL_SCANCODE_DOWN])
 			{
 				std::cout << "Shooting Down" << std::endl;
 				m_DungeonGenerator.Changeroom(0);
-
 			}
 			if (pStates[SDL_SCANCODE_LEFT])
 			{
 				std::cout << "Shooting Left" << std::endl;
 				m_DungeonGenerator.Changeroom(1);
-
 			}
 			m_TimeCounter = 0;
 		}
 		m_TimeCounter += elapsedSec;
 		m_Isaac.UpdateIsaac(elapsedSec);
 		m_Isaac.SetDirection(Isaac::notMoving);
+		m_DungeonGenerator.UpdateCurrentshownRoom(m_Isaac.GetPostion(), m_Isaac);
 		//m_TearManager.UpdateTears(elapsedSec);
-
-
-		if (pStates[SDL_SCANCODE_I])
-		{
-			ShowControls();
-		}
-		
 	}
 	else
 	{
-		
 	}
-	
 }
 
 void Game::Draw() const
 {
 	ClearBackground();
-	if (m_StartScreen==false)
+	if (m_StartScreen == false)
 	{
 		utils::SetColor(Color4f{ 1.f,1.f,1.f,1.f });
 		utils::DrawPoint(Point2f{ m_Window.width / 2,m_Window.height / 2 }, 10);
@@ -135,17 +123,19 @@ void Game::Draw() const
 		m_Camera.Draw(m_Isaac.GetShape());
 		m_Isaac.DrawIsaac();
 		m_TearManager.DrawTears();
-	}else
+	}
+	else
 	{
 		DrawStartScreen();
 	}
-
-	
 }
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 {
-	
+	switch (e.keysym.scancode)
+	{
+	case SDL_SCANCODE_I:ShowControls(); break;
+	}
 }
 
 void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)

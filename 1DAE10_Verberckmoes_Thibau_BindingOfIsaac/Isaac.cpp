@@ -1,7 +1,11 @@
 ﻿#include "pch.h"
 #include "Isaac.h"
 Isaac::Isaac(Point2f StartingPoint, Point2f windowSize) : m_CenterPos(StartingPoint),
-m_WindowSize(windowSize)
+m_WindowSize(windowSize),
+m_TimePassedForAnimation(0),
+m_FramesPerSec(13),
+m_NrOfFramesForBody(5),
+m_AnimFrame(0)
 {
 	initRoomSize();
 }
@@ -9,112 +13,72 @@ m_WindowSize(windowSize)
 void Isaac::DrawIsaac()const
 {
 	m_IsaacTexture.Draw(m_dstRectBody, m_srcRectBody);
-	m_IsaacTexture.Draw(m_dstRectHead, m_SrcRectHead);
-
+	utils::DrawRect(m_dstRectBody);
 	utils::DrawPoint(m_CenterPos, 10);
 }
 
 void Isaac::UpdateIsaac(float elapsedSec)
 {
-
-	float OffsetX{ 35.f };
-	float OffsetY{ 15.f };
-	
-	m_dstRectHead.width = 120.f;
-	m_dstRectHead.height = 120.f;
-	m_dstRectHead.left = m_CenterPos.x - m_SrcRectHead.width;
-	m_dstRectHead.bottom = m_CenterPos.y - m_SrcRectHead.height;
-
-	m_dstRectBody.width = 90.f;
-	m_dstRectBody.height = 90.f;
-	m_dstRectBody.left = m_CenterPos.x - m_srcRectBody.width;
-	m_dstRectBody.bottom = m_CenterPos.y - m_srcRectBody.height-OffsetY*4;
-	
+	m_srcRectBody.width = 28.6;
+	m_srcRectBody.height = 36;
+	m_dstRectBody.width = 105.f;
+	m_dstRectBody.height = 95.f;
+	m_dstRectBody.left = m_CenterPos.x - 51.f;
+	m_dstRectBody.bottom = m_CenterPos.y - m_srcRectBody.height-10.f;
+	TimeCounter(elapsedSec);
 	switch (m_IsaacDirection)
 	{
 	case MovingRightUP:
 		m_CenterPos.x += elapsedSec * (m_MoventSpeed - m_SideMoventDecrement);
-		m_CenterPos.y += elapsedSec * (m_MoventSpeed- m_SideMoventDecrement);
-		m_SrcRectHead.width = 40.f;
-		m_SrcRectHead.height = 40.f;
-		m_SrcRectHead.left = 200.f;
-		m_SrcRectHead.bottom = 60.f;
-		m_dstRectHead.left = m_CenterPos.x - m_SrcRectHead.width - OffsetX;
+		m_CenterPos.y += elapsedSec * (m_MoventSpeed - m_SideMoventDecrement);
 
-		m_srcRectBody.width = 30.f;
-		m_srcRectBody.height = 25.f;
-		m_srcRectBody.left = 15.f;
-		m_srcRectBody.bottom = 100.f;
-		
+		m_srcRectBody.left = 0+(m_srcRectBody.width*m_AnimFrame);
+		m_srcRectBody.bottom = 0;
+
 		break;
 	case MovingRightDown:
 		m_CenterPos.x += elapsedSec * (m_MoventSpeed - m_SideMoventDecrement);
 		m_CenterPos.y -= elapsedSec * (m_MoventSpeed - m_SideMoventDecrement);
-		m_SrcRectHead.width = 40.f;
-		m_SrcRectHead.height = 40.f;
-		m_SrcRectHead.left = 10.f;
-		m_SrcRectHead.bottom = 60.f;
+		m_srcRectBody.left = 0 + (m_srcRectBody.width * m_AnimFrame);
+		m_srcRectBody.bottom = 129.5;
 		break;
 	case MovingLeftUp:
 		m_CenterPos.x -= elapsedSec * (m_MoventSpeed - m_SideMoventDecrement);
 		m_CenterPos.y += elapsedSec * (m_MoventSpeed - m_SideMoventDecrement);
-		m_SrcRectHead.width = 40.f;
-		m_SrcRectHead.height = 40.f;
-		m_SrcRectHead.left = 200.f;
-		m_SrcRectHead.bottom = 60.f;
-		m_dstRectHead.left = m_CenterPos.x - m_SrcRectHead.width - OffsetX;
+		m_srcRectBody.left = 0 + (m_srcRectBody.width * m_AnimFrame);
+		m_srcRectBody.bottom = 0;
 		break;
 	case MovingLeftDown:
 		m_CenterPos.x -= elapsedSec * (m_MoventSpeed - m_SideMoventDecrement);
 		m_CenterPos.y -= elapsedSec * (m_MoventSpeed - m_SideMoventDecrement);
-		m_SrcRectHead.width = 40.f;
-		m_SrcRectHead.height = 40.f;
-		m_SrcRectHead.left = 10.f;
-		m_SrcRectHead.bottom = 60.f;
+		m_srcRectBody.left = 0 + (m_srcRectBody.width * m_AnimFrame);
+		m_srcRectBody.bottom = 129.5;
 		break;
 	case movingUp:
 		m_CenterPos.y += elapsedSec * m_MoventSpeed;
-		m_SrcRectHead.width = 40.f;
-		m_SrcRectHead.height = 40.f;
-		m_SrcRectHead.left = 200.f;
-		m_SrcRectHead.bottom = 60.f;
-		m_dstRectHead.left = m_CenterPos.x - m_SrcRectHead.width - OffsetX;
-		m_dstRectHead.bottom = m_CenterPos.y - m_SrcRectHead.height - OffsetY;
+		m_srcRectBody.left = 0 + (m_srcRectBody.width * m_AnimFrame);
+		m_srcRectBody.bottom = 0;
 
 		break;
 	case movingDown:
 		m_CenterPos.y -= elapsedSec * m_MoventSpeed;
-		m_SrcRectHead.width = 40.f;
-		m_SrcRectHead.height = 40.f;
-		m_SrcRectHead.left = 10.f;
-		m_SrcRectHead.bottom = 60.f;
-		m_dstRectHead.left = m_CenterPos.x - m_SrcRectHead.width-5.f;
-		m_dstRectHead.bottom = m_CenterPos.y - m_SrcRectHead.height - OffsetY;
+		m_srcRectBody.left = 0 + (m_srcRectBody.width * m_AnimFrame);
+		m_srcRectBody.bottom = 129.5;
 		break;
 	case movingLeft:
 		m_CenterPos.x -= elapsedSec * m_MoventSpeed;
-		m_SrcRectHead.width = 40.f;
-		m_SrcRectHead.height = 40.f;
-		m_SrcRectHead.left = 240.f;
-		m_SrcRectHead.bottom = 60.f;
-		m_dstRectHead.left = m_CenterPos.x - m_SrcRectHead.width - OffsetX;
-		m_dstRectHead.bottom = m_CenterPos.y - m_SrcRectHead.height - OffsetY;
+		m_srcRectBody.left = 0 + (m_srcRectBody.width * m_AnimFrame);
+		m_srcRectBody.bottom = 58.5;
 
 		break;
 	case movingRight:
 		m_CenterPos.x += elapsedSec * m_MoventSpeed;
-		m_SrcRectHead.width = 40.f;
-		m_SrcRectHead.height = 40.f;
-		m_SrcRectHead.left = 80.f;
-		m_SrcRectHead.bottom = 60.f;
-		m_dstRectHead.left = m_CenterPos.x - m_SrcRectHead.width - OffsetX;
-		m_dstRectHead.bottom = m_CenterPos.y - m_SrcRectHead.height-OffsetY;
+		m_srcRectBody.left = 0 + (m_srcRectBody.width * m_AnimFrame);
+		m_srcRectBody.bottom = 94;
 		break;
 	case notMoving:
-		m_CenterPos.x += 0.f;
-		m_CenterPos.y += 0.f;
-		m_dstRectHead.left = m_CenterPos.x - m_SrcRectHead.width - OffsetX;
-		m_dstRectHead.bottom = m_CenterPos.y - m_SrcRectHead.height - OffsetY;
+		m_srcRectBody.left = (m_srcRectBody.width * 0);
+		m_srcRectBody.bottom = 129.5;;
 		break;
 	}
 	CheckPosition();
@@ -128,7 +92,7 @@ void Isaac::SetDirection(WalkingDirection direction)
 Rectf Isaac::GetShape()const
 {
 	Rectf isaacShape;
-	isaacShape.left = m_CenterPos.x - m_Width/2;
+	isaacShape.left = m_CenterPos.x - m_Width / 2;
 	isaacShape.bottom = m_CenterPos.y - m_Height / 2;
 	isaacShape.width = m_Width;
 	isaacShape.height = m_Height;
@@ -137,7 +101,7 @@ Rectf Isaac::GetShape()const
 
 bool Isaac::GetMotionState()
 {
-	if (m_IsaacDirection==Isaac::notMoving)
+	if (m_IsaacDirection == Isaac::notMoving)
 	{
 		return true;
 	}
@@ -156,7 +120,6 @@ void Isaac::SetPlayerPos(Point2f pos)
 
 void Isaac::initRoomSize()
 {
-
 }
 
 void Isaac::CheckPosition()
@@ -166,25 +129,35 @@ void Isaac::CheckPosition()
 	offset.y = 125.f;
 	ExtraOffset.y = 85.f;
 	ExtraOffset.x = 0;
-	
-	if (m_CenterPos.x > m_WindowSize.x-offset.x)
+
+	if (m_CenterPos.x > m_WindowSize.x - offset.x)
 	{
-		m_CenterPos.x = m_WindowSize.x-offset.x;
+		m_CenterPos.x = m_WindowSize.x - offset.x;
 	}
-	if (m_CenterPos.y > m_WindowSize.y-offset.y)
+	if (m_CenterPos.y > m_WindowSize.y - offset.y)
 	{
-		m_CenterPos.y = m_WindowSize.y-offset.y;
+		m_CenterPos.y = m_WindowSize.y - offset.y;
 	}
 	if (m_CenterPos.x < offset.x)
 	{
 		m_CenterPos.x = offset.x;
 	}
-	if (m_CenterPos.y < offset.y+ExtraOffset.y)
+	if (m_CenterPos.y < offset.y + ExtraOffset.y)
 	{
-		m_CenterPos.y = offset.y+ExtraOffset.y;
+		m_CenterPos.y = offset.y + ExtraOffset.y;
 	}
 }
 
-
-
-
+void Isaac::TimeCounter(float elapsedTime)
+{
+	m_TimePassedForAnimation += elapsedTime;
+	if (m_TimePassedForAnimation >= 1.f / m_FramesPerSec)
+	{
+		m_AnimFrame++;
+		if (m_AnimFrame >= m_NrOfFramesForBody)
+		{
+			m_AnimFrame = 0;
+		}
+		m_TimePassedForAnimation = 0;
+	}
+}

@@ -46,5 +46,3 @@ void Camera::Clamp(Point2f& bottomLeftPos) const
 		bottomLeftPos.y = (m_LevelBoundaries.bottom + m_LevelBoundaries.height) - m_Height;
 	}
 }
-
-

@@ -25,12 +25,8 @@ public:
 	Point2f GetPostion();
 	void SetPlayerPos(Point2f pos);
 private:
-	Rectf m_SrcRectHead;
-    Rectf m_dstRectHead;
-
 	Rectf m_srcRectBody;
 	Rectf m_dstRectBody;
-	
 	Point2f m_WindowSize;
 	void initRoomSize();
 	Rectf m_StartingWindowGrid;
@@ -43,15 +39,16 @@ private:
 		notShooting
 	};
 	Point2f m_CenterPos;
-	Point2f m_CenterPosForHead;
-
-	
-	
+	float m_TimePassedForAnimation;
+	float m_FramesPerSec;
+	int m_AnimFrame;
+	int m_NrOfFramesForBody;
 	WalkingDirection m_IsaacDirection;
-	const float m_MoventSpeed{230.f};
-	const float m_SideMoventDecrement{27.f};
+	const float m_MoventSpeed{ 310.f };
+	const float m_SideMoventDecrement{ 27.f };
 	const float m_Width{ 20.f };
 	const float m_Height{ 20.f };
-	Texture m_IsaacTexture{"../Resources/Isaac/Isaac.png"};
+	Texture m_IsaacTexture{ "../Resources/Isaac/Isaac.png" };
 	void CheckPosition();
+	void TimeCounter(float elapsedTime);
 };

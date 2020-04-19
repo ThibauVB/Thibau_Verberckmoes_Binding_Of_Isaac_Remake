@@ -3,14 +3,14 @@
 class Core
 {
 public:
-	explicit Core( const Window& window );
-	Core( const Core& other ) = delete;
-	Core& operator=( const Core& other ) = delete;
+	explicit Core(const Window& window);
+	Core(const Core& other) = delete;
+	Core& operator=(const Core& other) = delete;
 	Core(Core&& other) = delete;
 	Core& operator=(Core&& other) = delete;
-	~Core( );
+	~Core();
 
-	void Run( );
+	void Run();
 
 private:
 	// DATA MEMBERS
@@ -24,8 +24,8 @@ private:
 	bool m_Initialized;
 	// Prevent timing jumps when debugging
 	const float m_MaxElapsedSeconds;
-	
+
 	// FUNCTIONS
-	void Initialize( );
-	void Cleanup( );
+	void Initialize();
+	void Cleanup();
 };

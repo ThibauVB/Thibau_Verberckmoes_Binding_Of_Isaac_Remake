@@ -13,6 +13,6 @@ private:
 	Point2f m_Pos;
 	float m_Velocity;
 	float m_TimeToShootNewTear;
-	Texture m_TearTexture {"../Resources/Isaac/Tear.png"};
+	Texture m_TearTexture{ "../Resources/Isaac/Tear.png" };
 	std::vector<Tear> m_ActiveTears;
 };

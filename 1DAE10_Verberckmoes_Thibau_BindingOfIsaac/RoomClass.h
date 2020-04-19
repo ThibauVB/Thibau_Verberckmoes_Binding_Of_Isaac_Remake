@@ -5,7 +5,7 @@
 class RoomClass
 {
 public:
-	explicit RoomClass(Point2f center, float width, float height, utils::roomDirection direction,Texture* texture,Texture* TopDoor, Texture* RightDoor, Texture* BottomDoor, Texture* LeftDoor);
+	explicit RoomClass(Point2f center, float width, float height, utils::roomDirection direction, Texture* texture, Texture* TopDoor, Texture* RightDoor, Texture* BottomDoor, Texture* LeftDoor);
 	~RoomClass();
 	void InitAsStartRoom();
 	void InitRoom(bool top, bool left, bool right, bool bottom);

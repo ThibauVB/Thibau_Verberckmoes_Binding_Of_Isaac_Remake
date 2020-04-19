@@ -2,12 +2,11 @@
 #include "TearManager.h"
 TearManager::TearManager()
 {
-	
 }
 
 void TearManager::CreateTear()
 {
-	m_ActiveTears.push_back(Tear{&m_TearTexture,50.f,m_Pos});
+	m_ActiveTears.push_back(Tear{ &m_TearTexture,50.f,m_Pos });
 }
 
 void TearManager::DrawTears() const

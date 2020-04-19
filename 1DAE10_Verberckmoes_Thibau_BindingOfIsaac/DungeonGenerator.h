@@ -27,11 +27,11 @@ private:
 	std::vector<RoomClass> m_RoomsList;
 	bool m_completion;
 	Vector2f m_WindowSize;
-	Texture m_RoomTexture {"../Resources/Backgrounds/Room.png"};
-	Texture m_TopDoorTexture { "../Resources/Backgrounds/TopDoor.png" };
-	Texture m_RightDoorTexture { "../Resources/Backgrounds/RightDoor.png" };
-	Texture m_LeftDoorTexture { "../Resources/Backgrounds/LeftDoor.png" };
-	Texture m_BottomDoorTexture { "../Resources/Backgrounds/BottomDoor.png" };
+	Texture m_RoomTexture{ "../Resources/Backgrounds/Room.png" };
+	Texture m_TopDoorTexture{ "../Resources/Backgrounds/TopDoor.png" };
+	Texture m_RightDoorTexture{ "../Resources/Backgrounds/RightDoor.png" };
+	Texture m_LeftDoorTexture{ "../Resources/Backgrounds/LeftDoor.png" };
+	Texture m_BottomDoorTexture{ "../Resources/Backgrounds/BottomDoor.png" };
 	std::vector<utils::roomDirection> m_PossibleDirections;
 	std::vector<Point2f> m_ExistingCenterPoints;
 	int m_CurrentRoomDrawn;
@@ -48,5 +48,4 @@ private:
 	void FixRooms();
 	void UpdateCurrentRoomCounter(utils::roomDirection directionToCheck);
 	//Test Function
-
 };

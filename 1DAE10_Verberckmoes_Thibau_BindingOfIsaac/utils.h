@@ -83,7 +83,7 @@ namespace utils
 	};
 	enum roomDirection
 	{
-		left,right,bottom,top,all
+		left, right, bottom, top, all
 	};
 	int GetRandomInt(int Lowest, int max);
 }

@@ -36,7 +36,7 @@ private:
 	bool m_StartScreen;
 	Texture m_TextureStartScreen;
 	float m_TimeCounter;
-	bool TestBoolForDoor{false};
+	bool TestBoolForDoor{ false };
 	//Managers/Generators
 	DungeonGenerator m_DungeonGenerator;
 	TearManager m_TearManager;
