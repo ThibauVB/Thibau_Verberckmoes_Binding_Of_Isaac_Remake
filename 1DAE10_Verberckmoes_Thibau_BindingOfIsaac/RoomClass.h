@@ -5,7 +5,7 @@
 class RoomClass
 {
 public:
-	explicit RoomClass(Point2f center, float width, float height, utils::roomDirection direction, Texture* texture, Texture* TopDoor, Texture* RightDoor, Texture* BottomDoor, Texture* LeftDoor);
+	explicit RoomClass(Point2f center, float width, float height, utils::roomDirection direction, Texture* texture, Texture* TopDoor, Texture* RightDoor, Texture* BottomDoor, Texture* LeftDoor,utils::CameFromDoor CameFrom);
 	~RoomClass();
 	void InitAsStartRoom();
 	void InitRoom(bool top, bool left, bool right, bool bottom);
@@ -17,8 +17,10 @@ public:
 	std::vector<Rectf> GetDoorPlace();
 	void SetRoomRect(int x);
 	utils::roomDirection GetDirection();
+	utils::CameFromDoor GetLastDoor();
 private:
 	utils::roomDirection m_Direction;
+	utils::CameFromDoor m_CameFromDoor;
 	Vector2f m_TextureScale;
 	Point2f m_Center;
 	float m_Width;

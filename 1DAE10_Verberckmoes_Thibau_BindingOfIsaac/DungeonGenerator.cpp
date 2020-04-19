@@ -49,7 +49,7 @@ void DungeonGenerator::CreateStartRoom()
 	center.x = m_WindowSize.x / 2;
 	center.y = m_WindowSize.y / 2;
 	//std::cout << center.x << " " << center.y << std::endl;
-	m_RoomsList.push_back(RoomClass{ center,m_WidthNormal,m_HeightNormal,utils::all,&m_RoomTexture,&m_TopDoorTexture,&m_RightDoorTexture,&m_BottomDoorTexture,&m_LeftDoorTexture });
+	m_RoomsList.push_back(RoomClass{ center,m_WidthNormal,m_HeightNormal,utils::all,&m_RoomTexture,&m_TopDoorTexture,&m_RightDoorTexture,&m_BottomDoorTexture,&m_LeftDoorTexture,utils::StartingRoom });
 	m_ExistingCenterPoints.push_back(center);
 	std::cout << "Start Room Made" << std::endl;
 }
@@ -61,16 +61,29 @@ void DungeonGenerator::CreateNormalRooms()
 
 	for (int index{ 0 }; index < m_TotalRoomsInDungeon; ++index)
 	{
+		utils::CameFromDoor tmpCamefrom;
 		Point2f pos{ GenerateNewRoomCenter() };
-		m_RoomsList.push_back(RoomClass{ pos,m_WidthNormal,m_HeightNormal, m_TempDirectionSave,&m_RoomTexture,&m_TopDoorTexture,&m_RightDoorTexture,&m_BottomDoorTexture,&m_LeftDoorTexture });
-		//std::cout << "Room: "  << "direction: " << m_TempDirectionSave <<" Created" << "On Pos:" << m_ExistingCenterPoints[m_RoomCounter-(1)].x << ":" << m_ExistingCenterPoints[m_RoomCounter-(1)].y <<std::endl;
 		switch (m_TempDirectionSave)
 		{
-		case 0:std::cout << "left" << std::endl; break;
-		case 1:std::cout << "right" << std::endl; break;
-		case 2:std::cout << "bottom" << std::endl; break;
-		case 3:std::cout << "top" << std::endl; break;
+		case 0:
+			std::cout << "left" << std::endl;
+			tmpCamefrom = utils::DoorRight;
+			break;
+		case 1:
+			std::cout << "right" << std::endl;
+			tmpCamefrom = utils::DoorLeft;
+			break;
+		case 2:
+			std::cout << "bottom" << std::endl;
+			tmpCamefrom = utils::DoorUp;
+			break;
+		case 3:
+			std::cout << "top" << std::endl;
+			tmpCamefrom = utils::DoorDown;
+			break;
 		}
+		m_RoomsList.push_back(RoomClass{ pos,m_WidthNormal,m_HeightNormal, m_TempDirectionSave,&m_RoomTexture,&m_TopDoorTexture,&m_RightDoorTexture,&m_BottomDoorTexture,&m_LeftDoorTexture , tmpCamefrom});
+		//std::cout << "Room: "  << "direction: " << m_TempDirectionSave <<" Created" << "On Pos:" << m_ExistingCenterPoints[m_RoomCounter-(1)].x << ":" << m_ExistingCenterPoints[m_RoomCounter-(1)].y <<std::endl;
 		m_ExistingCenterPoints.push_back(pos);
 		//	std::cout << pos.x << " " << pos.y << std::endl;
 	}
@@ -228,7 +241,14 @@ void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player)
 			std::cout << "Player went in Left Door" << std::endl;
 			UpdateRoomsPosition(1);
 			Player.SetPlayerPos(Point2f{ m_WidthNormal / 2, m_HeightNormal / 2 });
-			m_CurrentRoomDrawnCounter++;
+			if (m_RoomsList[m_CurrentRoomDrawnCounter].GetLastDoor() == utils::DoorLeft)
+			{
+				--m_CurrentRoomDrawnCounter;
+			}
+			else
+			{
+				++m_CurrentRoomDrawnCounter;
+			}
 		}
 	}
 	//is right door active
@@ -244,7 +264,14 @@ void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player)
 			std::cout << "Player went in Right Door" << std::endl;
 			UpdateRoomsPosition(3);
 			Player.SetPlayerPos(Point2f{ m_WidthNormal / 2, m_HeightNormal / 2 });
-			m_CurrentRoomDrawnCounter++;
+			if (m_RoomsList[m_CurrentRoomDrawnCounter].GetLastDoor()==utils::DoorRight)
+			{
+				--m_CurrentRoomDrawnCounter;
+			}else
+			{
+				++m_CurrentRoomDrawnCounter;
+			}
+
 		}
 	}
 	//is bottom door active
@@ -259,7 +286,14 @@ void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player)
 			std::cout << "Player went in Bottom Door" << std::endl;
 			UpdateRoomsPosition(0);
 			Player.SetPlayerPos(Point2f{ m_WidthNormal / 2, m_HeightNormal / 2 });
-			m_CurrentRoomDrawnCounter++;
+			if (m_RoomsList[m_CurrentRoomDrawnCounter].GetLastDoor() == utils::DoorDown)
+			{
+				--m_CurrentRoomDrawnCounter;
+			}
+			else
+			{
+				++m_CurrentRoomDrawnCounter;
+			}
 		}
 	}
 	//is top door active
@@ -274,7 +308,14 @@ void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player)
 			std::cout << "Player went in Top Door" << std::endl;
 			UpdateRoomsPosition(2);
 			Player.SetPlayerPos(Point2f{ m_WidthNormal / 2, m_HeightNormal / 2 });
-			m_CurrentRoomDrawnCounter++;
+			if (m_RoomsList[m_CurrentRoomDrawnCounter].GetLastDoor() == utils::DoorUp)
+			{
+				--m_CurrentRoomDrawnCounter;
+			}
+			else
+			{
+				++m_CurrentRoomDrawnCounter;
+			}
 		}
 	}
 

@@ -90,4 +90,8 @@ namespace utils
 	{
 		ShootingUp, ShootingRight, ShootingDown, ShootingLeft, NotShooting
 	};
+	enum CameFromDoor
+	{
+		DoorRight,DoorDown,DoorLeft,DoorUp,StartingRoom
+	};
 }

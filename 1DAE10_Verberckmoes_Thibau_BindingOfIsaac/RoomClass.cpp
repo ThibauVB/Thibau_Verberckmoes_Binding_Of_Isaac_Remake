@@ -1,7 +1,7 @@
 ﻿#include "pch.h"
 #include "RoomClass.h"
 
-RoomClass::RoomClass(Point2f center, float width, float height, utils::roomDirection direction, Texture* texture, Texture* TopDoor, Texture* RightDoor, Texture* BottomDoor, Texture* LeftDoor) :
+RoomClass::RoomClass(Point2f center, float width, float height, utils::roomDirection direction, Texture* texture, Texture* TopDoor, Texture* RightDoor, Texture* BottomDoor, Texture* LeftDoor,utils::CameFromDoor CameFrom) :
 	m_Center(center),
 	m_Width(width),
 	m_Height(height),
@@ -12,7 +12,8 @@ RoomClass::RoomClass(Point2f center, float width, float height, utils::roomDirec
 	m_RightDoorTexture(RightDoor),
 	m_BottomDoorTexture(BottomDoor),
 	m_LeftDoorTexture(LeftDoor),
-	m_Direction(direction)
+	m_Direction(direction),
+	m_CameFromDoor(CameFrom)
 {
 	switch (direction)
 	{
@@ -238,4 +239,9 @@ void RoomClass::SetRoomRect(int x)
 utils::roomDirection RoomClass::GetDirection()
 {
 	return m_Direction;
+}
+
+utils::CameFromDoor RoomClass::GetLastDoor()
+{
+	return m_CameFromDoor;
 }
