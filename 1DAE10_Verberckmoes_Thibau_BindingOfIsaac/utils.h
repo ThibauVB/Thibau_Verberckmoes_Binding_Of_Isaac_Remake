@@ -86,4 +86,8 @@ namespace utils
 		left, right, bottom, top, all
 	};
 	int GetRandomInt(int Lowest, int max);
+	enum ShootingDirection
+	{
+		ShootingUp, ShootingRight, ShootingDown, ShootingLeft, NotShooting
+	};
 }

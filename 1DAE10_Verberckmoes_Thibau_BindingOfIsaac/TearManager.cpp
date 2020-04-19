@@ -4,28 +4,78 @@ TearManager::TearManager()
 {
 }
 
-void TearManager::CreateTear()
+TearManager::~TearManager()
 {
-	m_ActiveTears.push_back(Tear{ &m_TearTexture,50.f,m_Pos });
+	for (int i{ 0 }; i < m_ActiveTears.size(); ++i)
+	{
+		delete m_ActiveTears[i];
+		m_ActiveTears[i] = nullptr;
+	}
+}
+
+void TearManager::CreateTear(Point2f pos, utils::ShootingDirection shootingDirection)
+{
+	Vector2f Velocity;
+	switch (shootingDirection)
+	{
+	case utils::ShootingUp:
+		Velocity.y = 350.f;
+		Velocity.x = 0.f;
+		m_ActiveTears.push_back(new Tear{ &m_TearTexture,Velocity,pos });
+		break;
+	case utils::ShootingRight:
+		Velocity.y = 0.f;
+		Velocity.x = 350.f;
+		m_ActiveTears.push_back(new Tear{ &m_TearTexture,Velocity,pos });
+		break;
+	case utils::ShootingDown:
+		Velocity.y = -350.f;
+		Velocity.x = 0.f;
+		m_ActiveTears.push_back(new Tear{ &m_TearTexture,Velocity,pos });
+		break;
+	case utils::ShootingLeft:
+		Velocity.y = 0.f;
+		Velocity.x = -350.f;
+		m_ActiveTears.push_back(new Tear{ &m_TearTexture,Velocity,pos});
+		break;
+	}
 }
 
 void TearManager::DrawTears() const
 {
-	for (Tear amount : m_ActiveTears)
+	for (int i{ 0 }; i < m_ActiveTears.size(); ++i)
 	{
-		amount.DrawTear();
+		m_ActiveTears[i]->DrawTear();
 	}
 }
 
 void TearManager::UpdateTears(float elapsedSec)
 {
-	for (Tear amount : m_ActiveTears)
+	//for (Tear amount : m_ActiveTears)
+	//{
+	//	amount.UpdateTear(elapsedSec);
+	//}
+	//
+
+	for (int i{ 0 }; i < m_ActiveTears.size(); ++i)
 	{
-		amount.UpdateTear(elapsedSec);
+		m_ActiveTears[i]->UpdateTear(elapsedSec);
+		if (m_ActiveTears[i]->getAliveState() == false)
+		{
+			DeleteTear(i);
+		}
 	}
 }
 
 void TearManager::SetPlayerPostion(Point2f PlayerPos)
 {
 	m_Pos = PlayerPos;
+}
+
+void TearManager::DeleteTear(size_t tear)
+{
+	delete m_ActiveTears[tear];
+	m_ActiveTears[tear] = m_ActiveTears.back();
+	m_ActiveTears.pop_back();
+	std::cout << "Deleted a Tear" << std::endl;
 }

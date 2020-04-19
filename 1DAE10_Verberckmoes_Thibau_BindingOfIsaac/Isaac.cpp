@@ -21,20 +21,18 @@ void Isaac::UpdateIsaac(float elapsedSec)
 {
 	m_srcRectBody.width = 28.6;
 	m_srcRectBody.height = 36;
-	m_dstRectBody.width = 105.f;
-	m_dstRectBody.height = 95.f;
+	m_dstRectBody.width = 95.f;
+	m_dstRectBody.height = 105.f;
 	m_dstRectBody.left = m_CenterPos.x - 51.f;
-	m_dstRectBody.bottom = m_CenterPos.y - m_srcRectBody.height-10.f;
+	m_dstRectBody.bottom = m_CenterPos.y - m_srcRectBody.height - 10.f;
 	TimeCounter(elapsedSec);
 	switch (m_IsaacDirection)
 	{
 	case MovingRightUP:
 		m_CenterPos.x += elapsedSec * (m_MoventSpeed - m_SideMoventDecrement);
 		m_CenterPos.y += elapsedSec * (m_MoventSpeed - m_SideMoventDecrement);
-
-		m_srcRectBody.left = 0+(m_srcRectBody.width*m_AnimFrame);
+		m_srcRectBody.left = 0 + (m_srcRectBody.width * m_AnimFrame);
 		m_srcRectBody.bottom = 0;
-
 		break;
 	case MovingRightDown:
 		m_CenterPos.x += elapsedSec * (m_MoventSpeed - m_SideMoventDecrement);
@@ -58,7 +56,6 @@ void Isaac::UpdateIsaac(float elapsedSec)
 		m_CenterPos.y += elapsedSec * m_MoventSpeed;
 		m_srcRectBody.left = 0 + (m_srcRectBody.width * m_AnimFrame);
 		m_srcRectBody.bottom = 0;
-
 		break;
 	case movingDown:
 		m_CenterPos.y -= elapsedSec * m_MoventSpeed;
@@ -69,7 +66,6 @@ void Isaac::UpdateIsaac(float elapsedSec)
 		m_CenterPos.x -= elapsedSec * m_MoventSpeed;
 		m_srcRectBody.left = 0 + (m_srcRectBody.width * m_AnimFrame);
 		m_srcRectBody.bottom = 58.5;
-
 		break;
 	case movingRight:
 		m_CenterPos.x += elapsedSec * m_MoventSpeed;

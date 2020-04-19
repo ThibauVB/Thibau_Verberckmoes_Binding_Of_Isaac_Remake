@@ -63,13 +63,13 @@
     <ClCompile Include="Isaac.cpp">
       <Filter>Gamefile</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Gamefile</Filter>
-    </ClCompile>
     <ClCompile Include="TearManager.cpp">
       <Filter>Gamefile</Filter>
     </ClCompile>
     <ClCompile Include="Tear.cpp">
+      <Filter>Gamefile</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
       <Filter>Gamefile</Filter>
     </ClCompile>
   </ItemGroup>
@@ -119,13 +119,13 @@
     <ClInclude Include="Isaac.h">
       <Filter>FrameWork</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>FrameWork</Filter>
-    </ClInclude>
     <ClInclude Include="TearManager.h">
       <Filter>FrameWork</Filter>
     </ClInclude>
     <ClInclude Include="Tear.h">
+      <Filter>FrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
       <Filter>FrameWork</Filter>
     </ClInclude>
   </ItemGroup>
