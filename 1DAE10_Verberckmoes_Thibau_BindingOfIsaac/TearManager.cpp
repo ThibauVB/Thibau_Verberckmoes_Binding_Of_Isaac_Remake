@@ -1,6 +1,6 @@
 ﻿#include "pch.h"
 #include "TearManager.h"
-TearManager::TearManager()
+TearManager::TearManager(Window window) : m_Window(window)
 {
 }
 
@@ -19,23 +19,23 @@ void TearManager::CreateTear(Point2f pos, utils::ShootingDirection shootingDirec
 	switch (shootingDirection)
 	{
 	case utils::ShootingUp:
-		Velocity.y = 350.f;
+		Velocity.y = 450.f;
 		Velocity.x = 0.f;
 		m_ActiveTears.push_back(new Tear{ &m_TearTexture,Velocity,pos });
 		break;
 	case utils::ShootingRight:
 		Velocity.y = 0.f;
-		Velocity.x = 350.f;
+		Velocity.x = 450.f;
 		m_ActiveTears.push_back(new Tear{ &m_TearTexture,Velocity,pos });
 		break;
 	case utils::ShootingDown:
-		Velocity.y = -350.f;
+		Velocity.y = -450.f;
 		Velocity.x = 0.f;
 		m_ActiveTears.push_back(new Tear{ &m_TearTexture,Velocity,pos });
 		break;
 	case utils::ShootingLeft:
 		Velocity.y = 0.f;
-		Velocity.x = -350.f;
+		Velocity.x = -450.f;
 		m_ActiveTears.push_back(new Tear{ &m_TearTexture,Velocity,pos});
 		break;
 	}
@@ -59,7 +59,7 @@ void TearManager::UpdateTears(float elapsedSec)
 
 	for (int i{ 0 }; i < m_ActiveTears.size(); ++i)
 	{
-		m_ActiveTears[i]->UpdateTear(elapsedSec);
+		m_ActiveTears[i]->UpdateTear(elapsedSec,m_Window);
 		if (m_ActiveTears[i]->getAliveState() == false)
 		{
 			DeleteTear(i);

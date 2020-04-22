@@ -8,7 +8,7 @@ Game::Game(const Window& window)
 	m_Camera(m_Window.width, m_Window.height),
 	m_StartScreen(false),
 	m_TextureStartScreen("../Resources/Backgrounds/StartingScreen.jpg"),
-	m_TearManager(),
+	m_TearManager(m_Window),
 	m_TimeCounter(0)
 {
 	Initialize();
@@ -77,31 +77,31 @@ void Game::Update(float elapsedSec)
 		}
 
 		//left , right , bottom , top
-		if (m_TimeCounter > 1.3f)
+		if (m_TimeCounter > 0.1f)
 		{
 			if (pStates[SDL_SCANCODE_UP])
 			{
 				//std::cout << "Shooting Up" << std::endl;
-				m_DungeonGenerator.Changeroom(2);
-				//m_TearManager.CreateTear(m_Isaac.GetPostion(), utils::ShootingUp);
+				//m_DungeonGenerator.Changeroom(2);
+				m_TearManager.CreateTear(m_Isaac.GetPostion(), utils::ShootingUp);
 			}
 			if (pStates[SDL_SCANCODE_RIGHT])
 			{
 				//std::cout << "Shooting Right" << std::endl;
-				m_DungeonGenerator.Changeroom(3);
-				//m_TearManager.CreateTear(m_Isaac.GetPostion(), utils::ShootingRight);
+				//m_DungeonGenerator.Changeroom(3);
+				m_TearManager.CreateTear(m_Isaac.GetPostion(), utils::ShootingRight);
 			}
 			if (pStates[SDL_SCANCODE_DOWN])
 			{
 				//std::cout << "Shooting Down" << std::endl;
-				m_DungeonGenerator.Changeroom(0);
-				//m_TearManager.CreateTear(m_Isaac.GetPostion(), utils::ShootingDown);
+				//m_DungeonGenerator.Changeroom(0);
+				m_TearManager.CreateTear(m_Isaac.GetPostion(), utils::ShootingDown);
 			}
 			if (pStates[SDL_SCANCODE_LEFT])
 			{
 				//std::cout << "Shooting Left" << std::endl;
-				m_DungeonGenerator.Changeroom(1);
-				//m_TearManager.CreateTear(m_Isaac.GetPostion(), utils::ShootingLeft);
+				//m_DungeonGenerator.Changeroom(1);
+				m_TearManager.CreateTear(m_Isaac.GetPostion(), utils::ShootingLeft);
 			}
 			m_DungeonGenerator.UpdateCurrentshownRoom(m_Isaac.GetPostion(), m_Isaac);
 
@@ -254,5 +254,21 @@ void Game::TestDrawCollisionBoxes() const
 	collisionBox.height = 50.f;
 	collisionBox.width = 25.f;
 	utils::DrawRect(collisionBox);
+
+
+
+
+	Vector2f offset; Vector2f ExtraOffset;
+	offset.x = 150.f;
+	offset.y = 125.f;
+	ExtraOffset.y = 85.f;
+	ExtraOffset.x = 35;
+	Rectf PlayArea{};
+	PlayArea.left = offset.x- ExtraOffset.x;
+	PlayArea.bottom = offset.y;
+	PlayArea.height = m_Window.height - offset.y- ExtraOffset.y;
+	PlayArea.width = m_Window.width - offset.x -ExtraOffset.y;
+	utils::DrawRect(PlayArea);
+
 	
 }

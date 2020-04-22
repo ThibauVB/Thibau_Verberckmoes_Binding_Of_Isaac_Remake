@@ -4,14 +4,14 @@
 class TearManager
 {
 public:
-	TearManager();
+	TearManager(Window window);
 	~TearManager();
 	void CreateTear(Point2f pos, utils::ShootingDirection);
 	void DrawTears()const;
 	void UpdateTears(float elapsedSec);
 	void SetPlayerPostion(Point2f PlayerPos);
 private:
-
+	Window m_Window;
 	Point2f m_Pos;
 	float m_Velocity;
 	float m_TimeToShootNewTear;
