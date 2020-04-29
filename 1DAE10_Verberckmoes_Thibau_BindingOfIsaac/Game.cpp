@@ -23,6 +23,7 @@ void Game::Initialize()
 {
 	m_DungeonGenerator.StartDungeonGeneration();
 	m_Camera.SetLevelBoundaries(Rectf{ 0,0,m_Window.width,m_Window.height });
+	m_AImanager.CreateEnemy(Point2f{ 100,100 });
 }
 
 void Game::Cleanup()
@@ -77,34 +78,24 @@ void Game::Update(float elapsedSec)
 		}
 
 		//left , right , bottom , top
-		if (m_TimeCounter > 0.1f)
+		if (m_TimeCounter > 0.3f)
 		{
 			if (pStates[SDL_SCANCODE_UP])
 			{
-				//std::cout << "Shooting Up" << std::endl;
-				//m_DungeonGenerator.Changeroom(2);
 				m_TearManager.CreateTear(m_Isaac.GetPostion(), utils::ShootingUp);
 			}
 			if (pStates[SDL_SCANCODE_RIGHT])
 			{
-				//std::cout << "Shooting Right" << std::endl;
-				//m_DungeonGenerator.Changeroom(3);
 				m_TearManager.CreateTear(m_Isaac.GetPostion(), utils::ShootingRight);
 			}
 			if (pStates[SDL_SCANCODE_DOWN])
 			{
-				//std::cout << "Shooting Down" << std::endl;
-				//m_DungeonGenerator.Changeroom(0);
 				m_TearManager.CreateTear(m_Isaac.GetPostion(), utils::ShootingDown);
 			}
 			if (pStates[SDL_SCANCODE_LEFT])
 			{
-				//std::cout << "Shooting Left" << std::endl;
-				//m_DungeonGenerator.Changeroom(1);
 				m_TearManager.CreateTear(m_Isaac.GetPostion(), utils::ShootingLeft);
 			}
-			m_DungeonGenerator.UpdateCurrentshownRoom(m_Isaac.GetPostion(), m_Isaac);
-
 			m_TimeCounter = 0;
 		}
 
@@ -112,6 +103,7 @@ void Game::Update(float elapsedSec)
 		m_Isaac.UpdateIsaac(elapsedSec);
 		m_Isaac.SetDirection(Isaac::notMoving);
 		m_TearManager.UpdateTears(elapsedSec);
+		m_DungeonGenerator.UpdateCurrentshownRoom(m_Isaac.GetPostion(), m_Isaac);
 	}
 	else
 	{
@@ -130,6 +122,7 @@ void Game::Draw() const
 		m_Isaac.DrawIsaac();
 		m_TearManager.DrawTears();
 		TestDrawCollisionBoxes();
+		m_AImanager.DrawEnemy();
 	}
 	else
 	{

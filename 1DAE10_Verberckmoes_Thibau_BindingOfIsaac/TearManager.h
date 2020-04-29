@@ -4,7 +4,7 @@
 class TearManager
 {
 public:
-	TearManager(Window window);
+	explicit TearManager(Window window);
 	~TearManager();
 	void CreateTear(Point2f pos, utils::ShootingDirection);
 	void DrawTears()const;

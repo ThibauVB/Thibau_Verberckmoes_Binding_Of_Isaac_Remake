@@ -5,7 +5,7 @@
 class DungeonGenerator
 {
 public:
-	DungeonGenerator(Vector2f windowSize);
+	explicit DungeonGenerator(Vector2f windowSize);
 	~DungeonGenerator();
 	void StartDungeonGeneration();
 	bool GetDungeonCompletion();

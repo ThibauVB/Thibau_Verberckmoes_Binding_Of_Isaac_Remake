@@ -16,7 +16,7 @@
     <Filter Include="Headers">
       <UniqueIdentifier>{41887c5a-5e9a-46f3-a6a5-4461b424561a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="CPP Files">
+    <Filter Include="Headers\CPP Files">
       <UniqueIdentifier>{468fbc51-8e41-4c98-8532-b7c9a75d5e1d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -58,25 +58,34 @@
       <Filter>Gamefile</Filter>
     </ClCompile>
     <ClCompile Include="TearManager.cpp">
-      <Filter>CPP Files</Filter>
+      <Filter>Headers\CPP Files</Filter>
     </ClCompile>
     <ClCompile Include="Tear.cpp">
-      <Filter>CPP Files</Filter>
+      <Filter>Headers\CPP Files</Filter>
     </ClCompile>
     <ClCompile Include="RoomClass.cpp">
-      <Filter>CPP Files</Filter>
+      <Filter>Headers\CPP Files</Filter>
     </ClCompile>
     <ClCompile Include="DungeonGenerator.cpp">
-      <Filter>CPP Files</Filter>
+      <Filter>Headers\CPP Files</Filter>
     </ClCompile>
     <ClCompile Include="Isaac.cpp">
-      <Filter>CPP Files</Filter>
+      <Filter>Headers\CPP Files</Filter>
     </ClCompile>
     <ClCompile Include="utils.cpp">
-      <Filter>CPP Files</Filter>
+      <Filter>Headers\CPP Files</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>CPP Files</Filter>
+      <Filter>Headers\CPP Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackFly.cpp">
+      <Filter>Headers\CPP Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicAI.cpp">
+      <Filter>Headers\CPP Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AiManager.cpp">
+      <Filter>Headers\CPP Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +142,15 @@
     </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>Gamefile</Filter>
+    </ClInclude>
+    <ClInclude Include="AiManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackFly.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicAI.h">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

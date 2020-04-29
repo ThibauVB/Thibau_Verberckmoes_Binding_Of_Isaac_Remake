@@ -152,6 +152,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AiManager.cpp" />
+    <ClCompile Include="AttackFly.cpp" />
+    <ClCompile Include="BasicAI.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="DungeonGenerator.cpp" />
@@ -178,6 +181,9 @@
     <ClCompile Include="Vector2f.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AiManager.h" />
+    <ClInclude Include="AttackFly.h" />
+    <ClInclude Include="BasicAI.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="DungeonGenerator.h" />

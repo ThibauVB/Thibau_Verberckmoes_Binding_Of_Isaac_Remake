@@ -3,7 +3,7 @@
 class Tear
 {
 public:
-	Tear(Texture* texture, Vector2f velocity, Point2f StartingPos);
+	explicit  Tear(Texture* texture, Vector2f velocity, Point2f StartingPos);
 	~Tear();
 	void DrawTear()const;
 	void UpdateTear(float elapsedSec, const Window& window);

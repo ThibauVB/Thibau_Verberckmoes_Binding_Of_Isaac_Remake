@@ -33,8 +33,6 @@ void Tear::UpdateTear(float elapsedSec,Window const&window)
 		m_Pos.y += elapsedSec * m_Velocity.y;
 		m_Pos.x += elapsedSec * m_Velocity.x;
 	}
-	
-	std::cout << m_Pos.x << " : " << m_Pos.y << std::endl;
 	CheckIfWall(window);
 	CheckLifeTime();
 }

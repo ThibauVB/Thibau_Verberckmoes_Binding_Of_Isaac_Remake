@@ -4,6 +4,7 @@
 #include "Isaac.h"
 #include "Camera.h"
 #include "TearManager.h"
+#include "AiManager.h"
 class Game
 {
 public:
@@ -41,4 +42,5 @@ private:
 	//Managers/Generators
 	DungeonGenerator m_DungeonGenerator;
 	TearManager m_TearManager;
+	AiManager m_AImanager;
 };
