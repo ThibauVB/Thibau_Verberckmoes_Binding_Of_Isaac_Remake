@@ -23,6 +23,14 @@ RoomClass::RoomClass(Point2f center, float width, float height, utils::roomDirec
 	case utils::right:InitRoom(false, true, false, false); break;
 	case utils::left: InitRoom(false, false, true, false); break;
 	}
+	m_Offset.x = 150.f;
+	m_Offset.y = 125.f;
+	m_ExtraOffset.y = 85.f;
+	m_ExtraOffset.x = 35;
+	m_PlayArea.left = m_Offset.x - m_ExtraOffset.x;
+	m_PlayArea.bottom = m_Offset.y;
+	m_PlayArea.height = 800.0f - m_Offset.y - m_ExtraOffset.y;
+	m_PlayArea.width = 1280.0f - m_Offset.x - m_ExtraOffset.y;
 }
 RoomClass::~RoomClass()
 {
@@ -244,4 +252,9 @@ utils::roomDirection RoomClass::GetDirection()
 utils::CameFromDoor RoomClass::GetLastDoor()
 {
 	return m_CameFromDoor;
+}
+
+Rectf RoomClass::GetRoomBorders()
+{
+	return m_PlayArea;
 }

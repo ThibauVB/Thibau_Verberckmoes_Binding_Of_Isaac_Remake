@@ -3,7 +3,6 @@
 #include "AttackFly.h"
 AiManager::AiManager()
 {
-	
 }
 
 AiManager::~AiManager()
@@ -15,7 +14,7 @@ AiManager::~AiManager()
 	}
 }
 
-void AiManager::CreateEnemy(Point2f SpawnPos)
+void AiManager::CreateEnemy(Point2f SpawnPos,const Rectf& RoomBorders)
 {
 	m_ActiveEnemies.push_back(new AttackFly{&m_AttackFlyTexture,SpawnPos,Vector2f{50,50},50,50});
 }
@@ -30,7 +29,10 @@ void AiManager::DrawEnemy() const
 
 void AiManager::UpdateEnemies(float elapsedSec)
 {
-	
+	for (int i{0};i<m_ActiveEnemies.size();++i)
+	{
+		m_ActiveEnemies[i]->Update(elapsedSec);
+	}
 }
 
 void AiManager::DeleteEnemy(int Enemy)

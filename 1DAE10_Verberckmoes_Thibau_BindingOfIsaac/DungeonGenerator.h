@@ -2,6 +2,7 @@
 #include "RoomClass.h"
 #include "utils.h"
 #include "Isaac.h"
+#include "AiManager.h"
 class DungeonGenerator
 {
 public:
@@ -11,7 +12,7 @@ public:
 	bool GetDungeonCompletion();
 	void DrawDungeon()const;
 	void PrintAllCords();
-	void UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player);
+	void UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player,float elapsedSec);
 	void Changeroom(int x);
 	void DrawCollisionBoxes(std::vector<Rectf> collisionRect)const;
 	std::vector<Rectf> GetCollisionBoxes()const;
@@ -39,6 +40,9 @@ private:
 	std::vector<Point2f> m_ExistingCenterPoints;
 	int m_CurrentRoomDrawn;
 	utils::roomDirection m_LastDirection;
+	std::vector<Rectf> DoorCollisionBox{};
+	int m_HighestRoomEntered;
+	AiManager m_AImanager;
 	//Private Helper Functions
 	void CreateStartRoom();
 	void CreateNormalRooms();
@@ -50,7 +54,9 @@ private:
 	void FixStartRoom();
 	void FixRooms();
 	void UpdateCurrentRoomCounter(utils::roomDirection directionToCheck);
+	Rectf GetCurrentRoomBorders();
+	void SpawnEnemy();
 	//Test Function
 	//TestVars
-	std::vector<Rectf> DoorCollisionBox{};
+
 };

@@ -18,6 +18,7 @@ public:
 	void SetRoomRect(int x);
 	utils::roomDirection GetDirection();
 	utils::CameFromDoor GetLastDoor();
+	Rectf GetRoomBorders();
 private:
 	utils::roomDirection m_Direction;
 	utils::CameFromDoor m_CameFromDoor;
@@ -33,4 +34,7 @@ private:
 	Texture* m_RightDoorTexture;
 	Texture* m_LeftDoorTexture;
 	Texture* m_BottomDoorTexture;
+	
+	Vector2f m_Offset; Vector2f m_ExtraOffset;
+	Rectf m_PlayArea{};
 };

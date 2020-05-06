@@ -7,6 +7,9 @@ public:
 	virtual ~AttackFly();
 	void Attack();
 	void Draw()const;
+	void Update(float elapsedSec);
+	void TimeCounter(float elapsedSec);
 private:
+	Rectf srcRect, DstRect;
 	Texture* m_Texture;
 };

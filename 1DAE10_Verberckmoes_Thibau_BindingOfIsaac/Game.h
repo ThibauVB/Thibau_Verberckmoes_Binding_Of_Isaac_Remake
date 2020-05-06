@@ -42,5 +42,4 @@ private:
 	//Managers/Generators
 	DungeonGenerator m_DungeonGenerator;
 	TearManager m_TearManager;
-	AiManager m_AImanager;
 };

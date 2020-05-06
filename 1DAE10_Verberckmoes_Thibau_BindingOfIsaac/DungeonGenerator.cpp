@@ -37,6 +37,7 @@ void DungeonGenerator::DrawDungeon() const
 	{
 		m_RoomsList[x].DrawRoom();
 	}
+	m_AImanager.DrawEnemy();
 }
 
 DungeonGenerator::~DungeonGenerator()
@@ -220,8 +221,13 @@ void DungeonGenerator::PrintAllCords()
 	}
 }
 
-void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player)
+void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player,float elapsedSec)
 {
+	//UPDATE AI
+
+	m_AImanager.UpdateEnemies(elapsedSec);
+
+	
 	Rectf collisionBox;
 	std::vector<bool> DoorValues;
 	//This gets the current room player is in the 4 door states
@@ -248,8 +254,15 @@ void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player)
 			else
 			{
 				++m_CurrentRoomDrawnCounter;
+				if (m_CurrentRoomDrawnCounter>m_HighestRoomEntered)
+				{
+					std::cout << "spawn enemy" << std::endl;
+					++m_HighestRoomEntered;
+					SpawnEnemy();
+				}
 			}
 		}
+		
 	}
 	//is right door active
 	if (DoorValues[1] == true)
@@ -270,6 +283,12 @@ void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player)
 			}else
 			{
 				++m_CurrentRoomDrawnCounter;
+				if (m_CurrentRoomDrawnCounter > m_HighestRoomEntered)
+				{
+					std::cout << "spawn enemy" << std::endl;
+					++m_HighestRoomEntered;
+					SpawnEnemy();
+				}
 			}
 
 		}
@@ -293,6 +312,12 @@ void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player)
 			else
 			{
 				++m_CurrentRoomDrawnCounter;
+				if (m_CurrentRoomDrawnCounter > m_HighestRoomEntered)
+				{
+					std::cout << "spawn enemy" << std::endl;
+					++m_HighestRoomEntered;
+					SpawnEnemy();
+				}
 			}
 		}
 	}
@@ -315,9 +340,16 @@ void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player)
 			else
 			{
 				++m_CurrentRoomDrawnCounter;
+				if (m_CurrentRoomDrawnCounter > m_HighestRoomEntered)
+				{
+					std::cout << "spawn enemy" << std::endl;
+					++m_HighestRoomEntered;
+					SpawnEnemy();
+				}
 			}
 		}
 	}
+
 }
 
 void DungeonGenerator::Changeroom(int x)
@@ -472,5 +504,26 @@ void DungeonGenerator::UpdateCurrentRoomCounter(utils::roomDirection directionTo
 	else
 	{
 		++m_CurrentRoomDrawn;
+	}
+}
+
+Rectf DungeonGenerator::GetCurrentRoomBorders()
+{
+	return m_RoomsList[m_CurrentRoomDrawn].GetRoomBorders();
+}
+
+void DungeonGenerator::SpawnEnemy()
+{
+	int randomAmount;
+	randomAmount = rand() % 5 + 1;
+	Point2f RandomPos;
+	Rectf RoomBorder;
+	RoomBorder = GetCurrentRoomBorders();
+	for (int i{0};i<randomAmount;++i)
+	{
+		RandomPos.x = rand() % static_cast<int>(RoomBorder.left + RoomBorder.width) + RoomBorder.left;
+		RandomPos.y = rand() % static_cast<int>(RoomBorder.bottom + RoomBorder.height) + RoomBorder.bottom;
+
+		m_AImanager.CreateEnemy(RandomPos, GetCurrentRoomBorders());
 	}
 }

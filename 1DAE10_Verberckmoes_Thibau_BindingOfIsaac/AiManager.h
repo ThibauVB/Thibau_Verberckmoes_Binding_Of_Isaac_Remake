@@ -6,7 +6,7 @@ class AiManager
 public:
 	explicit AiManager();
 	~AiManager();
-	void CreateEnemy(Point2f pos);
+	void CreateEnemy(Point2f pos,const Rectf& RoomBorders);
 	void DrawEnemy()const;
 	void UpdateEnemies(float elapsedSec);
 	void DeleteEnemy(int Enemy);

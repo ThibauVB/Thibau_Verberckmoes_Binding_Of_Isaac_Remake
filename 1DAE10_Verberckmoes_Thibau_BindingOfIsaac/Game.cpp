@@ -23,7 +23,6 @@ void Game::Initialize()
 {
 	m_DungeonGenerator.StartDungeonGeneration();
 	m_Camera.SetLevelBoundaries(Rectf{ 0,0,m_Window.width,m_Window.height });
-	m_AImanager.CreateEnemy(Point2f{ 100,100 });
 }
 
 void Game::Cleanup()
@@ -103,7 +102,7 @@ void Game::Update(float elapsedSec)
 		m_Isaac.UpdateIsaac(elapsedSec);
 		m_Isaac.SetDirection(Isaac::notMoving);
 		m_TearManager.UpdateTears(elapsedSec);
-		m_DungeonGenerator.UpdateCurrentshownRoom(m_Isaac.GetPostion(), m_Isaac);
+		m_DungeonGenerator.UpdateCurrentshownRoom(m_Isaac.GetPostion(), m_Isaac,elapsedSec);
 	}
 	else
 	{
@@ -122,7 +121,6 @@ void Game::Draw() const
 		m_Isaac.DrawIsaac();
 		m_TearManager.DrawTears();
 		TestDrawCollisionBoxes();
-		m_AImanager.DrawEnemy();
 	}
 	else
 	{
