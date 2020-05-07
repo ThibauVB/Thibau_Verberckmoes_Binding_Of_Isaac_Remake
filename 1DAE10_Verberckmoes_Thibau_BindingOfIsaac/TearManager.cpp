@@ -51,12 +51,6 @@ void TearManager::DrawTears() const
 
 void TearManager::UpdateTears(float elapsedSec)
 {
-	//for (Tear amount : m_ActiveTears)
-	//{
-	//	amount.UpdateTear(elapsedSec);
-	//}
-	//
-
 	for (int i{ 0 }; i < m_ActiveTears.size(); ++i)
 	{
 		m_ActiveTears[i]->UpdateTear(elapsedSec,m_Window);
@@ -72,10 +66,25 @@ void TearManager::SetPlayerPostion(Point2f PlayerPos)
 	m_Pos = PlayerPos;
 }
 
+Point2f TearManager::GetTearPosition(int tear) const
+{
+	return m_ActiveTears[tear]->GetPostion();
+}
+
 void TearManager::DeleteTear(size_t tear)
 {
 	delete m_ActiveTears[tear];
 	m_ActiveTears[tear] = m_ActiveTears.back();
 	m_ActiveTears.pop_back();
 	std::cout << "Deleted a Tear" << std::endl;
+}
+
+int TearManager::GetAmountOfActiveTears() const
+{
+	return m_ActiveTears.size();
+}
+
+std::vector<Tear*>&TearManager::GetActiveTearsVector()
+{
+	return m_ActiveTears;
 }

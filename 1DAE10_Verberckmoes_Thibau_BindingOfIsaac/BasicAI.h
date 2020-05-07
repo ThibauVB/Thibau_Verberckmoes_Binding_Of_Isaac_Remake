@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "Texture.h"
-
+#include "Tear.h"
 class BasicAI
 {
 protected:
@@ -8,8 +8,12 @@ protected:
 public:
 	virtual ~BasicAI();
 	virtual void Draw()const;
-	virtual void Update(float elapsedSec);
+	virtual void Update(float elapsedSec,const Point2f& pos);
+	virtual void CheckIfHit(const Point2f pos, std::vector<Tear*>& activetears);
+	int GetHealth()const;
 protected:
+	void UpdateHitbox(Rectf hitBox);
+	void AIHit();
 	Point2f m_CenterPos;
 	Rectf m_HitBox;
 	Vector2f m_Velocity;

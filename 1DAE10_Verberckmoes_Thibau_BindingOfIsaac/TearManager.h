@@ -10,6 +10,9 @@ public:
 	void DrawTears()const;
 	void UpdateTears(float elapsedSec);
 	void SetPlayerPostion(Point2f PlayerPos);
+	Point2f GetTearPosition(int tear)const;
+	int GetAmountOfActiveTears()const;
+	std::vector<Tear*>&GetActiveTearsVector();
 private:
 	Window m_Window;
 	Point2f m_Pos;

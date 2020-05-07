@@ -16,7 +16,7 @@ AiManager::~AiManager()
 
 void AiManager::CreateEnemy(Point2f SpawnPos,const Rectf& RoomBorders)
 {
-	m_ActiveEnemies.push_back(new AttackFly{&m_AttackFlyTexture,SpawnPos,Vector2f{50,50},50,50});
+	m_ActiveEnemies.push_back(new AttackFly{&m_AttackFlyTexture,SpawnPos,Vector2f{50,50},5,5});
 }
 
 void AiManager::DrawEnemy() const
@@ -27,12 +27,13 @@ void AiManager::DrawEnemy() const
 	}
 }
 
-void AiManager::UpdateEnemies(float elapsedSec)
+void AiManager::UpdateEnemies(float elapsedSec, const Point2f& pos)
 {
 	for (int i{0};i<m_ActiveEnemies.size();++i)
 	{
-		m_ActiveEnemies[i]->Update(elapsedSec);
+		m_ActiveEnemies[i]->Update(elapsedSec,pos);
 	}
+	CheckHealthStatus();
 }
 
 void AiManager::DeleteEnemy(int Enemy)
@@ -41,5 +42,25 @@ void AiManager::DeleteEnemy(int Enemy)
 	m_ActiveEnemies[Enemy] = m_ActiveEnemies.back();
 	m_ActiveEnemies.pop_back();
 	std::cout << "Deleted Enemy" << std::endl;
+}
+
+void AiManager::TransferTearPositions(Point2f pos, std::vector<Tear*>& activetears)
+{
+	for (int i{0};i<m_ActiveEnemies.size();++i)
+	{
+		m_ActiveEnemies[i]->CheckIfHit(pos,activetears);
+	}
+}
+
+void AiManager::CheckHealthStatus()
+{
+	for (int i{0};i<m_ActiveEnemies.size();++i)
+	{
+		if (m_ActiveEnemies[i]->GetHealth() <= 0)
+		{
+			std::cout << "Destroy Enemy" << std::endl;
+			DeleteEnemy(i);
+		}
+	}
 }
 

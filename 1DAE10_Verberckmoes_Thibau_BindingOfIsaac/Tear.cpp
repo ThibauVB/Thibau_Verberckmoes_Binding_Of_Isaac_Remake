@@ -16,20 +16,14 @@ Tear::~Tear()
 void Tear::DrawTear() const
 {
 	m_TearTexture->Draw(m_Pos);
+	DrawHitBox();
 }
 
 void Tear::UpdateTear(float elapsedSec,Window const&window)
 {
 	float fraction = 1.f;
 	m_LifeTime += elapsedSec;
-	//if (m_MaxLifeTime.x/2<m_LifeTime)
-	//{
-	//	m_Velocity.y = 100;
-	//	m_Pos.x += (elapsedSec * m_Velocity.x)*fraction/(m_LifeTime*3);
-	//	m_Pos.y -= elapsedSec * m_Velocity.y;
-	//}else
 	{
-		/*m_Velocity.y = 0;*/
 		m_Pos.y += elapsedSec * m_Velocity.y;
 		m_Pos.x += elapsedSec * m_Velocity.x;
 	}
@@ -37,9 +31,20 @@ void Tear::UpdateTear(float elapsedSec,Window const&window)
 	CheckLifeTime();
 }
 
-bool Tear::getAliveState()
+bool Tear::getAliveState()const
 {
 	return m_KeepAlive;
+}
+
+
+Point2f Tear::GetPostion()const
+{
+	return m_Pos;
+}
+
+void Tear::SetAliveState(bool state)
+{
+	m_KeepAlive = state;
 }
 
 void Tear::CheckLifeTime()
@@ -64,7 +69,6 @@ void Tear::CheckIfWall(const Window& window)
 	PlayArea.height = window.height - offset.y - ExtraOffset.y;
 	PlayArea.width = window.width - offset.x - ExtraOffset.y;
 
-
 	if (m_Pos.x<PlayArea.left)
 	{
 		m_KeepAlive = false;
@@ -81,5 +85,11 @@ void Tear::CheckIfWall(const Window& window)
 	{
 		m_KeepAlive = false;
 	}
-	
+}
+
+void Tear::DrawHitBox()const
+{
+	utils::SetColor(Color4f{ 1.f,1.f,0.f,1.f });
+	utils::DrawRect(m_Pos.x, m_Pos.y, m_TearTexture->GetWidth(), m_TearTexture->GetHeight(), 2);
+	utils::SetColor(Color4f{ 0.f,1.f,0.f,1.f });
 }

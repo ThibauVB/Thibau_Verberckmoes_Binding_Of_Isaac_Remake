@@ -21,9 +21,30 @@ void BasicAI::Draw() const
 	
 }
 
-void BasicAI::Update(float elapsedSec)
+void BasicAI::Update(float elapsedSec, const Point2f& pos)
 {
 	
 }
+
+void BasicAI::CheckIfHit(const Point2f pos, std::vector<Tear*>& activetears)
+{
+}
+
+int BasicAI::GetHealth() const
+{
+	return m_Health;
+}
+
+void BasicAI::UpdateHitbox(Rectf hitBox)
+{
+	m_HitBox = hitBox;
+}
+
+void BasicAI::AIHit()
+{
+	m_Health -= 1;
+}
+
+
 
 

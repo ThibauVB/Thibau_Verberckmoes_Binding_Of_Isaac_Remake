@@ -97,12 +97,11 @@ void Game::Update(float elapsedSec)
 			}
 			m_TimeCounter = 0;
 		}
-
 		m_TimeCounter += elapsedSec;
 		m_Isaac.UpdateIsaac(elapsedSec);
 		m_Isaac.SetDirection(Isaac::notMoving);
 		m_TearManager.UpdateTears(elapsedSec);
-		m_DungeonGenerator.UpdateCurrentshownRoom(m_Isaac.GetPostion(), m_Isaac,elapsedSec);
+		m_DungeonGenerator.UpdateCurrentshownRoom(m_Isaac.GetPostion(), m_Isaac,elapsedSec,m_TearManager,m_TearManager.GetActiveTearsVector());
 	}
 	else
 	{

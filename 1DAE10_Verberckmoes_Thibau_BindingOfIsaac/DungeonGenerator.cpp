@@ -221,13 +221,18 @@ void DungeonGenerator::PrintAllCords()
 	}
 }
 
-void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player,float elapsedSec)
-{
+void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player,float elapsedSec,const TearManager& tearmanager,std::vector<Tear*>& activetears)
+{	
 	//UPDATE AI
+	m_AImanager.UpdateEnemies(elapsedSec,PlayerPos);
+	Point2f tearPosition;
+	for (int i{0};i<tearmanager.GetAmountOfActiveTears();++i)
+	{
+		tearPosition = tearmanager.GetTearPosition(i);
+		std::cout << tearPosition.x << " " << tearPosition.y << std::endl;
+		m_AImanager.TransferTearPositions(tearPosition,activetears);
+	}
 
-	m_AImanager.UpdateEnemies(elapsedSec);
-
-	
 	Rectf collisionBox;
 	std::vector<bool> DoorValues;
 	//This gets the current room player is in the 4 door states
@@ -521,9 +526,8 @@ void DungeonGenerator::SpawnEnemy()
 	RoomBorder = GetCurrentRoomBorders();
 	for (int i{0};i<randomAmount;++i)
 	{
-		RandomPos.x = rand() % static_cast<int>(RoomBorder.left + RoomBorder.width) + RoomBorder.left;
-		RandomPos.y = rand() % static_cast<int>(RoomBorder.bottom + RoomBorder.height) + RoomBorder.bottom;
-
+		RandomPos.x = rand() % static_cast<int>(RoomBorder.width) + (RoomBorder.left);
+		RandomPos.y = rand() % static_cast<int>(RoomBorder.height) + (RoomBorder.bottom);
 		m_AImanager.CreateEnemy(RandomPos, GetCurrentRoomBorders());
 	}
 }

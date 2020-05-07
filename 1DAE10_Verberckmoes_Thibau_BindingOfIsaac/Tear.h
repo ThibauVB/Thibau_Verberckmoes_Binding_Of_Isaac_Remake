@@ -3,11 +3,13 @@
 class Tear
 {
 public:
-	explicit  Tear(Texture* texture, Vector2f velocity, Point2f StartingPos);
+	explicit Tear(Texture* texture, Vector2f velocity, Point2f StartingPos);
 	~Tear();
 	void DrawTear()const;
 	void UpdateTear(float elapsedSec, const Window& window);
-	bool getAliveState();
+	bool getAliveState()const;
+	Point2f GetPostion()const;
+	void SetAliveState(bool state);
 private:
 	Vector2f m_Velocity;
 	Point2f m_Pos;
@@ -18,6 +20,7 @@ private:
 	float m_LifeTime;
 	void CheckLifeTime();
 	void CheckIfWall(const Window& window);
+	void DrawHitBox()const;
 	//test vars
 	bool test;
 };

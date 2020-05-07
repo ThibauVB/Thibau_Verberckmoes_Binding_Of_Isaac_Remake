@@ -3,6 +3,9 @@
 #include "utils.h"
 #include "Isaac.h"
 #include "AiManager.h"
+#include "TearManager.h"
+class Tear;
+
 class DungeonGenerator
 {
 public:
@@ -12,9 +15,10 @@ public:
 	bool GetDungeonCompletion();
 	void DrawDungeon()const;
 	void PrintAllCords();
-	void UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player,float elapsedSec);
+	void UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player,float elapsedSec,const TearManager& tearmanager,std::vector<Tear*>& activetears);
 	void Changeroom(int x);
 	void DrawCollisionBoxes(std::vector<Rectf> collisionRect)const;
+	void DeleteEnemy();
 	std::vector<Rectf> GetCollisionBoxes()const;
 	//void CleanDungeon();
 private:
