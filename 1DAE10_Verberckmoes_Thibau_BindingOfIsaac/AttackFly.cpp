@@ -34,6 +34,11 @@ void AttackFly::Update(float elapsedSec, const Point2f& pos)
 	srcRect.left = 0 + (srcRect.width * m_AnimFrame);
 	srcRect.bottom = 0;
 	UpdateHitbox(Rectf{ (m_CenterPos.x - (m_TextureFly->GetWidth() / 5) / 2) ,m_CenterPos.y - m_TextureFly->GetHeight() / 2,m_TextureFly->GetWidth() / 5,m_TextureFly->GetHeight()});
+	SetLocationOfPlayer(pos);
+	CalculateDeltaPos(elapsedSec);
+	
+	m_CenterPos.x += DeltaPos.x;
+	m_CenterPos.y += DeltaPos.y;
 }
 
 void AttackFly::TimeCounter(float elapsedTime)
@@ -52,7 +57,6 @@ void AttackFly::TimeCounter(float elapsedTime)
 
 void AttackFly::CheckIfHit(const Point2f pos, std::vector<Tear*>& activetears)
 {
-	
 	if (utils::IsPointInRect(pos,m_HitBox))
 	{
 		for (int i{ 0 }; i < activetears.size(); ++i)
@@ -65,6 +69,7 @@ void AttackFly::CheckIfHit(const Point2f pos, std::vector<Tear*>& activetears)
 		AIHit();
 	}
 }
+
 void AttackFly::DrawHitbox()const
 {
 	utils::SetColor(Color4f{ 0.f,0.f,1.f,1.f });

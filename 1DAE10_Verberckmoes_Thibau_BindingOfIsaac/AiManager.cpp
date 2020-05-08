@@ -16,7 +16,7 @@ AiManager::~AiManager()
 
 void AiManager::CreateEnemy(Point2f SpawnPos,const Rectf& RoomBorders)
 {
-	m_ActiveEnemies.push_back(new AttackFly{&m_AttackFlyTexture,SpawnPos,Vector2f{50,50},5,5});
+	m_ActiveEnemies.push_back(new AttackFly{&m_AttackFlyTexture,SpawnPos,Vector2f{100,50},5,5});
 }
 
 void AiManager::DrawEnemy() const
