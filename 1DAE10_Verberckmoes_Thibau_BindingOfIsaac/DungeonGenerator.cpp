@@ -221,7 +221,7 @@ void DungeonGenerator::PrintAllCords()
 	}
 }
 
-void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player,float elapsedSec,const TearManager& tearmanager,std::vector<Tear*>& activetears)
+void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player,float elapsedSec,const TearManager& tearmanager,std::vector<Tear*>& activetears,const SoundManager& soundManager)
 {	
 	//UPDATE AI
 	m_AImanager.UpdateEnemies(elapsedSec,PlayerPos);
@@ -230,7 +230,7 @@ void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player,f
 	{
 		tearPosition = tearmanager.GetTearPosition(i);
 		std::cout << tearPosition.x << " " << tearPosition.y << std::endl;
-		m_AImanager.TransferTearPositions(tearPosition,activetears);
+		m_AImanager.TransferTearPositions(tearPosition,activetears,soundManager);
 	}
 
 	Rectf collisionBox;
@@ -524,6 +524,7 @@ void DungeonGenerator::SpawnEnemy()
 	Point2f RandomPos;
 	Rectf RoomBorder;
 	RoomBorder = GetCurrentRoomBorders();
+	m_AImanager.SetAmountOfEnemies(randomAmount);
 	for (int i{0};i<randomAmount;++i)
 	{
 		RandomPos.x = rand() % static_cast<int>(RoomBorder.width) + (RoomBorder.left);

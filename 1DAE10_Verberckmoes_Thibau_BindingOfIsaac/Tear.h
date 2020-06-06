@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Texture.h"
+#include "SoundManager.h"
 class Tear
 {
 public:
@@ -11,6 +12,7 @@ public:
 	Point2f GetPostion()const;
 	void SetAliveState(bool state);
 private:
+	SoundManager m_SoundManager;
 	Vector2f m_Velocity;
 	Point2f m_Pos;
 	Texture* m_TearTexture;

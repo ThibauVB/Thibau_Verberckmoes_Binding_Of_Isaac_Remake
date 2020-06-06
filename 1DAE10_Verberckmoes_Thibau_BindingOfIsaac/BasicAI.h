@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Texture.h"
 #include "Tear.h"
+#include "SoundManager.h"
 class BasicAI
 {
 protected:
@@ -9,7 +10,7 @@ public:
 	virtual ~BasicAI();
 	virtual void Draw()const;
 	virtual void Update(float elapsedSec,const Point2f& pos);
-	virtual void CheckIfHit(const Point2f pos, std::vector<Tear*>& activetears);
+	virtual void CheckIfHit(const Point2f pos, std::vector<Tear*>& activetears,const SoundManager& soundManager);
 	void SetLocationOfPlayer(Point2f pos);
 	int GetHealth()const;
 protected:

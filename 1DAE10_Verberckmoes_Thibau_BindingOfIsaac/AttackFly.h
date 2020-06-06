@@ -9,7 +9,7 @@ public:
 	void Draw()const;
 	void Update(float elapsedSec,const Point2f& pos);
 	void TimeCounter(float elapsedSec);
-	void CheckIfHit(const Point2f pos, std::vector<Tear*>& activetears);
+	void CheckIfHit(const Point2f pos, std::vector<Tear*>& activetears, const SoundManager& soundManager);
 private:
 	Rectf srcRect, DstRect;
 	Texture* m_TextureFly;

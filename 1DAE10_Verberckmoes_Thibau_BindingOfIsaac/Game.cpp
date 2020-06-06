@@ -6,10 +6,11 @@ Game::Game(const Window& window)
 	m_DungeonGenerator(Vector2f{ m_Window.width,m_Window.height }),
 	m_Isaac(Point2f{ m_Window.width / 2,m_Window.height / 2 }, Point2f{ m_Window.width,m_Window.height }),
 	m_Camera(m_Window.width, m_Window.height),
-	m_StartScreen(false),
+	m_StartScreen(true),
 	m_TextureStartScreen("../Resources/Backgrounds/StartingScreen.jpg"),
 	m_TearManager(m_Window),
-	m_TimeCounter(0)
+	m_TimeCounter(0),
+	m_SoundManager()
 {
 	Initialize();
 }
@@ -21,8 +22,10 @@ Game::~Game()
 
 void Game::Initialize()
 {
-	m_DungeonGenerator.StartDungeonGeneration();
-	m_Camera.SetLevelBoundaries(Rectf{ 0,0,m_Window.width,m_Window.height });
+	m_HitboxButton.width = 450.f;
+	m_HitboxButton.height = 500.f;
+	m_HitboxButton.left = m_Window.width / 2 - m_HitboxButton.width / 2;
+	m_HitboxButton.bottom = m_Window.height / 2 - m_HitboxButton.height / 2 - 80.f;
 }
 
 void Game::Cleanup()
@@ -81,30 +84,31 @@ void Game::Update(float elapsedSec)
 		{
 			if (pStates[SDL_SCANCODE_UP])
 			{
-				m_TearManager.CreateTear(m_Isaac.GetPostion(), utils::ShootingUp);
+				m_TearManager.CreateTear(m_Isaac.GetPostion(), utils::ShootingUp,&m_SoundManager);
 			}
 			if (pStates[SDL_SCANCODE_RIGHT])
 			{
-				m_TearManager.CreateTear(m_Isaac.GetPostion(), utils::ShootingRight);
+				m_TearManager.CreateTear(m_Isaac.GetPostion(), utils::ShootingRight,&m_SoundManager);
 			}
 			if (pStates[SDL_SCANCODE_DOWN])
 			{
-				m_TearManager.CreateTear(m_Isaac.GetPostion(), utils::ShootingDown);
+				m_TearManager.CreateTear(m_Isaac.GetPostion(), utils::ShootingDown,&m_SoundManager);
 			}
 			if (pStates[SDL_SCANCODE_LEFT])
 			{
-				m_TearManager.CreateTear(m_Isaac.GetPostion(), utils::ShootingLeft);
+				m_TearManager.CreateTear(m_Isaac.GetPostion(), utils::ShootingLeft,&m_SoundManager);
 			}
 			m_TimeCounter = 0;
 		}
 		m_TimeCounter += elapsedSec;
 		m_Isaac.UpdateIsaac(elapsedSec);
 		m_Isaac.SetDirection(Isaac::notMoving);
-		m_TearManager.UpdateTears(elapsedSec);
-		m_DungeonGenerator.UpdateCurrentshownRoom(m_Isaac.GetPostion(), m_Isaac,elapsedSec,m_TearManager,m_TearManager.GetActiveTearsVector());
+		m_TearManager.UpdateTears(elapsedSec,&m_SoundManager);
+		m_DungeonGenerator.UpdateCurrentshownRoom(m_Isaac.GetPostion(), m_Isaac,elapsedSec,m_TearManager,m_TearManager.GetActiveTearsVector(),m_SoundManager);
 	}
 	else
 	{
+		
 	}
 }
 
@@ -124,6 +128,7 @@ void Game::Draw() const
 	else
 	{
 		DrawStartScreen();
+		TestDrawCollisionBoxes();
 	}
 }
 
@@ -133,6 +138,13 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 	{
 	case SDL_SCANCODE_I:ShowControls(); break;
 	}
+	if (m_StartScreen == true)
+	{
+		InitializeGame();
+		m_StartScreen = false;
+		m_SoundManager.PlayStartingSound();
+	}
+
 }
 
 void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
@@ -160,19 +172,17 @@ void Game::ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e)
 
 void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e)
 {
-	//std::cout << "MOUSEBUTTONDOWN event: ";
-	//switch ( e.button )
-	//{
-	//case SDL_BUTTON_LEFT:
-	//	std::cout << " left button " << std::endl;
-	//	break;
-	//case SDL_BUTTON_RIGHT:
-	//	std::cout << " right button " << std::endl;
-	//	break;
-	//case SDL_BUTTON_MIDDLE:
-	//	std::cout << " middle button " << std::endl;
-	//	break;
-	//}
+
+	if (m_StartScreen == true)
+	{
+		switch (e.button)
+		{
+		case SDL_BUTTON_LEFT:
+			CheckIfGameStart(Point2f{ static_cast<float>(e.x),static_cast<float>(e.y) });
+			break;
+		}
+	}
+
 }
 
 void Game::ProcessMouseUpEvent(const SDL_MouseButtonEvent& e)
@@ -200,7 +210,13 @@ void Game::ClearBackground() const
 
 void Game::DrawStartScreen() const
 {
-	m_TextureStartScreen.Draw(Point2f{ 0,0 });
+	Rectf dstrect,roomsize;
+	roomsize.left = 0;
+	roomsize.bottom = 0;
+	roomsize.width = m_Window.width;
+	roomsize.height = m_Window.height;
+	
+	m_TextureStartScreen.Draw(roomsize,dstrect);
 }
 
 void Game::ShowControls()
@@ -245,9 +261,6 @@ void Game::TestDrawCollisionBoxes() const
 	collisionBox.width = 25.f;
 	utils::DrawRect(collisionBox);
 
-
-
-
 	Vector2f offset; Vector2f ExtraOffset;
 	offset.x = 150.f;
 	offset.y = 125.f;
@@ -260,5 +273,20 @@ void Game::TestDrawCollisionBoxes() const
 	PlayArea.width = m_Window.width - offset.x -ExtraOffset.y;
 	utils::DrawRect(PlayArea);
 
-	
+}
+
+void Game::InitializeGame()
+{
+	m_DungeonGenerator.StartDungeonGeneration();
+	m_Camera.SetLevelBoundaries(Rectf{ 0,0,m_Window.width,m_Window.height });
+}
+
+void Game::CheckIfGameStart(Point2f pos)
+{
+	if (utils::IsPointInRect(pos,m_HitboxButton))
+	{
+		InitializeGame();
+		m_StartScreen = false;
+		m_SoundManager.PlayStartingSound();
+	}
 }

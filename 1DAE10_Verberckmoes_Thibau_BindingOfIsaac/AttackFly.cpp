@@ -8,6 +8,7 @@ AttackFly::AttackFly(Texture* texture, Point2f SpawnPos, Vector2f Velocity, int 
 
 AttackFly::~AttackFly()
 {
+	
 }
 
 void AttackFly::Attack()
@@ -55,7 +56,7 @@ void AttackFly::TimeCounter(float elapsedTime)
 	}
 }
 
-void AttackFly::CheckIfHit(const Point2f pos, std::vector<Tear*>& activetears)
+void AttackFly::CheckIfHit(const Point2f pos, std::vector<Tear*>& activetears, const SoundManager& soundManager)
 {
 	if (utils::IsPointInRect(pos,m_HitBox))
 	{
@@ -64,6 +65,7 @@ void AttackFly::CheckIfHit(const Point2f pos, std::vector<Tear*>& activetears)
 			if (activetears[i]->GetPostion().x == pos.x && activetears[i]->GetPostion().y == pos.y)
 			{
 				activetears[i]->SetAliveState(false);
+				soundManager.PlaytearDestroySound();
 			}
 		}
 		AIHit();

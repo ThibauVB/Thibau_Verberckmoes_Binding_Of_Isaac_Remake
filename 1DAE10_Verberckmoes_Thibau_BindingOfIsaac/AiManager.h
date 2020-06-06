@@ -2,6 +2,7 @@
 #include "Texture.h"
 #include "BasicAI.h"
 #include "TearManager.h"
+#include "SoundManager.h"
 class AiManager
 {
 public:
@@ -11,10 +12,12 @@ public:
 	void DrawEnemy()const;
 	void UpdateEnemies(float elapsedSec,const Point2f& pos);
 	void DeleteEnemy(int Enemy);
-	void TransferTearPositions(Point2f pos, std::vector<Tear*>& activetears);
+	void TransferTearPositions(Point2f pos, std::vector<Tear*>& activetears,const SoundManager& soundManager);
+	void SetAmountOfEnemies(int fies);
 private:
 	std::vector<BasicAI*> m_ActiveEnemies;
 	void CheckHealthStatus();
+	int m_AmountOfCurrentFlies;
 	//EnemyTextures
 	Texture m_AttackFlyTexture {"../Resources/Enemies/AttackFly.png"};
 };

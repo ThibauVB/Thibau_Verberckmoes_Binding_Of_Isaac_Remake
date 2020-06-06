@@ -44,12 +44,17 @@ void AiManager::DeleteEnemy(int Enemy)
 	std::cout << "Deleted Enemy" << std::endl;
 }
 
-void AiManager::TransferTearPositions(Point2f pos, std::vector<Tear*>& activetears)
+void AiManager::TransferTearPositions(Point2f pos, std::vector<Tear*>& activetears,const SoundManager& soundManager)
 {
 	for (int i{0};i<m_ActiveEnemies.size();++i)
 	{
-		m_ActiveEnemies[i]->CheckIfHit(pos,activetears);
+		m_ActiveEnemies[i]->CheckIfHit(pos,activetears,soundManager);
 	}
+}
+
+void AiManager::SetAmountOfEnemies(int flies)
+{
+	m_AmountOfCurrentFlies = flies;
 }
 
 void AiManager::CheckHealthStatus()

@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "TearManager.h"
 #include "AiManager.h"
+#include "SoundManager.h"
 class Game
 {
 public:
@@ -33,6 +34,9 @@ private:
 	void DrawStartScreen() const;
 	void ShowControls();
 	void TestDrawCollisionBoxes()const;
+	void InitializeGame();
+	void CheckIfGameStart(Point2f pos);
+	Rectf StartButton;
 	Isaac m_Isaac;
 	Camera m_Camera;
 	bool m_StartScreen;
@@ -42,4 +46,6 @@ private:
 	//Managers/Generators
 	DungeonGenerator m_DungeonGenerator;
 	TearManager m_TearManager;
+	Rectf m_HitboxButton;
+	SoundManager m_SoundManager;
 };

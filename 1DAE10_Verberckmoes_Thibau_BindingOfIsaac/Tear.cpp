@@ -18,7 +18,6 @@ void Tear::DrawTear() const
 	m_TearTexture->Draw(m_Pos);
 	DrawHitBox();
 }
-
 void Tear::UpdateTear(float elapsedSec,Window const&window)
 {
 	float fraction = 1.f;

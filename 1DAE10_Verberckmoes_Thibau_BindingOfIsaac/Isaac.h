@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Texture.h"
 #include "utils.h"
+
 class Isaac
 {
 public:

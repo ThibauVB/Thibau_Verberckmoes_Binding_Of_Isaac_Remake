@@ -26,7 +26,7 @@ void BasicAI::Update(float elapsedSec, const Point2f& pos)
 	
 }
 
-void BasicAI::CheckIfHit(const Point2f pos, std::vector<Tear*>& activetears)
+void BasicAI::CheckIfHit(const Point2f pos, std::vector<Tear*>& activetears,const SoundManager& soundManager)
 {
 }
 
