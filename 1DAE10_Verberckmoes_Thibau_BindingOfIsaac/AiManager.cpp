@@ -65,6 +65,16 @@ int AiManager::GetAmountOfActiveEnemies()
 	return m_ActiveEnemies.size();
 }
 
+Rectf AiManager::GetHitBoxAI(int Ai) const
+{
+	return m_ActiveEnemies[Ai]->GetHitbox();
+}
+
+Point2f AiManager::GetCenterPositionAI(int Ai) const
+{
+	return m_ActiveEnemies[Ai]->GetCenterPos();
+}
+
 void AiManager::CheckHealthStatus()
 {
 	for (int i{0};i<m_ActiveEnemies.size();++i)

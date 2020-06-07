@@ -12,10 +12,12 @@ public:
 	void PlayshootingSound()const;
 	void PlaytearDestroySound()const;
 	void StartLoopedFlySound()const;
-	void StopLoopedFlySoudn();
+	void StopLoopedFlySound();
+	void PlayGruntSound()const;
 private:
 	SoundEffect* m_StartingSound;
 	SoundEffect* m_ShootingSound;
 	SoundEffect* m_TearDestroySound;
 	SoundEffect* m_FlySound;
+	SoundEffect* m_GruntSound;
 };

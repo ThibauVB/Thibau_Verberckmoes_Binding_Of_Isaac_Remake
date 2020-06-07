@@ -385,6 +385,26 @@ std::vector<Rectf> DungeonGenerator::GetCollisionBoxes() const
 	return DoorCollisionBox;
 }
 
+int DungeonGenerator::GetAmountOfEnemieAI()
+{
+	return m_AImanager.GetAmountOfActiveEnemies();
+}
+
+Rectf DungeonGenerator::GetHitboxAI(int AI)
+{
+	return m_AImanager.GetHitBoxAI(AI);
+}
+
+Point2f DungeonGenerator::GetCenterPositionAI(int Ai)
+{
+	return m_AImanager.GetCenterPositionAI(Ai);
+}
+
+void DungeonGenerator::ResetDungeon()
+{
+	
+}
+
 void DungeonGenerator::UpdateRoomsPosition(int direction)
 {
 	for (int x{ 0 }; x < m_RoomsList.size(); ++x)

@@ -6,6 +6,7 @@
 #include "TearManager.h"
 #include "AiManager.h"
 #include "SoundManager.h"
+#include "UImanager.h"
 class Game
 {
 public:
@@ -32,20 +33,28 @@ private:
 	void Cleanup();
 	void ClearBackground() const;
 	void DrawStartScreen() const;
+	void DrawEndScreen()const;
 	void ShowControls();
 	void TestDrawCollisionBoxes()const;
 	void InitializeGame();
 	void CheckIfGameStart(Point2f pos);
+	void CheckIfPlayerIsHit(float ElapsedSec);
+	void CheckKeysPressed();
+	void FullGameReset();
 	Rectf StartButton;
 	Isaac m_Isaac;
 	Camera m_Camera;
 	bool m_StartScreen;
 	Texture m_TextureStartScreen;
+	Texture m_TextureDeathNote;
 	float m_TimeCounter;
 	bool TestBoolForDoor{ false };
+	bool m_CanGetHit;
+	float m_ElapsedTimeSinceHit;
 	//Managers/Generators
 	DungeonGenerator m_DungeonGenerator;
 	TearManager m_TearManager;
 	Rectf m_HitboxButton;
 	SoundManager m_SoundManager;
+	UImanager m_UImanager;
 };

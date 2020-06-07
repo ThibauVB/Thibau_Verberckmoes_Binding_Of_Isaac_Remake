@@ -25,6 +25,9 @@ public:
 	bool GetMotionState();
 	Point2f GetPostion();
 	void SetPlayerPos(Point2f pos);
+	void DamageIsaac();
+	int GetHealth()const;
+	
 private:
 	Rectf m_srcRectBody;
 	Rectf m_dstRectBody;
@@ -44,6 +47,7 @@ private:
 	float m_FramesPerSec;
 	int m_AnimFrame;
 	int m_NrOfFramesForBody;
+	int m_health;
 	WalkingDirection m_IsaacDirection;
 	const float m_MoventSpeed{ 310.f };
 	const float m_SideMoventDecrement{ 27.f };

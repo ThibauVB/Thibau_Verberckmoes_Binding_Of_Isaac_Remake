@@ -15,6 +15,8 @@ public:
 	void TransferTearPositions(Point2f pos, std::vector<Tear*>& activetears,const SoundManager& soundManager);
 	void SetAmountOfEnemies(int fies);
 	int GetAmountOfActiveEnemies();
+	Rectf GetHitBoxAI(int Ai)const;
+	Point2f GetCenterPositionAI(int Ai)const;
 private:
 	std::vector<BasicAI*> m_ActiveEnemies;
 	void CheckHealthStatus();

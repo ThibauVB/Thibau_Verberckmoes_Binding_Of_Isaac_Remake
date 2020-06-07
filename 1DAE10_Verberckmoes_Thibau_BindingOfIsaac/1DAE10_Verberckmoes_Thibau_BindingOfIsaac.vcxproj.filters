@@ -91,7 +91,7 @@
       <Filter>Headers\CPP Files</Filter>
     </ClCompile>
     <ClCompile Include="UImanager.cpp">
-      <Filter>Gamefile</Filter>
+      <Filter>Headers\CPP Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -158,11 +158,11 @@
     <ClInclude Include="BasicAI.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="SoundManager.h">
-      <Filter>FrameWork</Filter>
-    </ClInclude>
     <ClInclude Include="UImanager.h">
       <Filter>FrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

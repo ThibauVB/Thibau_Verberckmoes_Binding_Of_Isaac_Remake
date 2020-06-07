@@ -32,7 +32,7 @@ void AttackFly::Update(float elapsedSec, const Point2f& pos)
 
 		m_srcRect.width = 92.5f;
 		m_srcRect.height = 90;
-		m_srcRect.left = 0 + (m_srcRect.width * m_AnimFrame);
+		m_srcRect.left = (m_srcRect.width * m_AnimFrame);
 		m_srcRect.bottom = 0;
 		UpdateHitbox(Rectf{ (m_CenterPos.x - (m_TextureFly->GetWidth() / 5) / 2) ,m_CenterPos.y - m_TextureFly->GetHeight() / 2,m_TextureFly->GetWidth() / 5,m_TextureFly->GetHeight() });
 		SetLocationOfPlayer(pos);

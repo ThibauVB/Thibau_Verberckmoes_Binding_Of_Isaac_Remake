@@ -5,7 +5,8 @@ m_WindowSize(windowSize),
 m_TimePassedForAnimation(0),
 m_FramesPerSec(13),
 m_NrOfFramesForBody(5),
-m_AnimFrame(0)
+m_AnimFrame(0),
+m_health(3)
 {
 	initRoomSize();
 }
@@ -114,6 +115,16 @@ void Isaac::SetPlayerPos(Point2f pos)
 	m_CenterPos = pos;
 }
 
+void Isaac::DamageIsaac()
+{
+	--m_health;
+}
+
+int Isaac::GetHealth() const
+{
+	return m_health;
+}
+
 void Isaac::initRoomSize()
 {
 }
@@ -157,3 +168,5 @@ void Isaac::TimeCounter(float elapsedTime)
 		m_TimePassedForAnimation = 0;
 	}
 }
+
+

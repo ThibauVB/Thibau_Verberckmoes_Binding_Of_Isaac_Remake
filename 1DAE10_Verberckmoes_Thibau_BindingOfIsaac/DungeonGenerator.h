@@ -21,6 +21,10 @@ public:
 	void DrawCollisionBoxes(std::vector<Rectf> collisionRect)const;
 	void DeleteEnemy();
 	std::vector<Rectf> GetCollisionBoxes()const;
+	int GetAmountOfEnemieAI();
+	Rectf GetHitboxAI(int AI);
+	Point2f GetCenterPositionAI(int Ai);
+	void ResetDungeon();
 	//void CleanDungeon();
 private:
 	int m_LeftChance;
