@@ -1,5 +1,7 @@
 ﻿#pragma once
-#include "SoundStream.h"
+#include "SoundEffect.h"
+
+
 class SoundManager
 {
 public:
@@ -10,8 +12,8 @@ public:
 	void PlayshootingSound()const;
 	void PlaytearDestroySound()const;
 private:
-	SoundStream* m_StartingSound;
-	SoundStream* m_ShootingSound;
-	SoundStream* m_TearDestroySound;
-	SoundStream* m_FlySound;
+	SoundEffect* m_StartingSound;
+	SoundEffect* m_ShootingSound;
+	SoundEffect* m_TearDestroySound;
+	SoundEffect* m_FlySound;
 };

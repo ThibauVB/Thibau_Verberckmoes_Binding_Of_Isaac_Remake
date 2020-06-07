@@ -3,9 +3,9 @@
 
 SoundManager::SoundManager()
 {
-	m_StartingSound = new SoundStream("../Resources/Sounds/StartSound.mp3");
-	m_ShootingSound = new SoundStream("../Resources/Sounds/TearShooting.mp3");
-	m_TearDestroySound = new SoundStream("../Resources/Sounds/TearDestroy.mp3");
+	m_StartingSound = new SoundEffect("../Resources/Sounds/StartSound.mp3");
+	m_ShootingSound = new SoundEffect("../Resources/Sounds/TearShooting.mp3");
+	m_TearDestroySound = new SoundEffect("../Resources/Sounds/TearDestroy.mp3");
 }
 
 SoundManager::~SoundManager()
