@@ -14,9 +14,11 @@ public:
 	void DeleteEnemy(int Enemy);
 	void TransferTearPositions(Point2f pos, std::vector<Tear*>& activetears,const SoundManager& soundManager);
 	void SetAmountOfEnemies(int fies);
+	int GetAmountOfActiveEnemies();
 private:
 	std::vector<BasicAI*> m_ActiveEnemies;
 	void CheckHealthStatus();
+	void CheckOverlappingAI();
 	int m_AmountOfCurrentFlies;
 	//EnemyTextures
 	Texture m_AttackFlyTexture {"../Resources/Enemies/AttackFly.png"};

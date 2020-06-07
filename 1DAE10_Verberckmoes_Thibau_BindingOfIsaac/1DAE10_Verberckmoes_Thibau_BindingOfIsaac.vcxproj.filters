@@ -88,6 +88,9 @@
       <Filter>Headers\CPP Files</Filter>
     </ClCompile>
     <ClCompile Include="SoundManager.cpp">
+      <Filter>Headers\CPP Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UImanager.cpp">
       <Filter>Gamefile</Filter>
     </ClCompile>
   </ItemGroup>
@@ -156,6 +159,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="SoundManager.h">
+      <Filter>FrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="UImanager.h">
       <Filter>FrameWork</Filter>
     </ClInclude>
   </ItemGroup>

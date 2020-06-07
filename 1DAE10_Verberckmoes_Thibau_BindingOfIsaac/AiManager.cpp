@@ -34,6 +34,9 @@ void AiManager::UpdateEnemies(float elapsedSec, const Point2f& pos)
 		m_ActiveEnemies[i]->Update(elapsedSec,pos);
 	}
 	CheckHealthStatus();
+	SetAmountOfEnemies(m_ActiveEnemies.size());
+	
+	//CheckOverlappingAI();
 }
 
 void AiManager::DeleteEnemy(int Enemy)
@@ -57,6 +60,11 @@ void AiManager::SetAmountOfEnemies(int flies)
 	m_AmountOfCurrentFlies = flies;
 }
 
+int AiManager::GetAmountOfActiveEnemies()
+{
+	return m_ActiveEnemies.size();
+}
+
 void AiManager::CheckHealthStatus()
 {
 	for (int i{0};i<m_ActiveEnemies.size();++i)
@@ -68,4 +76,36 @@ void AiManager::CheckHealthStatus()
 		}
 	}
 }
+
+void AiManager::CheckOverlappingAI()
+{
+	Vector2f vectorA,vectorB,delta;
+	Point2f pos1, pos2;
+	for (size_t idX{0}; idX<m_ActiveEnemies.size();++idX)
+	{
+		vectorA.x = m_ActiveEnemies[idX]->GetCenterPos().x;
+		vectorA.y = m_ActiveEnemies[idX]->GetCenterPos().y;
+		
+		for (size_t idY{0};idY<m_ActiveEnemies.size();++idY)
+		{
+			vectorB.x = m_ActiveEnemies[idY]->GetCenterPos().x;
+			vectorB.y = m_ActiveEnemies[idY]->GetCenterPos().y;
+			if (vectorA.x != vectorB.x && vectorA.y != vectorB.y)
+			{
+				delta = vectorB - vectorA;
+				if (abs(delta.x) < 10 || abs(delta.y) < 10)
+				{
+					//change pos of ai
+					m_ActiveEnemies[idY]->SetUpdatePositionBool(false);
+
+				}else
+				{
+					m_ActiveEnemies[idY]->SetUpdatePositionBool(true);
+				}
+			}
+		}
+	}
+}
+
+
 

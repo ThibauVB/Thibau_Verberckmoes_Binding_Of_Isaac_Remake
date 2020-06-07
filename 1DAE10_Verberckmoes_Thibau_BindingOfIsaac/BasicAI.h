@@ -5,14 +5,17 @@
 class BasicAI
 {
 protected:
-	explicit BasicAI(Point2f SpawnPos, Vector2f velocity, int Health, int maxHealth,int fps,int nrOfFrames);
+	explicit BasicAI(Point2f SpawnPos, Vector2f velocity, int Health, int maxHealth, int fps, int nrOfFrames);
 public:
 	virtual ~BasicAI();
 	virtual void Draw()const;
-	virtual void Update(float elapsedSec,const Point2f& pos);
-	virtual void CheckIfHit(const Point2f pos, std::vector<Tear*>& activetears,const SoundManager& soundManager);
+	virtual void Update(float elapsedSec, const Point2f& pos);
+	virtual void CheckIfHit(const Point2f pos, std::vector<Tear*>& activetears, const SoundManager& soundManager);
+	virtual Rectf GetHitbox()const;
+	Point2f GetCenterPos()const;
 	void SetLocationOfPlayer(Point2f pos);
 	int GetHealth()const;
+	void SetUpdatePositionBool(bool move);
 protected:
 	Point2f GetLocationOfPlayer()const;
 	void UpdateHitbox(Rectf hitBox);
@@ -30,5 +33,5 @@ protected:
 	int m_NrOfFramesForBody;
 	Point2f m_LocationOfPlayer;
 	Vector2f DeltaPos;
+	bool m_UpdatePosition;
 };
-

@@ -11,6 +11,8 @@ public:
 	void PlayStartingSound()const;
 	void PlayshootingSound()const;
 	void PlaytearDestroySound()const;
+	void StartLoopedFlySound()const;
+	void StopLoopedFlySoudn();
 private:
 	SoundEffect* m_StartingSound;
 	SoundEffect* m_ShootingSound;

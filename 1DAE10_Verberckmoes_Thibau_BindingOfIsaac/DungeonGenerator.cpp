@@ -14,7 +14,8 @@ DungeonGenerator::DungeonGenerator(Vector2f windowSize) :
 	m_TempDirectionSave(utils::all),
 	m_TotalRoomsInDungeon(10),
 	m_CurrentRoomDrawn(0),
-	m_LastDirection(utils::all)
+	m_LastDirection(utils::all),
+	m_OpenDoors(false)
 {
 	InitDirections();
 }
@@ -233,6 +234,8 @@ void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player,f
 		m_AImanager.TransferTearPositions(tearPosition,activetears,soundManager);
 	}
 
+	UpdateDoors();
+	
 	Rectf collisionBox;
 	std::vector<bool> DoorValues;
 	//This gets the current room player is in the 4 door states
@@ -240,120 +243,125 @@ void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player,f
 	//Test 0: Down, 1: Left, 2:Top,3:Right
 	
 	//is left door active
-	if (DoorValues[0]==true)
+	if (m_OpenDoors == true)
 	{
-		collisionBox.left = 137.5f;
-		collisionBox.bottom = m_HeightNormal / 2 - collisionBox.height / 2;
-		collisionBox.height = 50.f;
-		collisionBox.width = 25.f;
-
-		if (utils::IsPointInRect(PlayerPos, collisionBox))
+		if (DoorValues[0] == true)
 		{
-			std::cout << "Player went in Left Door" << std::endl;
-			UpdateRoomsPosition(1);
-			Player.SetPlayerPos(Point2f{ m_WidthNormal / 2, m_HeightNormal / 2 });
-			if (m_RoomsList[m_CurrentRoomDrawnCounter].GetLastDoor() == utils::DoorLeft)
+			collisionBox.left = 137.5f;
+			collisionBox.bottom = m_HeightNormal / 2 - collisionBox.height / 2;
+			collisionBox.height = 50.f;
+			collisionBox.width = 25.f;
+
+			if (utils::IsPointInRect(PlayerPos, collisionBox))
 			{
-				--m_CurrentRoomDrawnCounter;
-			}
-			else
-			{
-				++m_CurrentRoomDrawnCounter;
-				if (m_CurrentRoomDrawnCounter>m_HighestRoomEntered)
+				std::cout << "Player went in Left Door" << std::endl;
+				UpdateRoomsPosition(1);
+				Player.SetPlayerPos(Point2f{ m_WidthNormal / 2, m_HeightNormal / 2 });
+				if (m_RoomsList[m_CurrentRoomDrawnCounter].GetLastDoor() == utils::DoorLeft)
 				{
-					std::cout << "spawn enemy" << std::endl;
-					++m_HighestRoomEntered;
-					SpawnEnemy();
+					--m_CurrentRoomDrawnCounter;
 				}
-			}
-		}
-		
-	}
-	//is right door active
-	if (DoorValues[1] == true)
-	{
-		collisionBox.left = m_WidthNormal - 160.f;
-		collisionBox.bottom = m_HeightNormal / 2 - collisionBox.height / 2;
-		collisionBox.height = 50.f;
-		collisionBox.width = 25.f;
-
-		if (utils::IsPointInRect(PlayerPos, collisionBox))
-		{
-			std::cout << "Player went in Right Door" << std::endl;
-			UpdateRoomsPosition(3);
-			Player.SetPlayerPos(Point2f{ m_WidthNormal / 2, m_HeightNormal / 2 });
-			if (m_RoomsList[m_CurrentRoomDrawnCounter].GetLastDoor()==utils::DoorRight)
-			{
-				--m_CurrentRoomDrawnCounter;
-			}else
-			{
-				++m_CurrentRoomDrawnCounter;
-				if (m_CurrentRoomDrawnCounter > m_HighestRoomEntered)
+				else
 				{
-					std::cout << "spawn enemy" << std::endl;
-					++m_HighestRoomEntered;
-					SpawnEnemy();
+					++m_CurrentRoomDrawnCounter;
+					if (m_CurrentRoomDrawnCounter > m_HighestRoomEntered)
+					{
+						std::cout << "spawn enemy" << std::endl;
+						++m_HighestRoomEntered;
+						SpawnEnemy();
+					}
 				}
 			}
 
 		}
-	}
-	//is bottom door active
-	if (DoorValues[2] == true)
-	{
-		collisionBox.left = m_WidthNormal / 2 - collisionBox.width / 2;
-		collisionBox.bottom = 188.f;
-		collisionBox.width = 50.f;
-		collisionBox.height = 25.f;
-		if (utils::IsPointInRect(PlayerPos, collisionBox))
+		//is right door active
+		if (DoorValues[1] == true)
 		{
-			std::cout << "Player went in Bottom Door" << std::endl;
-			UpdateRoomsPosition(0);
-			Player.SetPlayerPos(Point2f{ m_WidthNormal / 2, m_HeightNormal / 2 });
-			if (m_RoomsList[m_CurrentRoomDrawnCounter].GetLastDoor() == utils::DoorDown)
+			collisionBox.left = m_WidthNormal - 160.f;
+			collisionBox.bottom = m_HeightNormal / 2 - collisionBox.height / 2;
+			collisionBox.height = 50.f;
+			collisionBox.width = 25.f;
+
+			if (utils::IsPointInRect(PlayerPos, collisionBox))
 			{
-				--m_CurrentRoomDrawnCounter;
-			}
-			else
-			{
-				++m_CurrentRoomDrawnCounter;
-				if (m_CurrentRoomDrawnCounter > m_HighestRoomEntered)
+				std::cout << "Player went in Right Door" << std::endl;
+				UpdateRoomsPosition(3);
+				Player.SetPlayerPos(Point2f{ m_WidthNormal / 2, m_HeightNormal / 2 });
+				if (m_RoomsList[m_CurrentRoomDrawnCounter].GetLastDoor() == utils::DoorRight)
 				{
-					std::cout << "spawn enemy" << std::endl;
-					++m_HighestRoomEntered;
-					SpawnEnemy();
+					--m_CurrentRoomDrawnCounter;
+				}
+				else
+				{
+					++m_CurrentRoomDrawnCounter;
+					if (m_CurrentRoomDrawnCounter > m_HighestRoomEntered)
+					{
+						std::cout << "spawn enemy" << std::endl;
+						++m_HighestRoomEntered;
+						SpawnEnemy();
+					}
+				}
+
+			}
+		}
+		//is bottom door active
+		if (DoorValues[2] == true)
+		{
+			collisionBox.left = m_WidthNormal / 2 - collisionBox.width / 2;
+			collisionBox.bottom = 188.f;
+			collisionBox.width = 50.f;
+			collisionBox.height = 25.f;
+			if (utils::IsPointInRect(PlayerPos, collisionBox))
+			{
+				std::cout << "Player went in Bottom Door" << std::endl;
+				UpdateRoomsPosition(0);
+				Player.SetPlayerPos(Point2f{ m_WidthNormal / 2, m_HeightNormal / 2 });
+				if (m_RoomsList[m_CurrentRoomDrawnCounter].GetLastDoor() == utils::DoorDown)
+				{
+					--m_CurrentRoomDrawnCounter;
+				}
+				else
+				{
+					++m_CurrentRoomDrawnCounter;
+					if (m_CurrentRoomDrawnCounter > m_HighestRoomEntered)
+					{
+						std::cout << "spawn enemy" << std::endl;
+						++m_HighestRoomEntered;
+						SpawnEnemy();
+					}
+				}
+			}
+		}
+		//is top door active
+		if (DoorValues[3] == true)
+		{
+			collisionBox.left = m_WidthNormal / 2 - collisionBox.width / 2;
+			collisionBox.bottom = m_HeightNormal - 140.f;
+			collisionBox.width = 50.f;
+			collisionBox.height = 25.f;
+			if (utils::IsPointInRect(PlayerPos, collisionBox))
+			{
+				std::cout << "Player went in Top Door" << std::endl;
+				UpdateRoomsPosition(2);
+				Player.SetPlayerPos(Point2f{ m_WidthNormal / 2, m_HeightNormal / 2 });
+				if (m_RoomsList[m_CurrentRoomDrawnCounter].GetLastDoor() == utils::DoorUp)
+				{
+					--m_CurrentRoomDrawnCounter;
+				}
+				else
+				{
+					++m_CurrentRoomDrawnCounter;
+					if (m_CurrentRoomDrawnCounter > m_HighestRoomEntered)
+					{
+						std::cout << "spawn enemy" << std::endl;
+						++m_HighestRoomEntered;
+						SpawnEnemy();
+					}
 				}
 			}
 		}
 	}
-	//is top door active
-	if (DoorValues[3] == true)
-	{
-		collisionBox.left = m_WidthNormal/ 2 - collisionBox.width / 2;
-		collisionBox.bottom = m_HeightNormal - 140.f;
-		collisionBox.width = 50.f;
-		collisionBox.height = 25.f;
-		if (utils::IsPointInRect(PlayerPos, collisionBox))
-		{
-			std::cout << "Player went in Top Door" << std::endl;
-			UpdateRoomsPosition(2);
-			Player.SetPlayerPos(Point2f{ m_WidthNormal / 2, m_HeightNormal / 2 });
-			if (m_RoomsList[m_CurrentRoomDrawnCounter].GetLastDoor() == utils::DoorUp)
-			{
-				--m_CurrentRoomDrawnCounter;
-			}
-			else
-			{
-				++m_CurrentRoomDrawnCounter;
-				if (m_CurrentRoomDrawnCounter > m_HighestRoomEntered)
-				{
-					std::cout << "spawn enemy" << std::endl;
-					++m_HighestRoomEntered;
-					SpawnEnemy();
-				}
-			}
-		}
-	}
+	
 
 }
 
@@ -530,5 +538,23 @@ void DungeonGenerator::SpawnEnemy()
 		RandomPos.x = rand() % static_cast<int>(RoomBorder.width) + (RoomBorder.left);
 		RandomPos.y = rand() % static_cast<int>(RoomBorder.height) + (RoomBorder.bottom);
 		m_AImanager.CreateEnemy(RandomPos, GetCurrentRoomBorders());
+	}
+}
+
+void DungeonGenerator::UpdateDoors()
+{
+	if (m_CurrentRoomDrawnCounter==0)
+	{
+		m_OpenDoors = true;;
+	}else
+	{
+		if (m_AImanager.GetAmountOfActiveEnemies()==0)
+		{
+			m_OpenDoors = true;
+		}else
+		{
+			m_OpenDoors = false;
+		}
+		//close doors unless all AI are dead
 	}
 }

@@ -61,6 +61,8 @@ private:
 	void UpdateCurrentRoomCounter(utils::roomDirection directionToCheck);
 	Rectf GetCurrentRoomBorders();
 	void SpawnEnemy();
+	void UpdateDoors();
+	bool m_OpenDoors;
 	//Test Function
 	//TestVars
 

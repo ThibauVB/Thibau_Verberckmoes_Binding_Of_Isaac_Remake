@@ -1,14 +1,16 @@
 ﻿#include "pch.h"
 #include "BasicAI.h"
-BasicAI::BasicAI(Point2f SpawnPos, Vector2f Velocity, int Health, int maxHealth,int fps, int nrOfFrames) :
-m_CenterPos(SpawnPos),
-m_Velocity(Velocity),
-m_Health(Health),
-m_MaxHealth(maxHealth),
-m_TimePassedForAnimation(0),
-m_FramesPerSec(fps),
-m_NrOfFramesForBody(nrOfFrames),
-m_AnimFrame(0)
+BasicAI::BasicAI(Point2f SpawnPos, Vector2f Velocity, int Health, int maxHealth, int fps, int nrOfFrames) :
+	m_CenterPos(SpawnPos),
+	m_Velocity(Velocity),
+	m_Health(Health),
+	m_MaxHealth(maxHealth),
+	m_TimePassedForAnimation(0),
+	m_FramesPerSec(fps),
+	m_NrOfFramesForBody(nrOfFrames),
+	m_AnimFrame(0),
+	m_UpdatePosition(true)
+
 {
 }
 
@@ -30,6 +32,16 @@ void BasicAI::CheckIfHit(const Point2f pos, std::vector<Tear*>& activetears,cons
 {
 }
 
+Rectf BasicAI::GetHitbox() const
+{
+	return Rectf();
+}
+
+Point2f BasicAI::GetCenterPos() const
+{
+	return m_CenterPos;
+}
+
 void BasicAI::SetLocationOfPlayer(Point2f pos)
 {
 	m_LocationOfPlayer = pos;
@@ -38,6 +50,11 @@ void BasicAI::SetLocationOfPlayer(Point2f pos)
 int BasicAI::GetHealth() const
 {
 	return m_Health;
+}
+
+void BasicAI::SetUpdatePositionBool(bool move)
+{
+	m_UpdatePosition = move;
 }
 
 Point2f BasicAI::GetLocationOfPlayer() const
@@ -74,6 +91,7 @@ void BasicAI::CalculateDeltaPos(float elapsedSec)
 	DeltaPos = (m_Velocity.x * elapsedSec) * NormalizedVector;
 //	std::cout << DeltaVector.x << " " << DeltaVector.y<<std::endl;
 }
+
 
 
 
