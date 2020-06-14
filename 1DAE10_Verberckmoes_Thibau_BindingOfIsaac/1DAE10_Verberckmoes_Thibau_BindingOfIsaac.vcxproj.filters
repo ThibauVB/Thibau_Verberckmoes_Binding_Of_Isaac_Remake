@@ -13,10 +13,10 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Headers">
+    <Filter Include="Code">
       <UniqueIdentifier>{41887c5a-5e9a-46f3-a6a5-4461b424561a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headers\CPP Files">
+    <Filter Include="Code\CPP Files">
       <UniqueIdentifier>{468fbc51-8e41-4c98-8532-b7c9a75d5e1d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -54,44 +54,56 @@
     <ClCompile Include="main.cpp">
       <Filter>Gamefile</Filter>
     </ClCompile>
-    <ClCompile Include="Level.cpp">
-      <Filter>Gamefile</Filter>
-    </ClCompile>
     <ClCompile Include="TearManager.cpp">
-      <Filter>Headers\CPP Files</Filter>
+      <Filter>Code\CPP Files</Filter>
     </ClCompile>
     <ClCompile Include="Tear.cpp">
-      <Filter>Headers\CPP Files</Filter>
+      <Filter>Code\CPP Files</Filter>
     </ClCompile>
     <ClCompile Include="RoomClass.cpp">
-      <Filter>Headers\CPP Files</Filter>
+      <Filter>Code\CPP Files</Filter>
     </ClCompile>
     <ClCompile Include="DungeonGenerator.cpp">
-      <Filter>Headers\CPP Files</Filter>
+      <Filter>Code\CPP Files</Filter>
     </ClCompile>
     <ClCompile Include="Isaac.cpp">
-      <Filter>Headers\CPP Files</Filter>
+      <Filter>Code\CPP Files</Filter>
     </ClCompile>
     <ClCompile Include="utils.cpp">
-      <Filter>Headers\CPP Files</Filter>
+      <Filter>Code\CPP Files</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Headers\CPP Files</Filter>
+      <Filter>Code\CPP Files</Filter>
     </ClCompile>
     <ClCompile Include="AttackFly.cpp">
-      <Filter>Headers\CPP Files</Filter>
+      <Filter>Code\CPP Files</Filter>
     </ClCompile>
     <ClCompile Include="BasicAI.cpp">
-      <Filter>Headers\CPP Files</Filter>
+      <Filter>Code\CPP Files</Filter>
     </ClCompile>
     <ClCompile Include="AiManager.cpp">
-      <Filter>Headers\CPP Files</Filter>
+      <Filter>Code\CPP Files</Filter>
     </ClCompile>
     <ClCompile Include="SoundManager.cpp">
-      <Filter>Headers\CPP Files</Filter>
+      <Filter>Code\CPP Files</Filter>
     </ClCompile>
     <ClCompile Include="UImanager.cpp">
-      <Filter>Headers\CPP Files</Filter>
+      <Filter>Code\CPP Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Chest.cpp">
+      <Filter>Code\CPP Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Code\CPP Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialManager.cpp">
+      <Filter>Code\CPP Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Spider.cpp">
+      <Filter>Code\CPP Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LootManager.cpp">
+      <Filter>Code\CPP Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -122,47 +134,59 @@
     <ClInclude Include="Game.h">
       <Filter>Gamefile</Filter>
     </ClInclude>
-    <ClInclude Include="Level.h">
-      <Filter>Gamefile</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Headers</Filter>
+      <Filter>Code</Filter>
     </ClInclude>
     <ClInclude Include="Isaac.h">
-      <Filter>Headers</Filter>
+      <Filter>Code</Filter>
     </ClInclude>
     <ClInclude Include="Tear.h">
-      <Filter>Headers</Filter>
+      <Filter>Code</Filter>
     </ClInclude>
     <ClInclude Include="TearManager.h">
-      <Filter>Headers</Filter>
+      <Filter>Code</Filter>
     </ClInclude>
     <ClInclude Include="utils.h">
-      <Filter>Headers</Filter>
+      <Filter>Code</Filter>
     </ClInclude>
     <ClInclude Include="DungeonGenerator.h">
-      <Filter>Headers</Filter>
+      <Filter>Code</Filter>
     </ClInclude>
     <ClInclude Include="RoomClass.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Gamefile</Filter>
+      <Filter>Code</Filter>
     </ClInclude>
     <ClInclude Include="AiManager.h">
-      <Filter>Headers</Filter>
+      <Filter>Code</Filter>
     </ClInclude>
     <ClInclude Include="AttackFly.h">
-      <Filter>Headers</Filter>
+      <Filter>Code</Filter>
     </ClInclude>
     <ClInclude Include="BasicAI.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="UImanager.h">
-      <Filter>FrameWork</Filter>
+      <Filter>Code</Filter>
     </ClInclude>
     <ClInclude Include="SoundManager.h">
-      <Filter>Headers</Filter>
+      <Filter>Code</Filter>
+    </ClInclude>
+    <ClInclude Include="LootManager.h">
+      <Filter>Code\CPP Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Code</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>FrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="Chest.h">
+      <Filter>Code</Filter>
+    </ClInclude>
+    <ClInclude Include="Spider.h">
+      <Filter>Code</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialManager.h">
+      <Filter>Code</Filter>
+    </ClInclude>
+    <ClInclude Include="UImanager.h">
+      <Filter>Code</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

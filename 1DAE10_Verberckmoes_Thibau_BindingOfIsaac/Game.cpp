@@ -8,12 +8,18 @@ Game::Game(const Window& window)
 	m_Camera(m_Window.width, m_Window.height),
 	m_StartScreen(true),
 	m_TextureStartScreen("../Resources/Backgrounds/StartingScreen.jpg"),
-	m_TextureDeathNote("../Resources/Backgrounds/StartingScreen.jpg"),
+	m_TextureDeathNote("../Resources/Backgrounds/EndScreen.png"),
+	m_PauseScreen("../Resources/Backgrounds/PauseScreen.jpg"),
+	m_SoundLevel("50"),
+	m_SoundText(m_SoundLevel, "../Resources/Fonts/DIN-Light.otf", 50, Color4f{ 1.f,1.f,1.f,1.f }),
 	m_TearManager(m_Window),
 	m_TimeCounter(0),
 	m_SoundManager(),
 	m_CanGetHit(true),
-	m_ElapsedTimeSinceHit(0)
+	m_ElapsedTimeSinceHit(0),
+	m_TutorialManager(),
+	m_GamePaused(false),
+	m_ActiveTutorial(true)
 {
 	Initialize();
 }
@@ -25,10 +31,12 @@ Game::~Game()
 
 void Game::Initialize()
 {
+	m_SoundLevel = "100";
 	m_HitboxButton.width = 450.f;
 	m_HitboxButton.height = 500.f;
 	m_HitboxButton.left = m_Window.width / 2 - m_HitboxButton.width / 2;
 	m_HitboxButton.bottom = m_Window.height / 2 - m_HitboxButton.height / 2 - 80.f;
+	m_Camera.SetLevelBoundaries(Rectf{ 0, 0, 1512.f, 905.f });
 }
 
 void Game::Cleanup()
@@ -37,54 +45,94 @@ void Game::Cleanup()
 
 void Game::Update(float elapsedSec)
 {
-	
-
-	// Check keyboard state
-	if (m_StartScreen != true)
+	if (m_GamePaused == false)
 	{
-		if (m_Isaac.GetHealth() != 0)
+		m_Isaac.SetActiveColisionBox(m_ActiveTutorial);
+		//active game
+		m_TimeCounter += elapsedSec;
+		// Check keyboard state
+		if (m_StartScreen != true)
 		{
-			CheckKeysPressed();
-			CheckIfPlayerIsHit(elapsedSec);
-			m_TimeCounter += elapsedSec;
-			m_Isaac.UpdateIsaac(elapsedSec);
-			m_Isaac.SetDirection(Isaac::notMoving);
-			m_TearManager.UpdateTears(elapsedSec, &m_SoundManager);
-			m_DungeonGenerator.UpdateCurrentshownRoom(m_Isaac.GetPostion(), m_Isaac, elapsedSec, m_TearManager, m_TearManager.GetActiveTearsVector(), m_SoundManager);
-		}else
-		{
-			//When Dead
+			if (m_ActiveTutorial==false)
+			{
+				if (m_Isaac.GetHealth() != 0)
+				{
+					CheckKeysPressed();
+					CheckIfPlayerIsHit(elapsedSec);
+					m_Isaac.UpdateIsaac(elapsedSec);
+					m_Isaac.SetDirection(Isaac::notMoving);
+					m_TearManager.UpdateTears(elapsedSec, &m_SoundManager);
+					m_DungeonGenerator.UpdateCurrentshownRoom(m_Isaac.GetPostion(), m_Isaac, elapsedSec, m_TearManager, m_TearManager.GetActiveTearsVector(), m_SoundManager);
+				}
+				else
+				{
+					CheckKeysPressed();
+				}
+			}else
+			{
+				CheckKeysPressed();
+				m_Isaac.UpdateIsaac(elapsedSec);
+				m_Isaac.SetDirection(Isaac::notMoving);
+				m_TearManager.UpdateTears(elapsedSec, &m_SoundManager);
+				m_TutorialManager.UpdateTutorialRoom(elapsedSec);
+			}
 		}
+	}
+	else
+	{
+		m_SoundLevel = m_SoundManager.GetSoundLevel();
+		CheckKeysPressed();
 	}
 }
 
 void Game::Draw() const
 {
-	
 	ClearBackground();
-	if (m_StartScreen != true)
+	if (m_GamePaused == false)
 	{
-		if (m_Isaac.GetHealth() !=0)
+		if (m_StartScreen != true)
 		{
-			utils::SetColor(Color4f{ 1.f,1.f,1.f,1.f });
-			utils::DrawPoint(Point2f{ m_Window.width / 2,m_Window.height / 2 }, 10);
-			m_DungeonGenerator.DrawDungeon();
-			m_Camera.Draw(m_Isaac.GetShape());
-			m_Isaac.DrawIsaac();
-			m_TearManager.DrawTears();
-			m_UImanager.DrawHeart();
-			TestDrawCollisionBoxes();
-		}else
-		{
-			DrawEndScreen();
+			if (m_ActiveTutorial == false)
+			{
+				if (m_Isaac.GetHealth() != 0)
+				{
+					utils::SetColor(Color4f{ 1.f,1.f,1.f,1.f });
+					utils::DrawPoint(Point2f{ m_Window.width / 2,m_Window.height / 2 }, 10);
+					m_DungeonGenerator.DrawDungeon();
+					m_Isaac.DrawIsaac();
+					m_TearManager.DrawTears();
+					m_UImanager.DrawHeart();
+					TestDrawCollisionBoxes();
+				}
+				else
+				{
+					DrawEndScreen();
+				}
+			}else
+			{
+				glPushMatrix();
+				m_Camera.Draw(m_Isaac.GetShape());
+				m_TutorialManager.DrawRoom();
+				m_Isaac.DrawIsaac();
+				m_TearManager.DrawTears();
+				glPopMatrix();
+			}
 		}
-
+		else
+		{
+			DrawStartScreen();
+		}
 	}
 	else
 	{
-		DrawStartScreen();
-		TestDrawCollisionBoxes();
+		DrawPauseScreen();
+		DrawVolumeText();
 	}
+}
+
+void Game::SetSoundLevel(int soundlevel)
+{
+	m_SoundLevel = soundlevel;
 }
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
@@ -92,16 +140,31 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 	switch (e.keysym.scancode)
 	{
 	case SDL_SCANCODE_I:ShowControls(); break;
+	case SDL_SCANCODE_P:
+		if (m_StartScreen == false)
+		{
+			if (m_GamePaused == true)
+			{
+				m_GamePaused = false;
+			}
+			else
+			{
+				m_GamePaused = true;
+			}
+		}
+		break;
 	}
-	if (m_StartScreen == true)
+	if (e.keysym.scancode == SDL_SCANCODE_G)
+	{
+		m_ActiveTutorial = false;
+		m_SoundManager.PlayStartingSound();
+	}
+	if (m_StartScreen == true && m_GamePaused == false)
 	{
 		InitializeGame();
 		m_StartScreen = false;
-		m_SoundManager.PlayStartingSound();
 	}
-
 }
-
 void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 {
 	//std::cout << "KEYUP event: " << e.keysym.sym << std::endl;
@@ -127,7 +190,6 @@ void Game::ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e)
 
 void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e)
 {
-
 	if (m_StartScreen == true)
 	{
 		switch (e.button)
@@ -138,6 +200,10 @@ void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e)
 		}
 	}
 
+	if (m_GamePaused == true)
+	{
+		CheckVolumeButtonHit(Point2f{ static_cast<float> (e.x), static_cast<float>(m_Window.height - e.y) });
+	}
 }
 
 void Game::ProcessMouseUpEvent(const SDL_MouseButtonEvent& e)
@@ -170,8 +236,8 @@ void Game::DrawStartScreen() const
 	roomsize.bottom = 0;
 	roomsize.width = m_Window.width;
 	roomsize.height = m_Window.height;
-	
-	m_TextureStartScreen.Draw(roomsize,dstrect);
+
+	m_TextureStartScreen.Draw(roomsize, dstrect);
 }
 
 void Game::DrawEndScreen() const
@@ -197,6 +263,10 @@ void Game::ShowControls()
 	std::cout << "Shoot Right: ArrowRightKey" << std::endl;
 	std::cout << "shoot Down: ArrowDownKey" << std::endl;
 	std::cout << "Shoot Left: ArrowLeftKey" << std::endl;
+
+	std::cout << "P: Pause/unPause the game" << std::endl;
+	std::cout << "#############################################################" << std::endl;
+	std::cout << "Press Enter to continue if in Tutorial Room" << std::endl;
 	std::cout << "#############################################################" << std::endl;
 }
 
@@ -206,7 +276,7 @@ void Game::TestDrawCollisionBoxes() const
 	collisionBox.width = 50.f;
 	collisionBox.height = 25.f;
 	//Middle Bottom
-	collisionBox.left = m_Window.width / 2- collisionBox.width/2;
+	collisionBox.left = m_Window.width / 2 - collisionBox.width / 2;
 	collisionBox.bottom = 188.f;
 	utils::DrawRect(collisionBox);
 
@@ -235,34 +305,31 @@ void Game::TestDrawCollisionBoxes() const
 	ExtraOffset.y = 85.f;
 	ExtraOffset.x = 35;
 	Rectf PlayArea{};
-	PlayArea.left = offset.x- ExtraOffset.x;
+	PlayArea.left = offset.x - ExtraOffset.x;
 	PlayArea.bottom = offset.y;
-	PlayArea.height = m_Window.height - offset.y- ExtraOffset.y;
-	PlayArea.width = m_Window.width - offset.x -ExtraOffset.y;
+	PlayArea.height = m_Window.height - offset.y - ExtraOffset.y;
+	PlayArea.width = m_Window.width - offset.x - ExtraOffset.y;
 	utils::DrawRect(PlayArea);
-
 }
 
 void Game::InitializeGame()
 {
 	m_DungeonGenerator.StartDungeonGeneration();
-	m_Camera.SetLevelBoundaries(Rectf{ 0,0,m_Window.width,m_Window.height });
 }
 
 void Game::CheckIfGameStart(Point2f pos)
 {
-	if (utils::IsPointInRect(pos,m_HitboxButton))
+	if (utils::IsPointInRect(pos, m_HitboxButton))
 	{
 		InitializeGame();
 		m_StartScreen = false;
-		m_SoundManager.PlayStartingSound();
 	}
 }
 
 void Game::CheckIfPlayerIsHit(float ElapsedSec)
 {
 	m_ElapsedTimeSinceHit += ElapsedSec;
-	if (m_ElapsedTimeSinceHit > 2) 
+	if (m_ElapsedTimeSinceHit > 2)
 	{
 		m_CanGetHit = true;
 		m_ElapsedTimeSinceHit = 0;
@@ -319,6 +386,12 @@ void Game::CheckKeysPressed()
 	{
 		m_Isaac.SetDirection(Isaac::MovingLeftDown);
 	}
+	if (pStates[SDL_SCANCODE_SPACE] && m_Isaac.GetHealth() == 0)
+	{
+		SDL_Event sdlevent;
+		sdlevent.type = SDL_QUIT;
+		SDL_PushEvent(&sdlevent);
+	}
 
 	if (m_Isaac.GetMotionState())
 	{
@@ -368,5 +441,57 @@ void Game::CheckKeysPressed()
 
 void Game::FullGameReset()
 {
-	
+}
+
+void Game::DrawPauseScreen() const
+{
+	Rectf dstrect, roomsize;
+	roomsize.left = 0;
+	roomsize.bottom = 0;
+	roomsize.width = m_Window.width;
+	roomsize.height = m_Window.height;
+
+	m_PauseScreen.Draw(roomsize, dstrect);
+
+	Rectf hitbox;
+	hitbox.left = 1017.f;
+	hitbox.bottom = 62.f;
+	hitbox.width = 57.f;
+	hitbox.height = 38.f;
+
+	utils::DrawRect(hitbox, 2);
+	hitbox.left = 1155.f;
+	hitbox.bottom = 62.f;
+	utils::DrawRect(hitbox, 2);
+}
+
+void Game::DrawVolumeText() const
+{
+	m_SoundText.Draw();
+}
+
+void Game::CheckVolumeButtonHit(const Point2f pos)
+{
+	Rectf hitbox;
+	hitbox.left = 1017.f;
+	hitbox.bottom = 62.f;
+	hitbox.width = 57.f;
+	hitbox.height = 38.f;
+	Rectf hitbox2;
+	utils::DrawRect(hitbox, 2);
+	hitbox2.left = 1155.f;
+	hitbox2.bottom = 62.f;
+	hitbox2.width = 57.f;
+	hitbox2.height = 38.f;
+	utils::DrawRect(hitbox, 2);
+	if (utils::IsPointInRect(pos, hitbox))
+	{
+		std::cout << "mute" << std::endl;
+		m_SoundManager.MuteSound();
+	}
+	else if (utils::IsPointInRect(pos, hitbox2))
+	{
+		std::cout << "unmute" << std::endl;
+		m_SoundManager.UnmuteSound();
+	}
 }

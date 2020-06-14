@@ -16,10 +16,11 @@ public:
 	bool GetDungeonCompletion();
 	void DrawDungeon()const;
 	void PrintAllCords();
-	void UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player,float elapsedSec,const TearManager& tearmanager,std::vector<Tear*>& activetears,const SoundManager& soundManager);
+	void UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player, float elapsedSec, const TearManager& tearmanager, std::vector<Tear*>& activetears, const SoundManager& soundManager);
 	void Changeroom(int x);
 	void DrawCollisionBoxes(std::vector<Rectf> collisionRect)const;
 	void DeleteEnemy();
+	void DrawBossDoor()const;
 	std::vector<Rectf> GetCollisionBoxes()const;
 	int GetAmountOfEnemieAI();
 	Rectf GetHitboxAI(int AI);
@@ -38,6 +39,7 @@ private:
 	int m_CurrentRoomDrawnCounter;
 	utils::roomDirection m_TempDirectionSave;
 	std::vector<RoomClass> m_RoomsList;
+	//RoomClass m_BossRoom;
 	bool m_completion;
 	Vector2f m_WindowSize;
 	Texture m_RoomTexture{ "../Resources/Backgrounds/Room.png" };
@@ -45,6 +47,7 @@ private:
 	Texture m_RightDoorTexture{ "../Resources/Backgrounds/RightDoor.png" };
 	Texture m_LeftDoorTexture{ "../Resources/Backgrounds/LeftDoor.png" };
 	Texture m_BottomDoorTexture{ "../Resources/Backgrounds/BottomDoor.png" };
+	Texture m_BoosRoomTexture{ "../Resources/Backgrounds/BossRoom.png" };
 	std::vector<utils::roomDirection> m_PossibleDirections;
 	std::vector<Point2f> m_ExistingCenterPoints;
 	int m_CurrentRoomDrawn;
@@ -67,7 +70,4 @@ private:
 	void SpawnEnemy();
 	void UpdateDoors();
 	bool m_OpenDoors;
-	//Test Function
-	//TestVars
-
 };

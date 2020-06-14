@@ -13,7 +13,7 @@ TearManager::~TearManager()
 	}
 }
 
-void TearManager::CreateTear(Point2f pos, utils::ShootingDirection shootingDirection,const SoundManager* soundmanager)
+void TearManager::CreateTear(Point2f pos, utils::ShootingDirection shootingDirection, const SoundManager* soundmanager)
 {
 	Vector2f Velocity;
 	switch (shootingDirection)
@@ -21,25 +21,25 @@ void TearManager::CreateTear(Point2f pos, utils::ShootingDirection shootingDirec
 	case utils::ShootingUp:
 		Velocity.y = 450.f;
 		Velocity.x = 0.f;
-		m_ActiveTears.push_back(new Tear{ &m_TearTexture,Velocity,pos});
+		m_ActiveTears.push_back(new Tear{ &m_TearTexture,Velocity,pos });
 		soundmanager->PlayshootingSound();
 		break;
 	case utils::ShootingRight:
 		Velocity.y = 0.f;
 		Velocity.x = 450.f;
-		m_ActiveTears.push_back(new Tear{ &m_TearTexture,Velocity,pos});
+		m_ActiveTears.push_back(new Tear{ &m_TearTexture,Velocity,pos });
 		soundmanager->PlayshootingSound();
 		break;
 	case utils::ShootingDown:
 		Velocity.y = -450.f;
 		Velocity.x = 0.f;
-		m_ActiveTears.push_back(new Tear{ &m_TearTexture,Velocity,pos});
+		m_ActiveTears.push_back(new Tear{ &m_TearTexture,Velocity,pos });
 		soundmanager->PlayshootingSound();
 		break;
 	case utils::ShootingLeft:
 		Velocity.y = 0.f;
 		Velocity.x = -450.f;
-		m_ActiveTears.push_back(new Tear{ &m_TearTexture,Velocity,pos});
+		m_ActiveTears.push_back(new Tear{ &m_TearTexture,Velocity,pos });
 		soundmanager->PlayshootingSound();
 		break;
 	}
@@ -53,11 +53,11 @@ void TearManager::DrawTears() const
 	}
 }
 
-void TearManager::UpdateTears(float elapsedSec,const SoundManager*soundManager)
+void TearManager::UpdateTears(float elapsedSec, const SoundManager* soundManager)
 {
 	for (int i{ 0 }; i < m_ActiveTears.size(); ++i)
 	{
-		m_ActiveTears[i]->UpdateTear(elapsedSec,m_Window);
+		m_ActiveTears[i]->UpdateTear(elapsedSec, m_Window);
 		if (m_ActiveTears[i]->getAliveState() == false)
 		{
 			DeleteTear(i);
@@ -89,7 +89,7 @@ int TearManager::GetAmountOfActiveTears() const
 	return m_ActiveTears.size();
 }
 
-std::vector<Tear*>&TearManager::GetActiveTearsVector()
+std::vector<Tear*>& TearManager::GetActiveTearsVector()
 {
 	return m_ActiveTears;
 }

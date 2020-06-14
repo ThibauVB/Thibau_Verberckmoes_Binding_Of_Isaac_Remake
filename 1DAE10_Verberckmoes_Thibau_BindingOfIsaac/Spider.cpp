@@ -1,40 +1,40 @@
 ﻿#include "pch.h"
-#include "AttackFly.h"
+#include "Spider.h"
 
-AttackFly::AttackFly(Texture* texture, Point2f SpawnPos, Vector2f Velocity, int Health, int maxHealth) : BasicAI{ Point2f{SpawnPos},Vector2f{Velocity},Health,maxHealth,25,5 },
-m_TextureFly(texture)
+Spider::Spider(Texture* texture, Point2f SpawnPos, Vector2f Velocity, int Health, int maxHealth) : BasicAI{ Point2f{SpawnPos},Vector2f{Velocity},Health,maxHealth,13,3 },
+m_TextureSpider(texture)
 /*m_HitBox(m_CenterPos.x - (m_TextureFly->GetWidth() / 5) / 2, m_CenterPos.y - m_TextureFly->GetHeight() / 2, m_TextureFly->GetWidth() / 5, m_TextureFly->GetHeight())*/
 {
 }
 
-AttackFly::~AttackFly()
+Spider::~Spider()
 {
 }
 
-void AttackFly::Attack()
+void Spider::Attack()
 {
 	std::cout << "Works" << std::endl;
 }
 
-void AttackFly::Draw() const
+void Spider::Draw() const
 {
-	m_TextureFly->Draw(m_DstRect, m_srcRect);
+	m_TextureSpider->Draw(m_DstRect, m_srcRect);
 	DrawHitbox();
 }
 
-void AttackFly::Update(float elapsedSec, const Point2f& pos)
+void Spider::Update(float elapsedSec, const Point2f& pos)
 {
 	TimeCounter(elapsedSec);
-	m_DstRect.width = 70.f;
+	m_DstRect.width = 100.f;
 	m_DstRect.height = 60.f;
 	m_DstRect.left = m_CenterPos.x - m_DstRect.width / 2;
 	m_DstRect.bottom = m_CenterPos.y - m_DstRect.height / 2;
 
-	m_srcRect.width = 92.5f;
+	m_srcRect.width = 109;
 	m_srcRect.height = 90;
 	m_srcRect.left = (m_srcRect.width * m_AnimFrame);
 	m_srcRect.bottom = 0;
-	UpdateHitbox(Rectf{ (m_CenterPos.x - (m_TextureFly->GetWidth() / 5) / 2) ,m_CenterPos.y - m_TextureFly->GetHeight() / 2,m_TextureFly->GetWidth() / 5,m_TextureFly->GetHeight() });
+	UpdateHitbox(Rectf{ (m_CenterPos.x - (m_TextureSpider->GetWidth() / 5) / 2) ,m_CenterPos.y - m_TextureSpider->GetHeight() / 2,m_TextureSpider->GetWidth() / 5,m_TextureSpider->GetHeight() });
 	SetLocationOfPlayer(pos);
 	CalculateDeltaPos(elapsedSec);
 
@@ -42,7 +42,7 @@ void AttackFly::Update(float elapsedSec, const Point2f& pos)
 	m_CenterPos.y += DeltaPos.y;
 }
 
-void AttackFly::TimeCounter(float elapsedTime)
+void Spider::TimeCounter(float elapsedTime)
 {
 	m_TimePassedForAnimation += elapsedTime;
 	if (m_TimePassedForAnimation >= 1.f / m_FramesPerSec)
@@ -56,7 +56,7 @@ void AttackFly::TimeCounter(float elapsedTime)
 	}
 }
 
-void AttackFly::CheckIfHit(const Point2f pos, std::vector<Tear*>& activetears, const SoundManager& soundManager)
+void Spider::CheckIfHit(const Point2f pos, std::vector<Tear*>& activetears, const SoundManager& soundManager)
 {
 	if (utils::IsPointInRect(pos, m_HitBox))
 	{
@@ -72,14 +72,14 @@ void AttackFly::CheckIfHit(const Point2f pos, std::vector<Tear*>& activetears, c
 	}
 }
 
-Rectf AttackFly::GetHitbox() const
+Rectf Spider::GetHitbox() const
 {
 	return m_HitBox;
 }
 
-void AttackFly::DrawHitbox()const
+void Spider::DrawHitbox()const
 {
 	utils::SetColor(Color4f{ 0.f,0.f,1.f,1.f });
-	utils::DrawRect(m_CenterPos.x - (m_TextureFly->GetWidth() / 5) / 2, m_CenterPos.y - m_TextureFly->GetHeight() / 2, m_TextureFly->GetWidth() / 5, m_TextureFly->GetHeight(), 2);
+	utils::DrawRect(m_CenterPos.x - (m_TextureSpider->GetWidth() / 5) / 2, m_CenterPos.y - m_TextureSpider->GetHeight() / 2, m_TextureSpider->GetWidth() / 5, m_TextureSpider->GetHeight(), 2);
 	utils::SetColor(Color4f{ 0.f,1.f,0.f,1.f });
 }

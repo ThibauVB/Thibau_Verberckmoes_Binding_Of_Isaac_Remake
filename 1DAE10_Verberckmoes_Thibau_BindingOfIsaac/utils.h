@@ -92,6 +92,6 @@ namespace utils
 	};
 	enum CameFromDoor
 	{
-		DoorRight,DoorDown,DoorLeft,DoorUp,StartingRoom
+		DoorRight, DoorDown, DoorLeft, DoorUp, StartingRoom
 	};
 }

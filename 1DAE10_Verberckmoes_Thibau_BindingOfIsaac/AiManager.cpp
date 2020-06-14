@@ -1,27 +1,38 @@
 ﻿#include "pch.h"
 #include "AiManager.h"
 #include "AttackFly.h"
-AiManager::AiManager()
+#include "Spider.h"
+AiManager::AiManager() : m_AttackFlyTexture("../Resources/Enemies/AttackFly.png"),
+m_SpiderTexture("../Resources/Enemies/Spider.png")
 {
 }
 
 AiManager::~AiManager()
 {
-	for (int i{0};i<m_ActiveEnemies.size();++i)
+	for (int i{ 0 }; i < m_ActiveEnemies.size(); ++i)
 	{
 		delete m_ActiveEnemies[i];
 		m_ActiveEnemies[i] = nullptr;
 	}
 }
 
-void AiManager::CreateEnemy(Point2f SpawnPos,const Rectf& RoomBorders)
+void AiManager::CreateEnemy(Point2f SpawnPos, const Rectf& RoomBorders, int enemy)
 {
-	m_ActiveEnemies.push_back(new AttackFly{&m_AttackFlyTexture,SpawnPos,Vector2f{100,50},5,5});
+	switch (2)
+	{
+	case 1:
+		m_ActiveEnemies.push_back(new AttackFly{ &m_AttackFlyTexture,SpawnPos,Vector2f{100,50},5,5 });
+		break;
+	case 2:
+		//m_ActiveEnemies.push_back(new AttackFly{ &m_AttackFlyTexture,SpawnPos,Vector2f{100,50},5,5 });
+		m_ActiveEnemies.push_back(new Spider{ &m_SpiderTexture,SpawnPos,Vector2f{100,50},5,5 });
+		break;
+	}
 }
 
 void AiManager::DrawEnemy() const
 {
-	for (int i{0};i<m_ActiveEnemies.size();++i)
+	for (int i{ 0 }; i < m_ActiveEnemies.size(); ++i)
 	{
 		m_ActiveEnemies[i]->Draw();
 	}
@@ -29,13 +40,13 @@ void AiManager::DrawEnemy() const
 
 void AiManager::UpdateEnemies(float elapsedSec, const Point2f& pos)
 {
-	for (int i{0};i<m_ActiveEnemies.size();++i)
+	for (int i{ 0 }; i < m_ActiveEnemies.size(); ++i)
 	{
-		m_ActiveEnemies[i]->Update(elapsedSec,pos);
+		m_ActiveEnemies[i]->Update(elapsedSec, pos);
 	}
 	CheckHealthStatus();
 	SetAmountOfEnemies(m_ActiveEnemies.size());
-	
+
 	//CheckOverlappingAI();
 }
 
@@ -47,11 +58,11 @@ void AiManager::DeleteEnemy(int Enemy)
 	std::cout << "Deleted Enemy" << std::endl;
 }
 
-void AiManager::TransferTearPositions(Point2f pos, std::vector<Tear*>& activetears,const SoundManager& soundManager)
+void AiManager::TransferTearPositions(Point2f pos, std::vector<Tear*>& activetears, const SoundManager& soundManager)
 {
-	for (int i{0};i<m_ActiveEnemies.size();++i)
+	for (int i{ 0 }; i < m_ActiveEnemies.size(); ++i)
 	{
-		m_ActiveEnemies[i]->CheckIfHit(pos,activetears,soundManager);
+		m_ActiveEnemies[i]->CheckIfHit(pos, activetears, soundManager);
 	}
 }
 
@@ -77,7 +88,7 @@ Point2f AiManager::GetCenterPositionAI(int Ai) const
 
 void AiManager::CheckHealthStatus()
 {
-	for (int i{0};i<m_ActiveEnemies.size();++i)
+	for (int i{ 0 }; i < m_ActiveEnemies.size(); ++i)
 	{
 		if (m_ActiveEnemies[i]->GetHealth() <= 0)
 		{
@@ -89,14 +100,14 @@ void AiManager::CheckHealthStatus()
 
 void AiManager::CheckOverlappingAI()
 {
-	Vector2f vectorA,vectorB,delta;
+	Vector2f vectorA, vectorB, delta;
 	Point2f pos1, pos2;
-	for (size_t idX{0}; idX<m_ActiveEnemies.size();++idX)
+	for (size_t idX{ 0 }; idX < m_ActiveEnemies.size(); ++idX)
 	{
 		vectorA.x = m_ActiveEnemies[idX]->GetCenterPos().x;
 		vectorA.y = m_ActiveEnemies[idX]->GetCenterPos().y;
-		
-		for (size_t idY{0};idY<m_ActiveEnemies.size();++idY)
+
+		for (size_t idY{ 0 }; idY < m_ActiveEnemies.size(); ++idY)
 		{
 			vectorB.x = m_ActiveEnemies[idY]->GetCenterPos().x;
 			vectorB.y = m_ActiveEnemies[idY]->GetCenterPos().y;
@@ -107,8 +118,8 @@ void AiManager::CheckOverlappingAI()
 				{
 					//change pos of ai
 					m_ActiveEnemies[idY]->SetUpdatePositionBool(false);
-
-				}else
+				}
+				else
 				{
 					m_ActiveEnemies[idY]->SetUpdatePositionBool(true);
 				}
@@ -116,6 +127,3 @@ void AiManager::CheckOverlappingAI()
 		}
 	}
 }
-
-
-

@@ -18,7 +18,7 @@ void Tear::DrawTear() const
 	m_TearTexture->Draw(m_Pos);
 	DrawHitBox();
 }
-void Tear::UpdateTear(float elapsedSec,Window const&window)
+void Tear::UpdateTear(float elapsedSec, Window const& window)
 {
 	float fraction = 1.f;
 	m_LifeTime += elapsedSec;
@@ -35,7 +35,6 @@ bool Tear::getAliveState()const
 	return m_KeepAlive;
 }
 
-
 Point2f Tear::GetPostion()const
 {
 	return m_Pos;
@@ -48,7 +47,7 @@ void Tear::SetAliveState(bool state)
 
 void Tear::CheckLifeTime()
 {
-	if (m_LifeTime>m_MaxLifeTime.x)
+	if (m_LifeTime > m_MaxLifeTime.x)
 	{
 		std::cout << "Destroy Tear" << std::endl;
 		m_KeepAlive = false;
@@ -68,19 +67,19 @@ void Tear::CheckIfWall(const Window& window)
 	PlayArea.height = window.height - offset.y - ExtraOffset.y;
 	PlayArea.width = window.width - offset.x - ExtraOffset.y;
 
-	if (m_Pos.x<PlayArea.left)
+	if (m_Pos.x < PlayArea.left)
 	{
 		m_KeepAlive = false;
 	}
-	if (m_Pos.y<PlayArea.bottom)
+	if (m_Pos.y < PlayArea.bottom)
 	{
 		m_KeepAlive = false;
 	}
-	if (m_Pos.x>PlayArea.left+PlayArea.width-ExtraOffset.x)
+	if (m_Pos.x > PlayArea.left + PlayArea.width - ExtraOffset.x)
 	{
 		m_KeepAlive = false;
 	}
-	if (m_Pos.y>PlayArea.bottom+PlayArea.height-ExtraOffset.y/2)
+	if (m_Pos.y > PlayArea.bottom + PlayArea.height - ExtraOffset.y / 2)
 	{
 		m_KeepAlive = false;
 	}

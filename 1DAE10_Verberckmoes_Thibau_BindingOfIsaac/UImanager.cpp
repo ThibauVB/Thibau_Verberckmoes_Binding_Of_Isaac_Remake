@@ -1,11 +1,9 @@
 ﻿#include "pch.h"
 #include "UImanager.h"
 
-
 UImanager::UImanager() : m_HeartTexture(new Texture("../Resources/Hud/Heart.png")),
 m_lives(3)
 {
-	
 }
 
 UImanager::~UImanager()
@@ -41,12 +39,10 @@ void UImanager::DrawHeart() const
 	}
 	srcRect.bottom = 0;
 
-	
-	m_HeartTexture->Draw(dstRect,srcRect);
+	m_HeartTexture->Draw(dstRect, srcRect);
 }
 
 void UImanager::UpdateHeart(int lives)
 {
 	m_lives = lives;
 }
-

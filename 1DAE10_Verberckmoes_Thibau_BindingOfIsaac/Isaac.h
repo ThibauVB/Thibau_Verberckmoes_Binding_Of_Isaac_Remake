@@ -27,8 +27,10 @@ public:
 	void SetPlayerPos(Point2f pos);
 	void DamageIsaac();
 	int GetHealth()const;
-	
+	Rectf GetShapeForCamera()const;
+	void SetActiveColisionBox(bool isActive);
 private:
+	bool m_ActiveColisionBox;
 	Rectf m_srcRectBody;
 	Rectf m_dstRectBody;
 	Point2f m_WindowSize;
@@ -54,6 +56,6 @@ private:
 	const float m_Width{ 20.f };
 	const float m_Height{ 20.f };
 	Texture m_IsaacTexture{ "../Resources/Isaac/Isaac.png" };
-	void CheckPosition();
+	void CheckPosition(bool activeHitbox);
 	void TimeCounter(float elapsedTime);
 };

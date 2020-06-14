@@ -1,10 +1,10 @@
 ﻿#pragma once
 #include "BasicAI.h"
-class AttackFly : public BasicAI
+class Spider : public BasicAI
 {
 public:
-	explicit AttackFly(Texture* Texture, Point2f SpawnPos, Vector2f Velocity, int Health, int maxHealth);
-	virtual ~AttackFly();
+	explicit Spider(Texture* Texture, Point2f SpawnPos, Vector2f Velocity, int Health, int maxHealth);;
+	~Spider();
 	void Attack();
 	void Draw()const;
 	void Update(float elapsedSec, const Point2f& pos)override;
@@ -13,6 +13,6 @@ public:
 	Rectf GetHitbox() const;
 private:
 	Rectf m_srcRect, m_DstRect;
-	Texture* m_TextureFly;
+	Texture* m_TextureSpider;
 	void DrawHitbox()const;
 };

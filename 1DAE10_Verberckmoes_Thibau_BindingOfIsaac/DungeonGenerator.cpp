@@ -16,6 +16,7 @@ DungeonGenerator::DungeonGenerator(Vector2f windowSize) :
 	m_CurrentRoomDrawn(0),
 	m_LastDirection(utils::all),
 	m_OpenDoors(false)
+	//m_BossRoom{ m_ExistingCenterPoints[m_RoomsList.size() - 1], 1512.f, 950.f, roomdirection, m_BoosRoomTexture, m_TopDoorTexture,m_RightDoorTexture,m_BottomDoorTexture,m_LeftDoorTexture,roomdirection }
 {
 	InitDirections();
 }
@@ -39,6 +40,10 @@ void DungeonGenerator::DrawDungeon() const
 		m_RoomsList[x].DrawRoom();
 	}
 	m_AImanager.DrawEnemy();
+	if (m_CurrentRoomDrawnCounter == 9)
+	{
+		std::cout << "boss room" << std::endl;
+	}
 }
 
 DungeonGenerator::~DungeonGenerator()
@@ -84,7 +89,7 @@ void DungeonGenerator::CreateNormalRooms()
 			tmpCamefrom = utils::DoorDown;
 			break;
 		}
-		m_RoomsList.push_back(RoomClass{ pos,m_WidthNormal,m_HeightNormal, m_TempDirectionSave,&m_RoomTexture,&m_TopDoorTexture,&m_RightDoorTexture,&m_BottomDoorTexture,&m_LeftDoorTexture , tmpCamefrom});
+		m_RoomsList.push_back(RoomClass{ pos,m_WidthNormal,m_HeightNormal, m_TempDirectionSave,&m_RoomTexture,&m_TopDoorTexture,&m_RightDoorTexture,&m_BottomDoorTexture,&m_LeftDoorTexture , tmpCamefrom });
 		//std::cout << "Room: "  << "direction: " << m_TempDirectionSave <<" Created" << "On Pos:" << m_ExistingCenterPoints[m_RoomCounter-(1)].x << ":" << m_ExistingCenterPoints[m_RoomCounter-(1)].y <<std::endl;
 		m_ExistingCenterPoints.push_back(pos);
 		//	std::cout << pos.x << " " << pos.y << std::endl;
@@ -222,26 +227,26 @@ void DungeonGenerator::PrintAllCords()
 	}
 }
 
-void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player,float elapsedSec,const TearManager& tearmanager,std::vector<Tear*>& activetears,const SoundManager& soundManager)
-{	
+void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player, float elapsedSec, const TearManager& tearmanager, std::vector<Tear*>& activetears, const SoundManager& soundManager)
+{
 	//UPDATE AI
-	m_AImanager.UpdateEnemies(elapsedSec,PlayerPos);
+	m_AImanager.UpdateEnemies(elapsedSec, PlayerPos);
 	Point2f tearPosition;
-	for (int i{0};i<tearmanager.GetAmountOfActiveTears();++i)
+	for (int i{ 0 }; i < tearmanager.GetAmountOfActiveTears(); ++i)
 	{
 		tearPosition = tearmanager.GetTearPosition(i);
 		std::cout << tearPosition.x << " " << tearPosition.y << std::endl;
-		m_AImanager.TransferTearPositions(tearPosition,activetears,soundManager);
+		m_AImanager.TransferTearPositions(tearPosition, activetears, soundManager);
 	}
 
 	UpdateDoors();
-	
+
 	Rectf collisionBox;
 	std::vector<bool> DoorValues;
 	//This gets the current room player is in the 4 door states
 	DoorValues = m_RoomsList[m_CurrentRoomDrawnCounter].GetDoorValues();
 	//Test 0: Down, 1: Left, 2:Top,3:Right
-	
+
 	//is left door active
 	if (m_OpenDoors == true)
 	{
@@ -272,7 +277,6 @@ void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player,f
 					}
 				}
 			}
-
 		}
 		//is right door active
 		if (DoorValues[1] == true)
@@ -301,7 +305,6 @@ void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player,f
 						SpawnEnemy();
 					}
 				}
-
 			}
 		}
 		//is bottom door active
@@ -361,8 +364,6 @@ void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player,f
 			}
 		}
 	}
-	
-
 }
 
 void DungeonGenerator::Changeroom(int x)
@@ -377,7 +378,6 @@ void DungeonGenerator::DrawCollisionBoxes(std::vector<Rectf> collisionRect)const
 		utils::SetColor(Color4f{ 0,1,1,1 });
 		utils::DrawRect(collisionRect[idX]);
 	}
-
 }
 
 std::vector<Rectf> DungeonGenerator::GetCollisionBoxes() const
@@ -402,7 +402,6 @@ Point2f DungeonGenerator::GetCenterPositionAI(int Ai)
 
 void DungeonGenerator::ResetDungeon()
 {
-	
 }
 
 void DungeonGenerator::UpdateRoomsPosition(int direction)
@@ -529,7 +528,7 @@ void DungeonGenerator::UpdateCurrentRoomCounter(utils::roomDirection directionTo
 	if (m_LastDirection == directionToCheck)
 	{
 		--m_CurrentRoomDrawn;
-		if (m_CurrentRoomDrawn<0)
+		if (m_CurrentRoomDrawn < 0)
 		{
 			m_CurrentRoomDrawn = 1;
 		}
@@ -549,29 +548,33 @@ void DungeonGenerator::SpawnEnemy()
 {
 	int randomAmount;
 	randomAmount = rand() % 5 + 1;
+	int randomAI;
 	Point2f RandomPos;
 	Rectf RoomBorder;
 	RoomBorder = GetCurrentRoomBorders();
 	m_AImanager.SetAmountOfEnemies(randomAmount);
-	for (int i{0};i<randomAmount;++i)
+	for (int i{ 0 }; i < randomAmount; ++i)
 	{
+		randomAI = rand() % 2 + 1;
 		RandomPos.x = rand() % static_cast<int>(RoomBorder.width) + (RoomBorder.left);
 		RandomPos.y = rand() % static_cast<int>(RoomBorder.height) + (RoomBorder.bottom);
-		m_AImanager.CreateEnemy(RandomPos, GetCurrentRoomBorders());
+		m_AImanager.CreateEnemy(RandomPos, GetCurrentRoomBorders(), randomAI);
 	}
 }
 
 void DungeonGenerator::UpdateDoors()
 {
-	if (m_CurrentRoomDrawnCounter==0)
+	if (m_CurrentRoomDrawnCounter == 0)
 	{
 		m_OpenDoors = true;;
-	}else
+	}
+	else
 	{
-		if (m_AImanager.GetAmountOfActiveEnemies()==0)
+		if (m_AImanager.GetAmountOfActiveEnemies() == 0)
 		{
 			m_OpenDoors = true;
-		}else
+		}
+		else
 		{
 			m_OpenDoors = false;
 		}

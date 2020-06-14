@@ -20,15 +20,13 @@ BasicAI::~BasicAI()
 
 void BasicAI::Draw() const
 {
-	
 }
 
 void BasicAI::Update(float elapsedSec, const Point2f& pos)
 {
-	
 }
 
-void BasicAI::CheckIfHit(const Point2f pos, std::vector<Tear*>& activetears,const SoundManager& soundManager)
+void BasicAI::CheckIfHit(const Point2f pos, std::vector<Tear*>& activetears, const SoundManager& soundManager)
 {
 }
 
@@ -87,12 +85,7 @@ void BasicAI::CalculateDeltaPos(float elapsedSec)
 
 	SumVector = PlayerPos - AIpos;
 	NormalizedVector = SumVector.Normalized();
-	
+
 	DeltaPos = (m_Velocity.x * elapsedSec) * NormalizedVector;
-//	std::cout << DeltaVector.x << " " << DeltaVector.y<<std::endl;
+	//	std::cout << DeltaVector.x << " " << DeltaVector.y<<std::endl;
 }
-
-
-
-
-

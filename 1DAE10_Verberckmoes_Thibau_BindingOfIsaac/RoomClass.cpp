@@ -1,7 +1,7 @@
 ﻿#include "pch.h"
 #include "RoomClass.h"
 
-RoomClass::RoomClass(Point2f center, float width, float height, utils::roomDirection direction, Texture* texture, Texture* TopDoor, Texture* RightDoor, Texture* BottomDoor, Texture* LeftDoor,utils::CameFromDoor CameFrom) :
+RoomClass::RoomClass(Point2f center, float width, float height, utils::roomDirection direction, Texture* texture, Texture* TopDoor, Texture* RightDoor, Texture* BottomDoor, Texture* LeftDoor, utils::CameFromDoor CameFrom) :
 	m_Center(center),
 	m_Width(width),
 	m_Height(height),
@@ -31,6 +31,12 @@ RoomClass::RoomClass(Point2f center, float width, float height, utils::roomDirec
 	m_PlayArea.bottom = m_Offset.y;
 	m_PlayArea.height = 800.0f - m_Offset.y - m_ExtraOffset.y;
 	m_PlayArea.width = 1280.0f - m_Offset.x - m_ExtraOffset.y;
+}
+RoomClass::RoomClass(Point2f center, float width, float height, Texture* roomtexture) : m_Center(center),
+m_Width(width),
+m_Height(height),
+m_RoomTexture(roomtexture)
+{
 }
 RoomClass::~RoomClass()
 {
@@ -155,6 +161,10 @@ void RoomClass::DrawRoom() const
 	}
 }
 
+void RoomClass::DrawBossRoom() const
+{
+}
+
 void RoomClass::SetNewDoors(bool left, bool right, bool top, bool bottom)
 {
 	m_Left = left;
@@ -226,7 +236,7 @@ void RoomClass::SetRoomRect(int x)
 	//1=>RoomsGotRight
 	//2=>RoomsGoDown
 	//3=>RoomsGotLeft
-	
+
 	switch (x)
 	{
 	case 0:

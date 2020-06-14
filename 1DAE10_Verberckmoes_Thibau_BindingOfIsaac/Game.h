@@ -7,6 +7,7 @@
 #include "AiManager.h"
 #include "SoundManager.h"
 #include "UImanager.h"
+#include "TutorialManager.h"
 class Game
 {
 public:
@@ -19,6 +20,7 @@ public:
 
 	void Update(float elapsedSec);
 	void Draw() const;
+	void SetSoundLevel(int soundlevel);
 	// Event handling
 	void ProcessKeyDownEvent(const SDL_KeyboardEvent& e);
 	void ProcessKeyUpEvent(const SDL_KeyboardEvent& e);
@@ -41,20 +43,29 @@ private:
 	void CheckIfPlayerIsHit(float ElapsedSec);
 	void CheckKeysPressed();
 	void FullGameReset();
+	void DrawPauseScreen()const;
+	void DrawVolumeText()const;
+	void CheckVolumeButtonHit(const Point2f pos);
 	Rectf StartButton;
 	Isaac m_Isaac;
 	Camera m_Camera;
 	bool m_StartScreen;
+	std::string m_SoundLevel;
 	Texture m_TextureStartScreen;
 	Texture m_TextureDeathNote;
+	Texture m_PauseScreen;
+	Texture m_SoundText;
 	float m_TimeCounter;
 	bool TestBoolForDoor{ false };
 	bool m_CanGetHit;
 	float m_ElapsedTimeSinceHit;
+	bool m_ActiveTutorial;
+	bool m_GamePaused;
 	//Managers/Generators
 	DungeonGenerator m_DungeonGenerator;
 	TearManager m_TearManager;
 	Rectf m_HitboxButton;
 	SoundManager m_SoundManager;
 	UImanager m_UImanager;
+	TutorialManager m_TutorialManager;
 };

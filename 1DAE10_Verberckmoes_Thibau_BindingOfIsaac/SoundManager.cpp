@@ -21,7 +21,7 @@ SoundManager::~SoundManager()
 
 void SoundManager::PlayStartingSound()const
 {
-	//m_StartingSound->Play(false);
+	m_StartingSound->Play(false);
 }
 
 void SoundManager::PlayshootingSound()const
@@ -50,6 +50,69 @@ void SoundManager::PlayGruntSound() const
 	m_GruntSound->Play(false);
 }
 
+void SoundManager::IncrementSound()
+{
+	int sound;
+	sound = m_FlySound->GetVolume();
+	sound += 1;
+	m_FlySound->SetVolume(sound);
+	sound = m_ShootingSound->GetVolume();
+	sound += 1;
+	m_ShootingSound->SetVolume(sound);
+	sound = m_TearDestroySound->GetVolume();
+	sound += 1;
+	m_TearDestroySound->SetVolume(sound);
+	sound = m_StartingSound->GetVolume();
+	sound += 1;
+	m_StartingSound->SetVolume(sound);
+	sound = m_GruntSound->GetVolume();
+	sound += 1;
+	m_GruntSound->SetVolume(sound);
+}
 
+void SoundManager::DecrementSound()
+{
+	int sound;
+	sound = m_FlySound->GetVolume();
+	sound -= 1;
+	m_FlySound->SetVolume(sound);
+	sound = m_ShootingSound->GetVolume();
+	sound -= 1;
+	m_ShootingSound->SetVolume(sound);
+	sound = m_TearDestroySound->GetVolume();
+	sound -= 1;
+	m_TearDestroySound->SetVolume(sound);
+	sound = m_StartingSound->GetVolume();
+	sound -= 1;
+	m_StartingSound->SetVolume(sound);
+	sound = m_GruntSound->GetVolume();
+	sound -= 1;
+	m_GruntSound->SetVolume(sound);
+}
 
+void SoundManager::MuteSound()
+{
+	m_SoundValueBeforeMute = m_FlySound->GetVolume();
+	m_ShootingSound->SetVolume(0);
+	m_StartingSound->SetVolume(0);
+	m_TearDestroySound->SetVolume(0);
+	m_FlySound->SetVolume(0);
+	m_GruntSound->SetVolume(0);
+}
 
+void SoundManager::UnmuteSound()
+{
+	m_ShootingSound->SetVolume(m_SoundValueBeforeMute);
+	m_StartingSound->SetVolume(m_SoundValueBeforeMute);
+	m_TearDestroySound->SetVolume(m_SoundValueBeforeMute);
+	m_FlySound->SetVolume(m_SoundValueBeforeMute);
+	m_GruntSound->SetVolume(m_SoundValueBeforeMute);
+}
+
+std::string SoundManager::GetSoundLevel()
+{
+	std::string soundlevel;
+
+	soundlevel = std::to_string(m_FlySound->GetVolume());
+	return soundlevel;
+}

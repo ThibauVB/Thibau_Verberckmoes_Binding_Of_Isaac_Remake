@@ -8,11 +8,11 @@ class AiManager
 public:
 	explicit AiManager();
 	~AiManager();
-	void CreateEnemy(Point2f pos,const Rectf& RoomBorders);
+	void CreateEnemy(Point2f pos, const Rectf& RoomBorders, int enemy);
 	void DrawEnemy()const;
-	void UpdateEnemies(float elapsedSec,const Point2f& pos);
+	void UpdateEnemies(float elapsedSec, const Point2f& pos);
 	void DeleteEnemy(int Enemy);
-	void TransferTearPositions(Point2f pos, std::vector<Tear*>& activetears,const SoundManager& soundManager);
+	void TransferTearPositions(Point2f pos, std::vector<Tear*>& activetears, const SoundManager& soundManager);
 	void SetAmountOfEnemies(int fies);
 	int GetAmountOfActiveEnemies();
 	Rectf GetHitBoxAI(int Ai)const;
@@ -23,5 +23,6 @@ private:
 	void CheckOverlappingAI();
 	int m_AmountOfCurrentFlies;
 	//EnemyTextures
-	Texture m_AttackFlyTexture {"../Resources/Enemies/AttackFly.png"};
+	Texture m_AttackFlyTexture;
+	Texture m_SpiderTexture;
 };
