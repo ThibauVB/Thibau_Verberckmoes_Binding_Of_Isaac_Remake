@@ -74,7 +74,7 @@ void Game::Update(float elapsedSec)
 				m_Isaac.UpdateIsaac(elapsedSec);
 				m_Isaac.SetDirection(Isaac::notMoving);
 				m_TearManager.UpdateTears(elapsedSec, &m_SoundManager);
-				m_TutorialManager.UpdateTutorialRoom(elapsedSec);
+				m_TutorialManager.UpdateTutorialRoom(elapsedSec,m_Isaac.GetPostion(),m_DungeonGenerator.GetCurrentRoomBorders());
 			}
 		}
 	}
@@ -151,6 +151,12 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 			{
 				m_GamePaused = true;
 			}
+		}
+		break;
+	case SDL_SCANCODE_V:
+		if (m_ActiveTutorial == true)
+		{
+			m_TutorialManager.SpawnEnemy();
 		}
 		break;
 	}

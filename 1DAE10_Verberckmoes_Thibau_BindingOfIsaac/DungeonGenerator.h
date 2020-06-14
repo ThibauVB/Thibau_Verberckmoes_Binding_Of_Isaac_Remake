@@ -26,6 +26,7 @@ public:
 	Rectf GetHitboxAI(int AI);
 	Point2f GetCenterPositionAI(int Ai);
 	void ResetDungeon();
+	Rectf GetCurrentRoomBorders();
 	//void CleanDungeon();
 private:
 	int m_LeftChance;
@@ -66,7 +67,6 @@ private:
 	void FixStartRoom();
 	void FixRooms();
 	void UpdateCurrentRoomCounter(utils::roomDirection directionToCheck);
-	Rectf GetCurrentRoomBorders();
 	void SpawnEnemy();
 	void UpdateDoors();
 	bool m_OpenDoors;

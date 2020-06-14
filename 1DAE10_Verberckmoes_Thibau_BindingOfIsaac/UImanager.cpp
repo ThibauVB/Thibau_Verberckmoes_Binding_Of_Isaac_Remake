@@ -15,7 +15,8 @@ void UImanager::DrawHeart() const
 {
 	Rectf dstRect{};
 	Rectf srcRect{};
-
+	dstRect.left = 150.f;
+	dstRect.bottom = 650.f;
 	dstRect.width = 70.f;
 	dstRect.height = 70.f;
 

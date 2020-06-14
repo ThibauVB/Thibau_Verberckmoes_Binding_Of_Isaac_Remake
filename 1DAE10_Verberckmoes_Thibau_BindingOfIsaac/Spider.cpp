@@ -1,7 +1,7 @@
 ﻿#include "pch.h"
 #include "Spider.h"
 
-Spider::Spider(Texture* texture, Point2f SpawnPos, Vector2f Velocity, int Health, int maxHealth) : BasicAI{ Point2f{SpawnPos},Vector2f{Velocity},Health,maxHealth,13,3 },
+Spider::Spider(Texture* texture, Point2f SpawnPos, Vector2f Velocity, int Health, int maxHealth) : BasicAI{ Point2f{SpawnPos},Vector2f{Velocity},Health,maxHealth,13,6 },
 m_TextureSpider(texture)
 /*m_HitBox(m_CenterPos.x - (m_TextureFly->GetWidth() / 5) / 2, m_CenterPos.y - m_TextureFly->GetHeight() / 2, m_TextureFly->GetWidth() / 5, m_TextureFly->GetHeight())*/
 {
@@ -30,7 +30,7 @@ void Spider::Update(float elapsedSec, const Point2f& pos)
 	m_DstRect.left = m_CenterPos.x - m_DstRect.width / 2;
 	m_DstRect.bottom = m_CenterPos.y - m_DstRect.height / 2;
 
-	m_srcRect.width = 109;
+	m_srcRect.width = 112.65;
 	m_srcRect.height = 90;
 	m_srcRect.left = (m_srcRect.width * m_AnimFrame);
 	m_srcRect.bottom = 0;
