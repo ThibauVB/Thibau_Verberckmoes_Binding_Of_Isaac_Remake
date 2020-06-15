@@ -16,7 +16,7 @@ Tear::~Tear()
 void Tear::DrawTear() const
 {
 	m_TearTexture->Draw(m_Pos);
-	DrawHitBox();
+	//DrawHitBox();
 }
 void Tear::UpdateTear(float elapsedSec, Window const& window)
 {

@@ -19,7 +19,7 @@ void Spider::Attack()
 void Spider::Draw() const
 {
 	m_TextureSpider->Draw(m_DstRect, m_srcRect);
-	DrawHitbox();
+	//DrawHitbox();
 }
 
 void Spider::Update(float elapsedSec, const Point2f& pos)

@@ -19,7 +19,7 @@ void AttackFly::Attack()
 void AttackFly::Draw() const
 {
 	m_TextureFly->Draw(m_DstRect, m_srcRect);
-	DrawHitbox();
+	//DrawHitbox();
 }
 
 void AttackFly::Update(float elapsedSec, const Point2f& pos)

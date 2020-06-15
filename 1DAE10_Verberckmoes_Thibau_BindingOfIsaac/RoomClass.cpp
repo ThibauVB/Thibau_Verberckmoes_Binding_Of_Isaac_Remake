@@ -79,16 +79,16 @@ void RoomClass::DrawRoom() const
 	ExtraOffset.y = 85.f;
 	ExtraOffset.x = 0;
 
-	if (!m_IsStartRoom)
-	{
-		utils::SetColor(Color4f{ 0.f,1.f,0.f,1.f });
-	}
-	else
-	{
-		utils::SetColor(Color4f{ 1.f,0.f,0.f,1.f });
-	}
+	//if (!m_IsStartRoom)
+	//{
+	//	utils::SetColor(Color4f{ 0.f,1.f,0.f,1.f });
+	//}
+	//else
+	//{
+	//	utils::SetColor(Color4f{ 1.f,0.f,0.f,1.f });
+	//}
 
-	utils::DrawRect(m_RoomRect, 2);
+	//utils::DrawRect(m_RoomRect, 2);
 	Rectf destRect{};
 	destRect.left = 0.f;
 	destRect.height = 0.f;
@@ -114,7 +114,7 @@ void RoomClass::DrawRoom() const
 		DoorRectf.height = m_TopDoorTexture->GetHeight() * ScaleDoor;
 		DoorRectf.width = m_TopDoorTexture->GetWidth() * ScaleDoor;
 		m_LeftDoorTexture->Draw(DoorRectf, DoorScale);
-		utils::FillRect(tmpDoor);
+		//utils::FillRect(tmpDoor);
 	}
 	if (m_Right)
 	{
@@ -127,7 +127,7 @@ void RoomClass::DrawRoom() const
 		DoorRectf.height = m_TopDoorTexture->GetHeight() * ScaleDoor;
 		DoorRectf.width = m_TopDoorTexture->GetWidth() * ScaleDoor;
 		m_RightDoorTexture->Draw(DoorRectf, DoorScale);
-		utils::FillRect(tmpDoor);
+		//utils::FillRect(tmpDoor);
 	}
 	if (m_Top)
 	{
@@ -143,7 +143,7 @@ void RoomClass::DrawRoom() const
 		DoorRectf.height = m_TopDoorTexture->GetHeight() * ScaleDoor;
 		DoorRectf.width = m_TopDoorTexture->GetWidth() * ScaleDoor;
 		m_TopDoorTexture->Draw(DoorRectf, DoorScale);
-		utils::FillRect(tmpDoor);
+		//utils::FillRect(tmpDoor);
 	}
 	if (m_Bottom)
 	{
@@ -157,7 +157,7 @@ void RoomClass::DrawRoom() const
 		DoorRectf.height = m_TopDoorTexture->GetHeight() * ScaleDoor;
 		DoorRectf.width = m_TopDoorTexture->GetWidth() * ScaleDoor;
 		m_BottomDoorTexture->Draw(DoorRectf, DoorScale);
-		utils::FillRect(tmpDoor);
+		//utils::FillRect(tmpDoor);
 	}
 }
 

@@ -14,7 +14,7 @@ m_health(3)
 void Isaac::DrawIsaac()const
 {
 	m_IsaacTexture.Draw(m_dstRectBody, m_srcRectBody);
-	utils::DrawPoint(m_CenterPos, 10);
+	//utils::DrawPoint(m_CenterPos, 10);
 }
 
 void Isaac::UpdateIsaac(float elapsedSec)

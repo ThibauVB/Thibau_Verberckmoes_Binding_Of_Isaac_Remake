@@ -71,6 +71,7 @@ void Game::Update(float elapsedSec)
 			}else
 			{
 				CheckKeysPressed();
+				CheckIfPlayerIsHit(elapsedSec);
 				m_Isaac.UpdateIsaac(elapsedSec);
 				m_Isaac.SetDirection(Isaac::notMoving);
 				m_TearManager.UpdateTears(elapsedSec, &m_SoundManager);
@@ -102,7 +103,7 @@ void Game::Draw() const
 					m_Isaac.DrawIsaac();
 					m_TearManager.DrawTears();
 					m_UImanager.DrawHeart();
-					TestDrawCollisionBoxes();
+					//TestDrawCollisionBoxes();
 				}
 				else
 				{
@@ -164,6 +165,10 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 	{
 		m_ActiveTutorial = false;
 		m_SoundManager.PlayStartingSound();
+	}
+	if (e.keysym.scancode == SDL_SCANCODE_N && m_ActiveTutorial == true && m_GamePaused == false)
+	{
+		m_TutorialManager.SpawnLoot();
 	}
 	if (m_StartScreen == true && m_GamePaused == false)
 	{
@@ -269,10 +274,12 @@ void Game::ShowControls()
 	std::cout << "Shoot Right: ArrowRightKey" << std::endl;
 	std::cout << "shoot Down: ArrowDownKey" << std::endl;
 	std::cout << "Shoot Left: ArrowLeftKey" << std::endl;
-
+	
 	std::cout << "P: Pause/unPause the game" << std::endl;
 	std::cout << "#############################################################" << std::endl;
-	std::cout << "Press Enter to continue if in Tutorial Room" << std::endl;
+	std::cout << "Press G to continue if in Tutorial Room" << std::endl;
+	std::cout << "Press V to spawn an enemy in the tutorial Room" << std::endl;
+	std::cout << "Press N to spawn an Lootbox in the tutorial Room" << std::endl;
 	std::cout << "#############################################################" << std::endl;
 }
 
@@ -320,7 +327,20 @@ void Game::TestDrawCollisionBoxes() const
 
 void Game::InitializeGame()
 {
-	m_DungeonGenerator.StartDungeonGeneration();
+	try
+	{
+		m_DungeonGenerator.StartDungeonGeneration();
+	}catch(...)
+	{
+		std::cout << "unexpected ERROR un dungeon Generation, Press enter to Quit and restart the program" << std::endl;
+		std::cin.get();
+		std::cin.get();
+		std::cin.get();
+		SDL_Event sdlevent;
+		sdlevent.type = SDL_QUIT;
+		SDL_PushEvent(&sdlevent);
+	}
+	
 }
 
 void Game::CheckIfGameStart(Point2f pos)

@@ -16,6 +16,7 @@ void TutorialManager::DrawRoom() const
 {
 	m_TutorialRoomTexture.Draw(m_dstRect, m_dstRect);
 	m_AiManager.DrawEnemy();
+	m_LootManager.DrawLoot();
 }
 
 void TutorialManager::UpdateTutorialRoom(float elapsedSec,const Point2f& playerPos, const Rectf& Roomborders)
@@ -32,4 +33,12 @@ void TutorialManager::SpawnEnemy()
 	int randomAI;
 	randomAI = rand() % 2 + 1;
 	m_AiManager.CreateEnemy(RandomPos, Rectf{}, randomAI);
+}
+
+void TutorialManager::SpawnLoot()
+{
+	Point2f RandomPos;
+	RandomPos.x = rand() % static_cast<int>(1512.f) + (150.f);
+	RandomPos.y = rand() % static_cast<int>(905.f) + (165.f);
+	m_LootManager.CreateLootBox(RandomPos);
 }

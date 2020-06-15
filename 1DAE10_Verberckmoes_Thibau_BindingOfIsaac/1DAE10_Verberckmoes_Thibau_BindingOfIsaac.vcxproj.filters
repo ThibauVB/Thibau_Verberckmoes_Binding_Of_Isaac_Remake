@@ -167,9 +167,6 @@
     <ClInclude Include="SoundManager.h">
       <Filter>Code</Filter>
     </ClInclude>
-    <ClInclude Include="LootManager.h">
-      <Filter>Code\CPP Files</Filter>
-    </ClInclude>
     <ClInclude Include="Level.h">
       <Filter>Code</Filter>
     </ClInclude>
@@ -186,6 +183,9 @@
       <Filter>Code</Filter>
     </ClInclude>
     <ClInclude Include="UImanager.h">
+      <Filter>Code</Filter>
+    </ClInclude>
+    <ClInclude Include="LootManager.h">
       <Filter>Code</Filter>
     </ClInclude>
   </ItemGroup>
