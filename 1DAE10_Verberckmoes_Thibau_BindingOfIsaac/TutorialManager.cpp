@@ -31,7 +31,7 @@ void TutorialManager::SpawnEnemy()
 	RandomPos.y = rand() % static_cast<int>(905.f) + (165.f);
 	
 	int randomAI;
-	randomAI = rand() % 2 + 1;
+	randomAI = rand() % 3 + 1;
 	m_AiManager.CreateEnemy(RandomPos, Rectf{}, randomAI);
 }
 

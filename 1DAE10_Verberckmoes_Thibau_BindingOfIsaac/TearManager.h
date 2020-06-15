@@ -9,7 +9,7 @@ public:
 	~TearManager();
 	void CreateTear(Point2f pos, utils::ShootingDirection, const SoundManager* soundManager);
 	void DrawTears()const;
-	void UpdateTears(float elapsedSec, const SoundManager* soundManager);
+	void UpdateTears(float elapsedSec, const SoundManager* soundManager,bool TutorialRoom);
 	void SetPlayerPostion(Point2f PlayerPos);
 	Point2f GetTearPosition(int tear)const;
 	int GetAmountOfActiveTears()const;

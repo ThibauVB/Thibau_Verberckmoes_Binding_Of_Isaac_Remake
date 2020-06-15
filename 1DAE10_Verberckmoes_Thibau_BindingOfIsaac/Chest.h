@@ -8,7 +8,9 @@ public:
 	~Chest();
 	void Draw() const;
 	void UpdateChest(const Point2f& pos);
+	void SetHitBox();
 private:
 	Texture* m_ChestTexture;
 	Point2f m_CenterPosition;
+	Rectf  m_hitbox;
 };

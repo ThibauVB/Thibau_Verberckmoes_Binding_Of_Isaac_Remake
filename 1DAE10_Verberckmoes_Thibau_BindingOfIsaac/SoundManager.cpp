@@ -8,6 +8,8 @@ SoundManager::SoundManager()
 	m_TearDestroySound = new SoundEffect("../Resources/Sounds/TearDestroy.mp3");
 	m_FlySound = new SoundEffect("../Resources/Sounds/AttackFly.mp3");
 	m_GruntSound = new SoundEffect("../Resources/Sounds/Grunt.mp3");
+	m_WinSound = new SoundEffect("../Resources/Sounds/isaacbosswin.mp3");
+	m_DieSound = new SoundEffect("../Resources/Sounds/isaacdies.mp3");
 }
 
 SoundManager::~SoundManager()
@@ -17,6 +19,8 @@ SoundManager::~SoundManager()
 	delete m_StartingSound;
 	delete m_FlySound;
 	delete m_GruntSound;
+	delete m_DieSound;
+	delete m_WinSound;
 }
 
 void SoundManager::PlayStartingSound()const
@@ -116,3 +120,14 @@ std::string SoundManager::GetSoundLevel()
 	soundlevel = std::to_string(m_FlySound->GetVolume());
 	return soundlevel;
 }
+
+void SoundManager::PlayWinSound() const
+{
+	m_WinSound->Play(false);
+}
+
+void SoundManager::PlayDieSoud() const
+{
+	m_DieSound->Play(false);
+}
+

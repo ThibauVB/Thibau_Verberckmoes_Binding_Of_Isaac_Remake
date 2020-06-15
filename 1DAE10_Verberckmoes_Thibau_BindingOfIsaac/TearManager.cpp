@@ -53,11 +53,11 @@ void TearManager::DrawTears() const
 	}
 }
 
-void TearManager::UpdateTears(float elapsedSec, const SoundManager* soundManager)
+void TearManager::UpdateTears(float elapsedSec, const SoundManager* soundManager,bool TutorialRoom)
 {
 	for (int i{ 0 }; i < m_ActiveTears.size(); ++i)
 	{
-		m_ActiveTears[i]->UpdateTear(elapsedSec, m_Window);
+		m_ActiveTears[i]->UpdateTear(elapsedSec, m_Window,TutorialRoom);
 		if (m_ActiveTears[i]->getAliveState() == false)
 		{
 			DeleteTear(i);

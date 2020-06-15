@@ -55,12 +55,15 @@ private:
 	Texture m_TextureDeathNote;
 	Texture m_PauseScreen;
 	Texture m_SoundText;
+	Texture m_CompletedScreen;
 	float m_TimeCounter;
 	bool TestBoolForDoor{ false };
 	bool m_CanGetHit;
 	float m_ElapsedTimeSinceHit;
 	bool m_ActiveTutorial;
 	bool m_GamePaused;
+	bool m_PlayOnceWinSound;
+	bool m_PlayOncedeadSound;
 	//Managers/Generators
 	DungeonGenerator m_DungeonGenerator;
 	TearManager m_TearManager;

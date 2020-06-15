@@ -155,6 +155,7 @@
     <ClCompile Include="AiManager.cpp" />
     <ClCompile Include="AttackFly.cpp" />
     <ClCompile Include="BasicAI.cpp" />
+    <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Chest.cpp" />
     <ClCompile Include="Core.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="AiManager.h" />
     <ClInclude Include="AttackFly.h" />
     <ClInclude Include="BasicAI.h" />
+    <ClInclude Include="Boss.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Chest.h" />
     <ClInclude Include="Core.h" />

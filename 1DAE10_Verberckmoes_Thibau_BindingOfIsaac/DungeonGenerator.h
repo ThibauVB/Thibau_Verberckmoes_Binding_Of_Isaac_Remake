@@ -5,6 +5,7 @@
 #include "AiManager.h"
 #include "TearManager.h"
 #include "SoundManager.h"
+#include "LootManager.h"
 class Tear;
 
 class DungeonGenerator
@@ -27,6 +28,10 @@ public:
 	Point2f GetCenterPositionAI(int Ai);
 	void ResetDungeon();
 	Rectf GetCurrentRoomBorders();
+	bool GetActiveBossRoom()const;
+	bool GetBossHealth()const;
+	bool GetEndGame()const;
+	int GetRoomCounter()const;
 	//void CleanDungeon();
 private:
 	int m_LeftChance;
@@ -38,8 +43,10 @@ private:
 	float m_WidthNormal;
 	float m_HeightNormal;
 	int m_CurrentRoomDrawnCounter;
+	bool m_EndGame;
 	utils::roomDirection m_TempDirectionSave;
 	std::vector<RoomClass> m_RoomsList;
+	bool m_bossRoom;
 	//RoomClass m_BossRoom;
 	bool m_completion;
 	Vector2f m_WindowSize;
@@ -55,7 +62,10 @@ private:
 	utils::roomDirection m_LastDirection;
 	std::vector<Rectf> DoorCollisionBox{};
 	int m_HighestRoomEntered;
+	bool m_OpenDoors;
 	AiManager m_AImanager;
+	LootManager m_DungeonLootManager;
+	bool m_Lootspawned;
 	//Private Helper Functions
 	void CreateStartRoom();
 	void CreateNormalRooms();
@@ -69,5 +79,6 @@ private:
 	void UpdateCurrentRoomCounter(utils::roomDirection directionToCheck);
 	void SpawnEnemy();
 	void UpdateDoors();
-	bool m_OpenDoors;
+	void SpawnLoot();
+
 };

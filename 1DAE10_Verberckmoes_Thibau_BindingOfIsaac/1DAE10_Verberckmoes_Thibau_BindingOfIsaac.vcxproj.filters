@@ -105,6 +105,9 @@
     <ClCompile Include="LootManager.cpp">
       <Filter>Code\CPP Files</Filter>
     </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Code\CPP Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -186,6 +189,9 @@
       <Filter>Code</Filter>
     </ClInclude>
     <ClInclude Include="LootManager.h">
+      <Filter>Code</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
       <Filter>Code</Filter>
     </ClInclude>
   </ItemGroup>

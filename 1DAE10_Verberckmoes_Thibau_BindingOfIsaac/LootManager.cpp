@@ -9,7 +9,6 @@ m_PropTexture("../Resources/Loot/Poweruptears.png")
 
 LootManager::~LootManager()
 {
-	
 }
 
 void LootManager::UpdateLoot()
@@ -28,4 +27,9 @@ void LootManager::DrawLoot() const
 void LootManager::CreateLootBox(Point2f centerposition)
 {
 	m_chests.push_back(Chest(&m_ChestTexture,centerposition));
+}
+
+void LootManager::DeleteChest()
+{
+	m_chests.pop_back();
 }

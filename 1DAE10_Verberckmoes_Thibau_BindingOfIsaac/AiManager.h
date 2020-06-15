@@ -17,6 +17,8 @@ public:
 	int GetAmountOfActiveEnemies();
 	Rectf GetHitBoxAI(int Ai)const;
 	Point2f GetCenterPositionAI(int Ai)const;
+	int GetBossHealth()const;
+	
 private:
 	std::vector<BasicAI*> m_ActiveEnemies;
 	void CheckHealthStatus();
@@ -25,4 +27,5 @@ private:
 	//EnemyTextures
 	Texture m_AttackFlyTexture;
 	Texture m_SpiderTexture;
+	Texture m_BossTexture;
 };

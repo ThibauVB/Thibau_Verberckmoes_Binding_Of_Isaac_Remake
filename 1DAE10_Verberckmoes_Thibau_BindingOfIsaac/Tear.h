@@ -7,7 +7,7 @@ public:
 	explicit Tear(Texture* texture, Vector2f velocity, Point2f StartingPos);
 	~Tear();
 	void DrawTear()const;
-	void UpdateTear(float elapsedSec, const Window& window);
+	void UpdateTear(float elapsedSec, const Window& window,bool TutorialRoom);
 	bool getAliveState()const;
 	Point2f GetPostion()const;
 	void SetAliveState(bool state);
@@ -21,7 +21,7 @@ private:
 	bool m_KeepAlive{ true };
 	float m_LifeTime;
 	void CheckLifeTime();
-	void CheckIfWall(const Window& window);
+	void CheckIfWall(const Window& window,bool TutorialRoom);
 	void DrawHitBox()const;
 	//test vars
 	bool test;

@@ -12,6 +12,7 @@ public:
 	void UpdateLoot();
 	void DrawLoot()const;
 	void CreateLootBox(Point2f centerposition);
+	void DeleteChest();
 private:
 	std::vector<Chest> m_chests;
 	Point2f m_CenterPos;

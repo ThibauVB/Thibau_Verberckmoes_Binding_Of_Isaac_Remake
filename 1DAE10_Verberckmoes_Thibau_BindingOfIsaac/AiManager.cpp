@@ -1,9 +1,11 @@
 ﻿#include "pch.h"
 #include "AiManager.h"
 #include "AttackFly.h"
+#include "Boss.h"
 #include "Spider.h"
 AiManager::AiManager() : m_AttackFlyTexture("../Resources/Enemies/AttackFly.png"),
-m_SpiderTexture("../Resources/Enemies/Spider.png")
+m_SpiderTexture("../Resources/Enemies/Spider.png"),
+m_BossTexture("../Resources/Enemies/Boss.png")
 {
 }
 
@@ -18,14 +20,16 @@ AiManager::~AiManager()
 
 void AiManager::CreateEnemy(Point2f SpawnPos, const Rectf& RoomBorders, int enemy)
 {
-	switch (2)
+	switch (enemy)
 	{
 	case 1:
 		m_ActiveEnemies.push_back(new AttackFly{ &m_AttackFlyTexture,SpawnPos,Vector2f{100,50},5,5 });
 		break;
 	case 2:
-		//m_ActiveEnemies.push_back(new AttackFly{ &m_AttackFlyTexture,SpawnPos,Vector2f{100,50},5,5 });
-		m_ActiveEnemies.push_back(new Spider{ &m_SpiderTexture,SpawnPos,Vector2f{100,50},5,5 });
+		m_ActiveEnemies.push_back(new Spider{ &m_SpiderTexture,SpawnPos,Vector2f{80,40},3,3 });
+		break;
+	case 3:
+		m_ActiveEnemies.push_back(new Boss{ &m_BossTexture,SpawnPos,Vector2f{50,40},50,50 });
 		break;
 	}
 }
@@ -84,6 +88,11 @@ Rectf AiManager::GetHitBoxAI(int Ai) const
 Point2f AiManager::GetCenterPositionAI(int Ai) const
 {
 	return m_ActiveEnemies[Ai]->GetCenterPos();
+}
+
+int AiManager::GetBossHealth()const
+{
+	return m_ActiveEnemies[0]->GetHealth();
 }
 
 void AiManager::CheckHealthStatus()

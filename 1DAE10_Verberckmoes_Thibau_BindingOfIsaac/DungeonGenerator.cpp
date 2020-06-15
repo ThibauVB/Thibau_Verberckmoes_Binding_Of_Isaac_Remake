@@ -15,7 +15,11 @@ DungeonGenerator::DungeonGenerator(Vector2f windowSize) :
 	m_TotalRoomsInDungeon(10),
 	m_CurrentRoomDrawn(0),
 	m_LastDirection(utils::all),
-	m_OpenDoors(false)
+	m_OpenDoors(false),
+	m_bossRoom(false),
+	m_EndGame(false),
+	m_DungeonLootManager(),
+	m_Lootspawned(false)
 	//m_BossRoom{ m_ExistingCenterPoints[m_RoomsList.size() - 1], 1512.f, 950.f, roomdirection, m_BoosRoomTexture, m_TopDoorTexture,m_RightDoorTexture,m_BottomDoorTexture,m_LeftDoorTexture,roomdirection }
 {
 	InitDirections();
@@ -40,10 +44,7 @@ void DungeonGenerator::DrawDungeon() const
 		m_RoomsList[x].DrawRoom();
 	}
 	m_AImanager.DrawEnemy();
-	if (m_CurrentRoomDrawnCounter == 9)
-	{
-		std::cout << "boss room" << std::endl;
-	}
+	m_DungeonLootManager.DrawLoot();
 }
 
 DungeonGenerator::~DungeonGenerator()
@@ -229,6 +230,8 @@ void DungeonGenerator::PrintAllCords()
 
 void DungeonGenerator::UpdateCurrentshownRoom(Point2f PlayerPos, Isaac& Player, float elapsedSec, const TearManager& tearmanager, std::vector<Tear*>& activetears, const SoundManager& soundManager)
 {
+	if (m_CurrentRoomDrawnCounter == 9 && m_AImanager.GetAmountOfActiveEnemies() == 0)m_EndGame=true;
+	//std::cout << m_CurrentRoomDrawnCounter << std::endl;
 	//UPDATE AI
 	m_AImanager.UpdateEnemies(elapsedSec, PlayerPos);
 	Point2f tearPosition;
@@ -544,6 +547,26 @@ Rectf DungeonGenerator::GetCurrentRoomBorders()
 	return m_RoomsList[m_CurrentRoomDrawn].GetRoomBorders();
 }
 
+bool DungeonGenerator::GetBossHealth() const
+{
+	return m_AImanager.GetBossHealth();
+}
+
+bool DungeonGenerator::GetEndGame() const
+{
+	return m_EndGame;
+}
+
+int DungeonGenerator::GetRoomCounter() const
+{
+	return m_CurrentRoomDrawnCounter;
+}
+
+bool DungeonGenerator::GetActiveBossRoom()const
+{
+	return m_bossRoom;
+}
+
 void DungeonGenerator::SpawnEnemy()
 {
 	int randomAmount;
@@ -553,13 +576,13 @@ void DungeonGenerator::SpawnEnemy()
 	Rectf RoomBorder;
 	RoomBorder = GetCurrentRoomBorders();
 	m_AImanager.SetAmountOfEnemies(randomAmount);
-	for (int i{ 0 }; i < randomAmount; ++i)
-	{
-		randomAI = rand() % 2 + 1;
-		RandomPos.x = rand() % static_cast<int>(RoomBorder.width) + (RoomBorder.left);
-		RandomPos.y = rand() % static_cast<int>(RoomBorder.height) + (RoomBorder.bottom);
-		m_AImanager.CreateEnemy(RandomPos, GetCurrentRoomBorders(), randomAI);
-	}
+		for (int i{ 0 }; i < randomAmount; ++i)
+		{
+			randomAI = rand() % 3 + 1;
+			RandomPos.x = rand() % static_cast<int>(RoomBorder.width) + (RoomBorder.left);
+			RandomPos.y = rand() % static_cast<int>(RoomBorder.height) + (RoomBorder.bottom);
+			m_AImanager.CreateEnemy(RandomPos, GetCurrentRoomBorders(), randomAI);
+		}
 }
 
 void DungeonGenerator::UpdateDoors()
@@ -573,6 +596,12 @@ void DungeonGenerator::UpdateDoors()
 		if (m_AImanager.GetAmountOfActiveEnemies() == 0)
 		{
 			m_OpenDoors = true;
+			if(m_Lootspawned==false)
+			{
+				//SpawnLoot();
+				m_Lootspawned = true;
+			}
+			
 		}
 		else
 		{
@@ -580,4 +609,12 @@ void DungeonGenerator::UpdateDoors()
 		}
 		//close doors unless all AI are dead
 	}
+}
+
+void DungeonGenerator::SpawnLoot()
+{
+	Point2f RandomPos;
+	RandomPos.x = rand() % static_cast<int>(m_WindowSize.x) + (150.f);
+	RandomPos.y = rand() % static_cast<int>(m_WindowSize.y) + (165.f);
+	m_DungeonLootManager.CreateLootBox(RandomPos);
 }

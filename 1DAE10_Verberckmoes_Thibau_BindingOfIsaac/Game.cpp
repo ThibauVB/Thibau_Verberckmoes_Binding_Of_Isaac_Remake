@@ -10,6 +10,7 @@ Game::Game(const Window& window)
 	m_TextureStartScreen("../Resources/Backgrounds/StartingScreen.jpg"),
 	m_TextureDeathNote("../Resources/Backgrounds/EndScreen.png"),
 	m_PauseScreen("../Resources/Backgrounds/PauseScreen.jpg"),
+	m_CompletedScreen("../Resources/Backgrounds/CompletedScreen.png"),
 	m_SoundLevel("50"),
 	m_SoundText(m_SoundLevel, "../Resources/Fonts/DIN-Light.otf", 50, Color4f{ 1.f,1.f,1.f,1.f }),
 	m_TearManager(m_Window),
@@ -19,7 +20,10 @@ Game::Game(const Window& window)
 	m_ElapsedTimeSinceHit(0),
 	m_TutorialManager(),
 	m_GamePaused(false),
-	m_ActiveTutorial(true)
+	m_ActiveTutorial(true),
+	m_UImanager(Vector2f{ m_Window.width,window.height }),
+	m_PlayOnceWinSound(false),
+	m_PlayOncedeadSound(false)
 {
 	Initialize();
 }
@@ -45,90 +49,124 @@ void Game::Cleanup()
 
 void Game::Update(float elapsedSec)
 {
-	if (m_GamePaused == false)
+	if (m_DungeonGenerator.GetEndGame() == false)
 	{
-		m_Isaac.SetActiveColisionBox(m_ActiveTutorial);
-		//active game
-		m_TimeCounter += elapsedSec;
-		// Check keyboard state
-		if (m_StartScreen != true)
+		if (m_GamePaused == false)
 		{
-			if (m_ActiveTutorial==false)
+			m_Isaac.SetActiveColisionBox(m_ActiveTutorial);
+			//active game
+			m_TimeCounter += elapsedSec;
+			// Check keyboard state
+			if (m_StartScreen != true)
 			{
-				if (m_Isaac.GetHealth() != 0)
+				if (m_ActiveTutorial == false)
+				{
+					if (m_Isaac.GetHealth() != 0)
+					{
+						CheckKeysPressed();
+						CheckIfPlayerIsHit(elapsedSec);
+						m_Isaac.UpdateIsaac(elapsedSec);
+						m_Isaac.SetDirection(Isaac::notMoving);
+						m_TearManager.UpdateTears(elapsedSec, &m_SoundManager,m_ActiveTutorial);
+						m_DungeonGenerator.UpdateCurrentshownRoom(m_Isaac.GetPostion(), m_Isaac, elapsedSec, m_TearManager, m_TearManager.GetActiveTearsVector(), m_SoundManager);
+						//if (m_DungeonGenerator.GetActiveBossRoom()) m_UImanager.UpdateHealthBarBoss(m_DungeonGenerator.GetBossHealth());
+					}
+					else
+					{
+						CheckKeysPressed();
+						if (m_PlayOncedeadSound == false)
+						{
+							m_SoundManager.PlayDieSoud();
+							m_PlayOncedeadSound = true;
+						}
+					}
+				}
+				else
 				{
 					CheckKeysPressed();
 					CheckIfPlayerIsHit(elapsedSec);
 					m_Isaac.UpdateIsaac(elapsedSec);
 					m_Isaac.SetDirection(Isaac::notMoving);
-					m_TearManager.UpdateTears(elapsedSec, &m_SoundManager);
-					m_DungeonGenerator.UpdateCurrentshownRoom(m_Isaac.GetPostion(), m_Isaac, elapsedSec, m_TearManager, m_TearManager.GetActiveTearsVector(), m_SoundManager);
+					m_TearManager.UpdateTears(elapsedSec, &m_SoundManager, m_ActiveTutorial);
+					m_TutorialManager.UpdateTutorialRoom(elapsedSec, m_Isaac.GetPostion(), m_DungeonGenerator.GetCurrentRoomBorders());
 				}
-				else
-				{
-					CheckKeysPressed();
-				}
-			}else
-			{
-				CheckKeysPressed();
-				CheckIfPlayerIsHit(elapsedSec);
-				m_Isaac.UpdateIsaac(elapsedSec);
-				m_Isaac.SetDirection(Isaac::notMoving);
-				m_TearManager.UpdateTears(elapsedSec, &m_SoundManager);
-				m_TutorialManager.UpdateTutorialRoom(elapsedSec,m_Isaac.GetPostion(),m_DungeonGenerator.GetCurrentRoomBorders());
 			}
 		}
-	}
-	else
+		else
+		{
+			m_SoundLevel = m_SoundManager.GetSoundLevel();
+			CheckKeysPressed();
+		}
+	}else
 	{
-		m_SoundLevel = m_SoundManager.GetSoundLevel();
 		CheckKeysPressed();
+		if (m_PlayOnceWinSound==false)
+		{
+			m_SoundManager.PlayWinSound();
+			m_PlayOnceWinSound = true;
+		}
 	}
+
 }
 
 void Game::Draw() const
 {
 	ClearBackground();
-	if (m_GamePaused == false)
+	if (m_DungeonGenerator.GetEndGame() == false)
 	{
-		if (m_StartScreen != true)
+		if (m_GamePaused == false)
 		{
-			if (m_ActiveTutorial == false)
+			if (m_StartScreen != true)
 			{
-				if (m_Isaac.GetHealth() != 0)
+				if (m_ActiveTutorial == false)
 				{
-					utils::SetColor(Color4f{ 1.f,1.f,1.f,1.f });
-					utils::DrawPoint(Point2f{ m_Window.width / 2,m_Window.height / 2 }, 10);
-					m_DungeonGenerator.DrawDungeon();
-					m_Isaac.DrawIsaac();
-					m_TearManager.DrawTears();
-					m_UImanager.DrawHeart();
-					//TestDrawCollisionBoxes();
+					if (m_Isaac.GetHealth() != 0)
+					{
+						utils::SetColor(Color4f{ 1.f,1.f,1.f,1.f });
+						utils::DrawPoint(Point2f{ m_Window.width / 2,m_Window.height / 2 }, 10);
+						m_DungeonGenerator.DrawDungeon();
+						m_Isaac.DrawIsaac();
+						m_TearManager.DrawTears();
+						m_UImanager.DrawHeart();
+						//if(m_DungeonGenerator.GetActiveBossRoom())m_UImanager.DrawHealthBarBoss();
+						//TestDrawCollisionBoxes();
+					}
+					else
+					{
+						DrawEndScreen();
+					}
 				}
 				else
 				{
-					DrawEndScreen();
+					glPushMatrix();
+					m_Camera.Draw(m_Isaac.GetShape());
+					m_TutorialManager.DrawRoom();
+					m_Isaac.DrawIsaac();
+					m_TearManager.DrawTears();
+					glPopMatrix();
 				}
-			}else
+			}
+			else
 			{
-				glPushMatrix();
-				m_Camera.Draw(m_Isaac.GetShape());
-				m_TutorialManager.DrawRoom();
-				m_Isaac.DrawIsaac();
-				m_TearManager.DrawTears();
-				glPopMatrix();
+				DrawStartScreen();
 			}
 		}
 		else
 		{
-			DrawStartScreen();
+			DrawPauseScreen();
+			DrawVolumeText();
 		}
-	}
-	else
+	}else
 	{
-		DrawPauseScreen();
-		DrawVolumeText();
+		//draw end game stuf
+		Rectf dstrect, roomsize;
+		roomsize.left = 0;
+		roomsize.bottom = 0;
+		roomsize.width = m_Window.width;
+		roomsize.height = m_Window.height;
+		m_CompletedScreen.Draw(roomsize, dstrect);
 	}
+
 }
 
 void Game::SetSoundLevel(int soundlevel)
@@ -277,6 +315,7 @@ void Game::ShowControls()
 	
 	std::cout << "P: Pause/unPause the game" << std::endl;
 	std::cout << "#############################################################" << std::endl;
+	std::cout << "you cannot kill or get killed in tutorial mode" << std::endl;
 	std::cout << "Press G to continue if in Tutorial Room" << std::endl;
 	std::cout << "Press V to spawn an enemy in the tutorial Room" << std::endl;
 	std::cout << "Press N to spawn an Lootbox in the tutorial Room" << std::endl;
@@ -412,7 +451,7 @@ void Game::CheckKeysPressed()
 	{
 		m_Isaac.SetDirection(Isaac::MovingLeftDown);
 	}
-	if (pStates[SDL_SCANCODE_SPACE] && m_Isaac.GetHealth() == 0)
+	if ((pStates[SDL_SCANCODE_SPACE] && m_Isaac.GetHealth() == 0)|| m_DungeonGenerator.GetEndGame() == true)
 	{
 		SDL_Event sdlevent;
 		sdlevent.type = SDL_QUIT;

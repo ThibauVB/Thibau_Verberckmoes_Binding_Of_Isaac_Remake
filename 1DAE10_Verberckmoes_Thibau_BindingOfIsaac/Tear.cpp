@@ -18,7 +18,7 @@ void Tear::DrawTear() const
 	m_TearTexture->Draw(m_Pos);
 	//DrawHitBox();
 }
-void Tear::UpdateTear(float elapsedSec, Window const& window)
+void Tear::UpdateTear(float elapsedSec, Window const& window,bool TutorialRoom)
 {
 	float fraction = 1.f;
 	m_LifeTime += elapsedSec;
@@ -26,7 +26,7 @@ void Tear::UpdateTear(float elapsedSec, Window const& window)
 		m_Pos.y += elapsedSec * m_Velocity.y;
 		m_Pos.x += elapsedSec * m_Velocity.x;
 	}
-	CheckIfWall(window);
+	CheckIfWall(window,TutorialRoom);
 	CheckLifeTime();
 }
 
@@ -54,35 +54,68 @@ void Tear::CheckLifeTime()
 	}
 }
 
-void Tear::CheckIfWall(const Window& window)
+void Tear::CheckIfWall(const Window& window,bool TutorialRoom)
 {
-	Vector2f offset; Vector2f ExtraOffset;
-	offset.x = 150.f;
-	offset.y = 125.f;
-	ExtraOffset.y = 85.f;
-	ExtraOffset.x = 35;
-	Rectf PlayArea{};
-	PlayArea.left = offset.x - ExtraOffset.x;
-	PlayArea.bottom = offset.y;
-	PlayArea.height = window.height - offset.y - ExtraOffset.y;
-	PlayArea.width = window.width - offset.x - ExtraOffset.y;
+	if (TutorialRoom==false)
+	{
+		Vector2f offset; Vector2f ExtraOffset;
+		offset.x = 150.f;
+		offset.y = 125.f;
+		ExtraOffset.y = 85.f;
+		ExtraOffset.x = 35;
+		Rectf PlayArea{};
+		PlayArea.left = offset.x - ExtraOffset.x;
+		PlayArea.bottom = offset.y;
+		PlayArea.height = window.height - offset.y - ExtraOffset.y;
+		PlayArea.width = window.width - offset.x - ExtraOffset.y;
 
-	if (m_Pos.x < PlayArea.left)
+		if (m_Pos.x < PlayArea.left)
+		{
+			m_KeepAlive = false;
+		}
+		if (m_Pos.y < PlayArea.bottom)
+		{
+			m_KeepAlive = false;
+		}
+		if (m_Pos.x > PlayArea.left + PlayArea.width - ExtraOffset.x)
+		{
+			m_KeepAlive = false;
+		}
+		if (m_Pos.y > PlayArea.bottom + PlayArea.height - ExtraOffset.y / 2)
+		{
+			m_KeepAlive = false;
+		}
+	}else
 	{
-		m_KeepAlive = false;
+		Vector2f offset; Vector2f ExtraOffset;
+		offset.x = 150.f;
+		offset.y = 125.f;
+		ExtraOffset.y = 85.f;
+		ExtraOffset.x = 35;
+		Rectf PlayArea{};
+		PlayArea.left = offset.x - ExtraOffset.x;
+		PlayArea.bottom = offset.y;
+		PlayArea.height = 905.f - offset.y - ExtraOffset.y;
+		PlayArea.width = 1512.f - offset.x - ExtraOffset.y;
+
+		if (m_Pos.x < PlayArea.left)
+		{
+			m_KeepAlive = false;
+		}
+		if (m_Pos.y < PlayArea.bottom)
+		{
+			m_KeepAlive = false;
+		}
+		if (m_Pos.x > PlayArea.left + PlayArea.width - ExtraOffset.x)
+		{
+			m_KeepAlive = false;
+		}
+		if (m_Pos.y > PlayArea.bottom + PlayArea.height - ExtraOffset.y / 2)
+		{
+			m_KeepAlive = false;
+		}
 	}
-	if (m_Pos.y < PlayArea.bottom)
-	{
-		m_KeepAlive = false;
-	}
-	if (m_Pos.x > PlayArea.left + PlayArea.width - ExtraOffset.x)
-	{
-		m_KeepAlive = false;
-	}
-	if (m_Pos.y > PlayArea.bottom + PlayArea.height - ExtraOffset.y / 2)
-	{
-		m_KeepAlive = false;
-	}
+	
 }
 
 void Tear::DrawHitBox()const

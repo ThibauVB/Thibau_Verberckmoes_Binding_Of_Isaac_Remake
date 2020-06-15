@@ -13,6 +13,7 @@ public:
 	void UpdateTutorialRoom(float elapsedSec,const Point2f& playerPos,const Rectf& Roomborders);
 	void SpawnEnemy();
 	void SpawnLoot();
+
 private:
 	LootManager m_LootManager;
 	AiManager m_AiManager;
